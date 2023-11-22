@@ -98,7 +98,7 @@ std::string TerminalGrammarRule::generateOps(std::string dialectName)
     "let arguments = (ins";
   bool first = true;
   for (auto& [name, options]: bodyElt) {
-    res += first ? " " : "\n, ";
+    res += first ? " " : ",\n ";
     first = false;
     if (options->isVariadic())
       res += "Variadic<";

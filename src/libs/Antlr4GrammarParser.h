@@ -141,12 +141,12 @@ public:
 
   class  RuleBodyContext : public antlr4::ParserRuleContext {
   public:
-    Antlr4GrammarParser::RuleBodyContext *lbody = nullptr;
-    Antlr4GrammarParser::TerminalRuleBodyContext *rbody = nullptr;
+    Antlr4GrammarParser::TerminalRuleBodyContext *terminalRuleBodyContext = nullptr;
+    std::vector<TerminalRuleBodyContext *> bodies;
     RuleBodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    TerminalRuleBodyContext *terminalRuleBody();
-    RuleBodyContext *ruleBody();
+    std::vector<TerminalRuleBodyContext *> terminalRuleBody();
+    TerminalRuleBodyContext* terminalRuleBody(size_t i);
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -154,7 +154,7 @@ public:
   };
 
   RuleBodyContext* ruleBody();
-  RuleBodyContext* ruleBody(int precedence);
+
   class  TerminalRuleBodyContext : public antlr4::ParserRuleContext {
   public:
     Antlr4GrammarParser::TerminalRuleBodyContext *body = nullptr;
@@ -416,7 +416,6 @@ public:
 
   bool sempred(antlr4::RuleContext *_localctx, size_t ruleIndex, size_t predicateIndex) override;
 
-  bool ruleBodySempred(RuleBodyContext *_localctx, size_t predicateIndex);
   bool terminalRuleBodySempred(TerminalRuleBodyContext *_localctx, size_t predicateIndex);
 
   // By default the static state used to implement the parser is lazily initialized during the first

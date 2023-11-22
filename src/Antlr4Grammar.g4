@@ -8,7 +8,7 @@ nonTerminalRule: name=ID ':' children+=ID ('|' children+=ID)* ';' ;
 
 terminalRule: name=ID ':' body=ruleBody ';' ;
 
-ruleBody: lbody=ruleBody rbody=terminalRuleBody | terminalRuleBody;
+ruleBody: (bodies+=terminalRuleBody)+;
 
 terminalRuleBody:
   body=terminalRuleBody (op=operator)
