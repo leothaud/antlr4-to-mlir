@@ -1,5 +1,7 @@
 #include "GrammarInfos.hpp"
 #include <map>
+#include <vector>
+#include <algorithm>
 
 TerminalRuleOptions::TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
 {
@@ -72,6 +74,52 @@ std::string TerminalGrammarRule::toDot()
   return res;
 }
 
+std::string TerminalGrammarRule::generatePredicates(std::string dialectName)
+{
+  return "def " + dialectName + "_" + this->name + "Pred : CPred<\"$_self.isa<" +
+    dialectName + "_" + this->name + "NodeType>()\">;\n\n";
+}
+
+std::string TerminalGrammarRule::generateOps(std::string dialectName)
+{
+  std::vector<std::string> baseTypes = {"INT", "FLOAT", "CHAR", "STRING", "ID"};
+  std::map<std::string, std::string> baseTypesMap = {
+    {"INT", "AutoAstUtils_IntType"},
+    {"FLOAT", "AutoAstUtils_FloatType"},
+    {"CHAR", "AutoAstUtils_CharType"},
+    {"STRING", "AutoAstUtils_StringType"},
+    {"ID", "AutoAstUtils_IdType"}
+  };
+    
+  std::string res = "def " + dialectName + "_" + this->name + "Op: " +
+    dialectName + "_Op<\"" + this->name + "\">\n{\n" +
+    "let arguments = (ins";
+  bool first = true;
+  for (auto& [name, options]: bodyElt) {
+    res += first ? " " : "\n, ";
+    first = false;
+    if (options->isVariadic())
+      res += "Variadic<";
+    else if (options->isOptionnal())
+      res += "Optionnal<";
+    if (std::find(baseTypes.begin(), baseTypes.end(), options->getName()) != baseTypes.end())
+    {
+      res += baseTypesMap[options->getName()];
+    }
+    else
+    {
+      res += "Type<" + dialectName + "_" + options->getName() + "Pred>";
+    }
+    if (options->isVariadic() || options->isOptionnal())
+      res += ">";
+    res += ":$" + name;
+  }
+  res = res + ");\n" +
+    "let results = (outs " + dialectName + "_" + this->name + "NodeType:$res);\n}\n\n";
+
+  return res;
+}
+
 
 void NonTerminalGrammarRule::addChild(std::string child)
 {
@@ -86,6 +134,20 @@ std::string NonTerminalGrammarRule::toDot()
   return res;
 }
 
+std::string NonTerminalGrammarRule::generatePredicates(std::string dialectName)
+{
+  std::string res = "def " + dialectName + "_" + this->name + "Pred : Or<[\n" +
+    "\tCPred<\"$_self.isa<" + dialectName + "_" + this->name + "NodeType>()\">";
+  for (const auto& child: this->children)
+    res += ",\n\t" + dialectName + "_" + child + "Pred";
+  res += "\n\t]>;\n\n";
+  return res;
+}
+
+std::string NonTerminalGrammarRule::generateOps(std::string dialectName)
+{
+  return "";
+}
 
 void GrammarInfos::addRule(GrammarRule* rule)
 {
@@ -158,10 +220,32 @@ std::string GrammarInfos::generateDialect()
 
 std::string GrammarInfos::generatePredicates()
 {
-  return ""; //TODO
+  std::string dialectName = this->grammarName;
+  std::string res = "#ifndef " + dialectName + "_PREDICATES_TD__\n" +
+    "#define " + dialectName + "_PREDICATES_TD__\n\n";
+  for (auto& elt: this->rules)
+    res += elt.second->generatePredicates(dialectName);
+  res += "\n#endif\n";
+  return res;
 }
 
 std::string GrammarInfos::generateOps()
 {
-  return ""; //TODO
+  std::string dialectName = this->grammarName;
+  std::string res = "#ifndef " + dialectName + "_OPS_TD__\n" +
+    "#define " + dialectName + "_OPS_TD__\n\n" +
+    "include \"" + dialectName + "Dialect.td\"\n" +
+    "include \"" + dialectName + "Types.td\"\n" +
+    "include \"" + dialectName + "Predicates.td\"\n" +
+    "include \"mlir/IR/BuiltinAttributes.td\"\n" +
+    "include \"mlir/IR/BuiltinTypes.td\"\n" +
+    "include \"mlir/Interfaces/InferTypeOpInterface.td\"\n" +
+    "include \"mlir/Interfaces/SideEffectInterfaces.td\"\n" +
+    "include \"../AutoAstUtils/AutoAstUtilsTypes.td\"\n\n"
+    ;
+
+  for (auto& elt: this->rules)
+    res += elt.second->generateOps(dialectName);
+  res += "\n#endif\n";
+  return res;
 }

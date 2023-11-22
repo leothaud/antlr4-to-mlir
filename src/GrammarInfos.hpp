@@ -34,6 +34,8 @@ public:
   std::string getName();
   virtual std::string toDot() = 0;
   std::string generateTypes(std::string dialectName);
+  virtual std::string generatePredicates(std::string dialectName) = 0;
+  virtual std::string generateOps(std::string dialectName) = 0;
 };
 
 class TerminalGrammarRule : public GrammarRule
@@ -48,6 +50,8 @@ public:
   void setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt);
 
   virtual std::string toDot() override;
+  virtual std::string generatePredicates(std::string dialectName) override;
+  virtual std::string generateOps(std::string dialectName) override;
 };
 
 class NonTerminalGrammarRule : public GrammarRule
@@ -60,6 +64,8 @@ public:
   
   void addChild(std::string child);
   virtual std::string toDot() override;
+  virtual std::string generatePredicates(std::string dialectName) override;
+  virtual std::string generateOps(std::string dialectName) override;
 };
 
 

@@ -40,6 +40,14 @@ int main(int argc, const char** argv)
   std::ofstream dialectStream("resultDialect.td");
   dialectStream << visitor.generateDialect();
   dialectStream.close();
+
+  std::ofstream predicatesStream("resultPredicates.td");
+  predicatesStream << visitor.generatePredicates();
+  predicatesStream.close();
+
+  std::ofstream opsStream("result.td");
+  opsStream << visitor.generateOps();
+  opsStream.close();
   
   std::cout << "Ok." << std::endl;
   stream.close();
