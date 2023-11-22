@@ -89,6 +89,17 @@ public:
   std::string generateDialect();
   std::string generatePredicates();
   std::string generateOps();
+
+  
+  std::string generateTypesH();
+  std::string generateDialectH();
+  std::string generateOpsH();
+
+  std::string generateTypesCpp();
+  std::string generateDialectCpp();
+  std::string generateOpsCpp();
+
+  void generateFiles(std::string path);
 };
 
 #endif

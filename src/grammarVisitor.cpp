@@ -26,6 +26,12 @@ std::string GrammarVisitor::generateOps()
   return this->infos.generateOps();
 }
 
+
+void GrammarVisitor::generateFiles(std::string path)
+{
+  this->infos.generateFiles(path);
+}
+
 std::any GrammarVisitor::visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context)
 {
   this->infos.setName(context->grammarName->getText());

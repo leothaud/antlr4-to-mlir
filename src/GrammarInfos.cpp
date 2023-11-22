@@ -2,6 +2,8 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
 
 TerminalRuleOptions::TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
 {
@@ -248,4 +250,152 @@ std::string GrammarInfos::generateOps()
     res += elt.second->generateOps(dialectName);
   res += "\n#endif\n";
   return res;
+}
+
+
+std::string GrammarInfos::generateTypesH()
+{
+  std::string dialectName = this->grammarName;
+  return "#ifndef " + dialectName + "_TYPES_H__\n" +
+    "#define " + dialectName + "_TYPES_H__\n\n" +
+    "#include \"mlir/IR/BuiltinTypes.h\"\n" +
+    "#include \"mlir/IR/Types.h\"\n" +
+    "#include \"mlir/IR/Dialect.h\"\n" +
+    "#include \"mlir/IR/OpDefinition.h\"\n\n" +
+    "#define GET_TYPEDEF_CLASSES\n" +
+    "#include \"" + dialectName + "/" + dialectName + "Types.h.inc\"\n" +
+    "#undef GET_TYPEDEF_CLASSES\n\n" +
+    "\n#endif\n";
+}
+
+std::string GrammarInfos::generateDialectH()
+{
+  std::string dialectName = this->grammarName;
+  return "#ifndef " + dialectName + "_DIALECT_H__\n" +
+    "#define " + dialectName + "_DIALECT_H__\n\n" +
+    "#include \"mlir/IR/Dialect.h\""
+    "#include " + dialectName + "/" + dialectName + "Dialect.h.inc\n\n" +
+    "#endif\n";
+}
+
+
+std::string GrammarInfos::generateOpsH()
+{
+  std::string dialectName = this->grammarName;
+  return "#ifndef " + dialectName + "_OPS_H__\n" +
+    "#define " + dialectName + "_OPS_H__\n\n" +
+    "#include \"mlir/IR/Types.h\"\n" +
+    "#include \"mlir/IR/BuiltinTypes.h\"\n" +
+    "#include \"mlir/IR/BuiltinAttributes.h\"\n" +
+    "#include \"mlir/IR/Attributes.h\"\n" +
+    "#include \"mlir/IR/Dialect.h\"\n" +
+    "#include \"mlir/IR/OpDefinition.h\"\n" +
+    "#include \"mlir/Interfaces/InferTypeOpInterface.h\"\n" +
+    "#include \"mlir/Interfaces/SideEffectInterfaces.h\"\n" +
+    "#include \"mlir/Bytecode/BytecodeOpInterface.h\"\n\n" +
+    "#include \"" + dialectName + "Types.h\"\n" +
+    "#include \"" + dialectName + "Dialect.h\"\n\n" +
+    "#include \"AutoAstUtils/AutoAstUtilsTypes.h\"\n\n" +
+    "#define GET_OP_CLASSES\n" +
+    "#include \"" + dialectName + "/" + dialectName + ".h.inc\"\n\n" +
+    "#endif\n";
+}
+
+std::string GrammarInfos::generateTypesCpp()
+{
+  std::string dialectName = this->grammarName;
+  return "#include \"mlir/IR/BuiltinTypes.h\"\n\
+#include \"mlir/IR/OpImplementation.h\"\n\
+#include \"mlir/Parser/Parser.h\"\n\
+#include \"llvm/ADT/TypeSwitch.h\"\n\
+#include \"mlir/Support/TypeID.h\"\n\
+#include \"mlir/IR/DialectImplementation.h\"\n\n\
+#include \"" + dialectName + "/" + dialectName + "Dialect.h\"\n" +
+    "#include \"" + dialectName + "/" + dialectName + "Types.h\"\n\n" +
+    "#define GET_TYPEDEF_CLASSES\n" +
+    "#include \"" + dialectName + "/" + dialectName + "Types.cpp.inc\"\n" +
+    "#undef GET_TYPEDEF_CLASSES\n";
+}
+
+
+std::string GrammarInfos::generateDialectCpp()
+{
+  std::string dialectName = this->grammarName;
+  return "#include \"mlir/IR/Dialect.h\"\n\
+#include \"" + dialectName + "/" + dialectName + "Dialect.h\"\n" +
+    "#include \"" + dialectName + "/" + dialectName + ".h\"\n\n" +
+    "namespace " + dialectName + " {\n\n" +
+    "  void " + dialectName + "Dialect::initialize() {\n" +
+    "  " + dialectName + "Dialect::addTypes<\n" +
+    "#define GET_TYPEDEF_LIST\n" +
+    "#include \"" + dialectName + "/" + dialectName + "Types.cpp.inc\"\n" +
+    "      >();\n" +
+    "  " + dialectName + "Dialect::addOperations<\n" +
+    "#define GET_OP_LIST\n" +
+    "#include \"" + dialectName + ".cpp.inc\"\n" +
+    "      >();\n}\n\n}\n";
+}
+
+std::string GrammarInfos::generateOpsCpp()
+{
+  std::string dialectName = this->grammarName;
+  return "#include \"mlir/IR/BuiltinTypes.h\"\n\
+#include \"mlir/IR/Dialect.h\"\n\
+#include \"mlir/IR/OpDefinition.h\"\n\
+#include \"mlir/Interfaces/InferTypeOpInterface.h\"\n\
+#include \"mlir/Interfaces/SideEffectInterfaces.h\"\n\
+#include \"mlir/Bytecode/BytecodeOpInterface.h\"\n\
+#include \"" + dialectName + "/" + dialectName + ".h\"\n\n" +
+    "#include \"" + dialectName + "/" + dialectName + "Dialect.h\"\n" +
+    "#include \"" + dialectName + "/" + dialectName + "Types.h\"\n\n" +
+    "#define GET_OP_CLASSES\n" +
+    "#include \"" + dialectName + "/" + dialectName + ".cpp.inc\"\n";
+}
+
+
+void GrammarInfos::generateFiles(std::string path)
+{
+  std::ofstream dotStream(path + this->grammarName + ".dot");
+  dotStream << this->toDot();
+  dotStream.close();
+
+  std::ofstream typesStream(path + this->grammarName + "Types.td");
+  typesStream << this->generateTypes();
+  typesStream.close();
+
+  std::ofstream dialectStream(path + this->grammarName + "Dialect.td");
+  dialectStream << this->generateDialect();
+  dialectStream.close();
+
+  std::ofstream predicatesStream(path + this->grammarName + "Predicates.td");
+  predicatesStream << this->generatePredicates();
+  predicatesStream.close();
+
+  std::ofstream opsStream(path + this->grammarName + ".td");
+  opsStream << this->generateOps();
+  opsStream.close();
+
+  std::ofstream typesHStream(path + this->grammarName + "Types.h");
+  typesHStream << this->generateTypesH();
+  typesHStream.close();
+
+  std::ofstream dialectHStream(path + this->grammarName + "Dialect.h");
+  dialectHStream << this->generateDialectH();
+  dialectHStream.close();
+
+  std::ofstream opsHStream(path + this->grammarName + ".h");
+  opsHStream << this->generateOpsH();
+  opsHStream.close();
+
+  std::ofstream typesCppStream(path + this->grammarName + "Types.cpp");
+  typesCppStream << this->generateTypesCpp();
+  typesCppStream.close();
+
+  std::ofstream dialectCppStream(path + this->grammarName + "Dialect.cpp");
+  dialectCppStream << this->generateDialectCpp();
+  dialectCppStream.close();
+
+  std::ofstream opsCppStream(path + this->grammarName + ".cpp");
+  opsCppStream << this->generateOpsCpp();
+  opsCppStream.close();
 }

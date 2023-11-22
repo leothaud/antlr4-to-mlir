@@ -14,6 +14,7 @@ public:
   std::string generateDialect();
   std::string generatePredicates();
   std::string generateOps();
+  void generateFiles(std::string path);
 
   virtual std::any visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context) override;
 

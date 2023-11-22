@@ -29,25 +29,7 @@ int main(int argc, const char** argv)
   GrammarVisitor visitor;
   visitor.visitGrammarFile(tree);
 
-  std::ofstream ostream("result.dot");
-  ostream << visitor.toDot();
-  ostream.close();
-
-  std::ofstream typesStream("resultTypes.td");
-  typesStream << visitor.generateTypes();
-  typesStream.close();
-
-  std::ofstream dialectStream("resultDialect.td");
-  dialectStream << visitor.generateDialect();
-  dialectStream.close();
-
-  std::ofstream predicatesStream("resultPredicates.td");
-  predicatesStream << visitor.generatePredicates();
-  predicatesStream.close();
-
-  std::ofstream opsStream("result.td");
-  opsStream << visitor.generateOps();
-  opsStream.close();
+  visitor.generateFiles("gen/");
   
   std::cout << "Ok." << std::endl;
   stream.close();
