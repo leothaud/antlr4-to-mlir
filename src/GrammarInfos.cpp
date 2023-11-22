@@ -136,3 +136,32 @@ std::string GrammarInfos::getGrammarName()
 {
   return this->grammarName;
 }
+
+
+std::string GrammarInfos::generateDialect()
+{
+  std::string dialectName = this->grammarName;
+  std::string res = "#ifndef " + dialectName + "_DIALECT_TD__\n" +
+    "#define " + dialectName + "_DIALECT_TD__\n\n" +
+    "include \"mlir/IR/OpBase.td\"\n" +
+    "include \"mlir/Interfaces/InferTypeOpInterface.td\"\n" +
+    "include \"mlir/Interfaces/SideEffectInterfaces.td\"\n\n" +
+    "def " + dialectName + "_Dialect : Dialect {\n" +
+    "let name = \"" + dialectName + "\";\n" +
+    "let cppNamespace = \"::" + dialectName + "\";\n" +
+    "let useDefaultTypePrinterParser = 1;\n}\n\n" +
+    "class " + dialectName + "_Op<string mnemonic, list<Trait> traits = []> : Op<" +
+    dialectName + "_Dialect, mnemonic, traits>;\n\n#endif\n";
+  return res;
+}
+
+
+std::string GrammarInfos::generatePredicates()
+{
+  return ""; //TODO
+}
+
+std::string GrammarInfos::generateOps()
+{
+  return ""; //TODO
+}

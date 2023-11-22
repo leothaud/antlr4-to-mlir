@@ -80,6 +80,9 @@ public:
   void setName(std::string name);
   std::string toDot();
   std::string generateTypes();
+  std::string generateDialect();
+  std::string generatePredicates();
+  std::string generateOps();
 };
 
 #endif

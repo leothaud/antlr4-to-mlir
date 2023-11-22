@@ -36,6 +36,10 @@ int main(int argc, const char** argv)
   std::ofstream typesStream("resultTypes.td");
   typesStream << visitor.generateTypes();
   typesStream.close();
+
+  std::ofstream dialectStream("resultDialect.td");
+  dialectStream << visitor.generateDialect();
+  dialectStream.close();
   
   std::cout << "Ok." << std::endl;
   stream.close();

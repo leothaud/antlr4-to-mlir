@@ -11,6 +11,21 @@ std::string GrammarVisitor::generateTypes()
   return this->infos.generateTypes();
 }
 
+std::string GrammarVisitor::generateDialect()
+{
+  return this->infos.generateDialect();
+}
+
+std::string GrammarVisitor::generatePredicates()
+{
+  return this->infos.generatePredicates();
+}
+
+std::string GrammarVisitor::generateOps()
+{
+  return this->infos.generateOps();
+}
+
 std::any GrammarVisitor::visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context)
 {
   this->infos.setName(context->grammarName->getText());
@@ -56,7 +71,7 @@ std::any GrammarVisitor::visitRuleBody(Antlr4GrammarParser::RuleBodyContext *con
   auto lmap = std::any_cast<std::map<std::string, TerminalRuleOptions*>>
     (visitRuleBody(context->lbody));
   auto rmap = std::any_cast<std::map<std::string, TerminalRuleOptions*>>
-    (visitRuleBody(context->rbody));
+    (visitTerminalRuleBody(context->rbody));
 
   for (const auto& elt: rmap)
     lmap.emplace(elt.first, elt.second);
@@ -121,7 +136,7 @@ std::any GrammarVisitor::visitStringRuleBody(Antlr4GrammarParser::StringRuleBody
 std::any GrammarVisitor::visitAffectRuleBody(Antlr4GrammarParser::AffectRuleBodyContext *context)
 {
   std::string name = context->name->getText();
-  std::string value = context->value->getText();
+  std::string value = context->value->val->getText();
 
   TerminalRuleOptions* options = new TerminalRuleOptions(
     value,
@@ -130,6 +145,12 @@ std::any GrammarVisitor::visitAffectRuleBody(Antlr4GrammarParser::AffectRuleBody
   std::map<std::string, TerminalRuleOptions*> resMap;
   resMap.emplace(name, options);
   return resMap;
+}
+
+
+std::any GrammarVisitor::visitROperand(Antlr4GrammarParser::ROperandContext *context)
+{
+  return false;
 }
 
 std::any GrammarVisitor::visitAffectOp(Antlr4GrammarParser::AffectOpContext *context)
@@ -143,6 +164,42 @@ std::any GrammarVisitor::visitEqOp(Antlr4GrammarParser::EqOpContext *context)
 }
 
 std::any GrammarVisitor::visitPlusEqOp(Antlr4GrammarParser::PlusEqOpContext *context)
+{
+  return false;
+}
+
+
+std::any GrammarVisitor::visitBaseRules(Antlr4GrammarParser::BaseRulesContext *context)
+{
+  return false;
+}
+
+std::any GrammarVisitor::visitIntBaseRule(Antlr4GrammarParser::IntBaseRuleContext *context)
+{
+  return false;
+}
+
+std::any GrammarVisitor::visitFloatBaseRule(Antlr4GrammarParser::FloatBaseRuleContext *context)
+{
+  return false;
+}
+
+std::any GrammarVisitor::visitCharBaseRule(Antlr4GrammarParser::CharBaseRuleContext *context)
+{
+  return false;
+}
+
+std::any GrammarVisitor::visitStringBaseRule(Antlr4GrammarParser::StringBaseRuleContext *context)
+{
+  return false;
+}
+
+std::any GrammarVisitor::visitIdBaseRule(Antlr4GrammarParser::IdBaseRuleContext *context)
+{
+  return false;
+}
+
+std::any GrammarVisitor::visitWsBaseRule(Antlr4GrammarParser::WsBaseRuleContext *context)
 {
   return false;
 }

@@ -45,11 +45,27 @@ public:
 
     virtual std::any visitAffectRuleBody(Antlr4GrammarParser::AffectRuleBodyContext *context) = 0;
 
+    virtual std::any visitROperand(Antlr4GrammarParser::ROperandContext *context) = 0;
+
     virtual std::any visitAffectOp(Antlr4GrammarParser::AffectOpContext *context) = 0;
 
     virtual std::any visitEqOp(Antlr4GrammarParser::EqOpContext *context) = 0;
 
     virtual std::any visitPlusEqOp(Antlr4GrammarParser::PlusEqOpContext *context) = 0;
+
+    virtual std::any visitBaseRules(Antlr4GrammarParser::BaseRulesContext *context) = 0;
+
+    virtual std::any visitIntBaseRule(Antlr4GrammarParser::IntBaseRuleContext *context) = 0;
+
+    virtual std::any visitFloatBaseRule(Antlr4GrammarParser::FloatBaseRuleContext *context) = 0;
+
+    virtual std::any visitCharBaseRule(Antlr4GrammarParser::CharBaseRuleContext *context) = 0;
+
+    virtual std::any visitStringBaseRule(Antlr4GrammarParser::StringBaseRuleContext *context) = 0;
+
+    virtual std::any visitIdBaseRule(Antlr4GrammarParser::IdBaseRuleContext *context) = 0;
+
+    virtual std::any visitWsBaseRule(Antlr4GrammarParser::WsBaseRuleContext *context) = 0;
 
 
 };

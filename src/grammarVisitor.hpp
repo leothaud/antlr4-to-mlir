@@ -11,6 +11,9 @@ public:
 
   std::string toDot();
   std::string generateTypes();
+  std::string generateDialect();
+  std::string generatePredicates();
+  std::string generateOps();
 
   virtual std::any visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context) override;
 
@@ -43,6 +46,22 @@ public:
   virtual std::any visitEqOp(Antlr4GrammarParser::EqOpContext *context) override;
 
   virtual std::any visitPlusEqOp(Antlr4GrammarParser::PlusEqOpContext *context) override;
+
+  virtual std::any visitBaseRules(Antlr4GrammarParser::BaseRulesContext *context) override;
+
+  virtual std::any visitIntBaseRule(Antlr4GrammarParser::IntBaseRuleContext *context) override;
+
+  virtual std::any visitFloatBaseRule(Antlr4GrammarParser::FloatBaseRuleContext *context) override;
+
+  virtual std::any visitCharBaseRule(Antlr4GrammarParser::CharBaseRuleContext *context) override;
+
+  virtual std::any visitStringBaseRule(Antlr4GrammarParser::StringBaseRuleContext *context) override;
+
+  virtual std::any visitIdBaseRule(Antlr4GrammarParser::IdBaseRuleContext *context) override;
+
+  virtual std::any visitWsBaseRule(Antlr4GrammarParser::WsBaseRuleContext *context) override;
+
+  virtual std::any visitROperand(Antlr4GrammarParser::ROperandContext *context) override;
 };
 
 #endif

@@ -67,6 +67,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitROperand(Antlr4GrammarParser::ROperandContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitAffectOp(Antlr4GrammarParser::AffectOpContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -76,6 +80,34 @@ public:
   }
 
   virtual std::any visitPlusEqOp(Antlr4GrammarParser::PlusEqOpContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBaseRules(Antlr4GrammarParser::BaseRulesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitIntBaseRule(Antlr4GrammarParser::IntBaseRuleContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitFloatBaseRule(Antlr4GrammarParser::FloatBaseRuleContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCharBaseRule(Antlr4GrammarParser::CharBaseRuleContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStringBaseRule(Antlr4GrammarParser::StringBaseRuleContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitIdBaseRule(Antlr4GrammarParser::IdBaseRuleContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitWsBaseRule(Antlr4GrammarParser::WsBaseRuleContext *ctx) override {
     return visitChildren(ctx);
   }
 
