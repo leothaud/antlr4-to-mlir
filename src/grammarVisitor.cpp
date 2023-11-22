@@ -1,5 +1,11 @@
 #include "grammarVisitor.hpp"
 
+
+std::string GrammarVisitor::toDot()
+{
+  return this->infos.toDot();
+}
+
 std::any GrammarVisitor::visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context)
 {
   this->infos.setName(context->grammarName->getText());
@@ -18,20 +24,20 @@ std::any GrammarVisitor::visitRules(Antlr4GrammarParser::RulesContext *context)
 
 std::any GrammarVisitor::visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRuleContext *context)
 {
-  NonTerminalGrammarRule newRule;
-  newRule.setName(context->name->getText());
+  NonTerminalGrammarRule* newRule = new NonTerminalGrammarRule();
+  newRule->setName(context->name->getText());
   for (const auto& child: context->children)
-    newRule.addChild(child->getText());
+    newRule->addChild(child->getText());
   this->infos.addRule(newRule);
   return true;
 }
 
 std::any GrammarVisitor::visitTerminalRule(Antlr4GrammarParser::TerminalRuleContext *context)
 {
-  TerminalGrammarRule newRule;
-  newRule.setName(context->name->getText());
-  newRule.setBodyElt(
-    std::any_cast<std::map<std::string, TerminalRuleOptions>>(visitRuleBody(context->body))
+  TerminalGrammarRule* newRule = new TerminalGrammarRule();
+  newRule->setName(context->name->getText());
+  newRule->setBodyElt(
+    std::any_cast<std::map<std::string, TerminalRuleOptions*>>(visitRuleBody(context->body))
     );
   this->infos.addRule(newRule);
   return true;
@@ -42,9 +48,9 @@ std::any GrammarVisitor::visitRuleBody(Antlr4GrammarParser::RuleBodyContext *con
   if (context->terminalRuleBody() != 0)
     return visitTerminalRuleBody(context->terminalRuleBody());
 
-  auto lmap = std::any_cast<std::map<std::string, TerminalRuleOptions>>
+  auto lmap = std::any_cast<std::map<std::string, TerminalRuleOptions*>>
     (visitRuleBody(context->lbody));
-  auto rmap = std::any_cast<std::map<std::string, TerminalRuleOptions>>
+  auto rmap = std::any_cast<std::map<std::string, TerminalRuleOptions*>>
     (visitRuleBody(context->rbody));
 
   for (const auto& elt: rmap)
@@ -58,20 +64,20 @@ std::any GrammarVisitor::visitTerminalRuleBody(Antlr4GrammarParser::TerminalRule
     return visitParentRuleBody(context->parentRuleBody());
   if (context->stringRuleBody() != 0)
   {
-    std::map<std::string, TerminalRuleOptions> resMap;
+    std::map<std::string, TerminalRuleOptions*> resMap;
     return resMap;
   }
   if (context->affectRuleBody() != 0)
     return visitAffectRuleBody(context->affectRuleBody());
 
-  auto baseMap = std::any_cast<std::map<std::string, TerminalRuleOptions>>(
-    context->body
+  auto baseMap = std::any_cast<std::map<std::string, TerminalRuleOptions*>>(
+    visitTerminalRuleBody(context->body)
     );
 
   if (context->op->questionMarkOperator() != 0)
   {
     for (auto& elt: baseMap)
-      elt.second.setOptionnal();
+      elt.second->setOptionnal();
   }
 
   return baseMap;
@@ -110,11 +116,13 @@ std::any GrammarVisitor::visitStringRuleBody(Antlr4GrammarParser::StringRuleBody
 std::any GrammarVisitor::visitAffectRuleBody(Antlr4GrammarParser::AffectRuleBodyContext *context)
 {
   std::string name = context->name->getText();
+  std::string value = context->value->getText();
 
-  TerminalRuleOptions options(
+  TerminalRuleOptions* options = new TerminalRuleOptions(
+    value,
     (context->op->plusEqOp() != 0),
     false);
-  std::map<std::string, TerminalRuleOptions> resMap;
+  std::map<std::string, TerminalRuleOptions*> resMap;
   resMap.emplace(name, options);
   return resMap;
 }

@@ -9,6 +9,8 @@ class GrammarVisitor: public Antlr4GrammarVisitor {
 public:
   GrammarVisitor(){}
 
+  std::string toDot();
+
   virtual std::any visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context) override;
 
   virtual std::any visitRules(Antlr4GrammarParser::RulesContext *context) override;

@@ -29,6 +29,10 @@ int main(int argc, const char** argv)
   GrammarVisitor visitor;
   visitor.visitGrammarFile(tree);
 
+  std::ofstream ostream("result.dot");
+  ostream << visitor.toDot();
+  ostream.close();
+  
   std::cout << "Ok." << std::endl;
   stream.close();
 

@@ -12,8 +12,9 @@ private:
   bool variadic, optionnal;
   std::string name;
 public:
-  TerminalRuleOptions(bool variadic, bool optionnal)
+  TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
   {
+    this->name = name;
     this->variadic = variadic;
     this->optionnal = optionnal;
   }
@@ -45,6 +46,11 @@ public:
   {
     this->optionnal = true;
   }
+
+  std::string getName()
+  {
+    return this->name;
+  }
 };
 
 class GrammarRule
@@ -61,24 +67,37 @@ public:
   {
     return this->name;
   }
+
+  virtual std::string toDot() = 0;
 };
 
 class TerminalGrammarRule : public GrammarRule
 {
 private:
-  std::map<std::string, TerminalRuleOptions> bodyElt;
-  
+  std::map<std::string, TerminalRuleOptions*> bodyElt;
+
 public:
   TerminalGrammarRule(){}
   
-  void addBodyElt(std::string name, TerminalRuleOptions& options)
+  void addBodyElt(std::string name, TerminalRuleOptions* options)
   {
     this->bodyElt.emplace(name, options);
   }
   
-  void setBodyElt(std::map<std::string, TerminalRuleOptions> bodyElt)
+  void setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt)
   {
     this->bodyElt = bodyElt;
+  }
+
+  virtual std::string toDot() override
+  {
+    std::string res = "";
+    for (auto& [name, options]: bodyElt)
+    {
+      std::string color = options->isVariadic() ? "blue" : (options->isOptionnal() ? "green" : "red");
+      res += this->name + "->" + options->getName() + "[color=" + color + "];\n";
+    }
+    return res;
   }
 };
 
@@ -94,13 +113,21 @@ public:
   {
     this->children.insert(child);
   }
+
+  virtual std::string toDot() override
+  {
+    std::string res = "";
+    for (const auto& child: children)
+      res += this->name + "->" + child + ";\n";
+    return res;
+  }
 };
 
 class GrammarInfos
 {
 private:
   std::string grammarName;
-  std::map<std::string, GrammarRule> rules;
+  std::map<std::string, GrammarRule*> rules;
 
 public:
   GrammarInfos()
@@ -112,14 +139,23 @@ public:
     this->grammarName = name;
   }
 
-  void addRule(GrammarRule rule)
+  void addRule(GrammarRule* rule)
   {
-    this->rules[rule.getName()] = rule;
+    this->rules[rule->getName()] = rule;
   }
 
   void setName(std::string name)
   {
     this->grammarName = name;
+  }
+
+  std::string toDot()
+  {
+    std::string res = "digraph G {\n";
+    for (auto& elt: rules)
+      res += elt.second->toDot();
+    res += "\n}";
+    return res;
   }
 };
 
