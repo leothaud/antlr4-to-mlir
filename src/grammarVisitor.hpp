@@ -10,6 +10,7 @@ public:
   GrammarVisitor(){}
 
   std::string toDot();
+  std::string generateTypes();
 
   virtual std::any visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context) override;
 

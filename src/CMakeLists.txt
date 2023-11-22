@@ -19,6 +19,6 @@ antlr_target(Antlr4Grammar Antlr4Grammar.g4 VISITOR OUTPUT_DIRECTORY ${PROJECT_S
 include_directories(${PROJECT_SOURCE_DIR}
 					 ${PROJECT_SOURCE_DIR}/libs/
   )
-add_executable(AntlrToMlir main.cpp grammarVisitor.cpp              
+add_executable(AntlrToMlir main.cpp grammarVisitor.cpp GrammarInfos.cpp             
                ${ANTLR_Antlr4Grammar_CXX_OUTPUTS})
 target_link_libraries(AntlrToMlir antlr4_static ${SYSTEM_LIBS})

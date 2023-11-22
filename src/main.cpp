@@ -32,6 +32,10 @@ int main(int argc, const char** argv)
   std::ofstream ostream("result.dot");
   ostream << visitor.toDot();
   ostream.close();
+
+  std::ofstream typesStream("resultTypes.td");
+  typesStream << visitor.generateTypes();
+  typesStream.close();
   
   std::cout << "Ok." << std::endl;
   stream.close();

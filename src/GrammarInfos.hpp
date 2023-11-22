@@ -11,46 +11,18 @@ class TerminalRuleOptions
 private:
   bool variadic, optionnal;
   std::string name;
+
 public:
-  TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
-  {
-    this->name = name;
-    this->variadic = variadic;
-    this->optionnal = optionnal;
-  }
+  TerminalRuleOptions(std::string name, bool variadic, bool optionnal);
 
-  TerminalRuleOptions(const TerminalRuleOptions& other)
-  {
-    this->variadic = other.variadic;
-    this->optionnal = other.optionnal;
-  }
+  TerminalRuleOptions(const TerminalRuleOptions& other);
 
-  TerminalRuleOptions& operator=(const TerminalRuleOptions& other)
-  {
-    this->variadic = other.variadic;
-    this->optionnal = other.optionnal;
-    return *this;
-  }
+  TerminalRuleOptions& operator=(const TerminalRuleOptions& other);
 
-  bool isVariadic()
-  {
-    return this->variadic;
-  }
-
-  bool isOptionnal()
-  {
-    return this->optionnal;
-  }
-  
-  void setOptionnal()
-  {
-    this->optionnal = true;
-  }
-
-  std::string getName()
-  {
-    return this->name;
-  }
+  bool isVariadic();
+  bool isOptionnal();
+  void setOptionnal();
+  std::string getName();
 };
 
 class GrammarRule
@@ -58,17 +30,10 @@ class GrammarRule
 protected:
   std::string name;
 public:
-  void setName(std::string name)
-  {
-    this->name = name;
-  }
-
-  std::string getName()
-  {
-    return this->name;
-  }
-
+  void setName(std::string name);
+  std::string getName();
   virtual std::string toDot() = 0;
+  std::string generateTypes(std::string dialectName);
 };
 
 class TerminalGrammarRule : public GrammarRule
@@ -78,27 +43,11 @@ private:
 
 public:
   TerminalGrammarRule(){}
-  
-  void addBodyElt(std::string name, TerminalRuleOptions* options)
-  {
-    this->bodyElt.emplace(name, options);
-  }
-  
-  void setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt)
-  {
-    this->bodyElt = bodyElt;
-  }
 
-  virtual std::string toDot() override
-  {
-    std::string res = "";
-    for (auto& [name, options]: bodyElt)
-    {
-      std::string color = options->isVariadic() ? "blue" : (options->isOptionnal() ? "green" : "red");
-      res += this->name + "->" + options->getName() + "[color=" + color + "];\n";
-    }
-    return res;
-  }
+  void addBodyElt(std::string name, TerminalRuleOptions* options);
+  void setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt);
+
+  virtual std::string toDot() override;
 };
 
 class NonTerminalGrammarRule : public GrammarRule
@@ -109,19 +58,10 @@ private:
 public:
   NonTerminalGrammarRule(){}
   
-  void addChild(std::string child)
-  {
-    this->children.insert(child);
-  }
-
-  virtual std::string toDot() override
-  {
-    std::string res = "";
-    for (const auto& child: children)
-      res += this->name + "->" + child + ";\n";
-    return res;
-  }
+  void addChild(std::string child);
+  virtual std::string toDot() override;
 };
+
 
 class GrammarInfos
 {
@@ -130,33 +70,16 @@ private:
   std::map<std::string, GrammarRule*> rules;
 
 public:
-  GrammarInfos()
-  {
-  }
+  GrammarInfos(){}
+
+  GrammarInfos(std::string name){ this->grammarName = name; }
+
+  std::string getGrammarName();
   
-  GrammarInfos(std::string name)
-  {
-    this->grammarName = name;
-  }
-
-  void addRule(GrammarRule* rule)
-  {
-    this->rules[rule->getName()] = rule;
-  }
-
-  void setName(std::string name)
-  {
-    this->grammarName = name;
-  }
-
-  std::string toDot()
-  {
-    std::string res = "digraph G {\n";
-    for (auto& elt: rules)
-      res += elt.second->toDot();
-    res += "\n}";
-    return res;
-  }
+  void addRule(GrammarRule* rule);
+  void setName(std::string name);
+  std::string toDot();
+  std::string generateTypes();
 };
 
 #endif

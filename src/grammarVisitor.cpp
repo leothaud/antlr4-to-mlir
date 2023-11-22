@@ -6,6 +6,11 @@ std::string GrammarVisitor::toDot()
   return this->infos.toDot();
 }
 
+std::string GrammarVisitor::generateTypes()
+{
+  return this->infos.generateTypes();
+}
+
 std::any GrammarVisitor::visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context)
 {
   this->infos.setName(context->grammarName->getText());
