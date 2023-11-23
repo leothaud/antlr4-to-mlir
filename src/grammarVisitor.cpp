@@ -50,7 +50,7 @@ std::any GrammarVisitor::visitRules(Antlr4GrammarParser::RulesContext *context)
 
 std::any GrammarVisitor::visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRuleContext *context)
 {
-  NonTerminalGrammarRule* newRule = new NonTerminalGrammarRule();
+  NonTerminalGrammarRule* newRule = new NonTerminalGrammarRule(&(this->infos));
   newRule->setName(context->name->getText());
   for (const auto& child: context->children)
     newRule->addChild(child->getText());
@@ -60,7 +60,7 @@ std::any GrammarVisitor::visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRu
 
 std::any GrammarVisitor::visitTerminalRule(Antlr4GrammarParser::TerminalRuleContext *context)
 {
-  TerminalGrammarRule* newRule = new TerminalGrammarRule();
+  TerminalGrammarRule* newRule = new TerminalGrammarRule(&(this->infos));
   newRule->setName(context->name->getText());
   newRule->setBodyElt(
     std::any_cast<std::map<std::string, TerminalRuleOptions*>>(visitRuleBody(context->body))
@@ -104,7 +104,7 @@ std::any GrammarVisitor::visitTerminalRuleBody(Antlr4GrammarParser::TerminalRule
   if (context->op->questionMarkOperator() != 0)
   {
     for (auto& elt: baseMap)
-      elt.second->setOptionnal();
+      elt.second->setOptional();
   }
 
   return baseMap;

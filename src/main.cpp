@@ -29,7 +29,12 @@ int main(int argc, const char** argv)
   GrammarVisitor visitor;
   visitor.visitGrammarFile(tree);
 
-  visitor.generateFiles("gen/");
+  std::string mlirStandalonePath = MLIR_STANDALONE_PATH;
+
+  if (mlirStandalonePath.back() != '/')
+    mlirStandalonePath += '/';
+  
+  visitor.generateFiles(mlirStandalonePath);
   
   std::cout << "Ok." << std::endl;
   stream.close();

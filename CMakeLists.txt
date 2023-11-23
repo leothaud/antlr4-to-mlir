@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 project(Antlr4ToMlir)
 
+option(MLIR_STANDALONE_PATH "path to mlir-standalone-template project" "")
+
+if(NOT MLIR_STANDALONE_PATH)
+	message(FATAL_ERROR "you should define \"MLIR_STANDALONE_PATH\" path.")
+endif()
+
+add_definitions(-DMLIR_STANDALONE_PATH="${MLIR_STANDALONE_PATH}")
+
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 

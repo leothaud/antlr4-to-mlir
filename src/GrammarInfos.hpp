@@ -6,6 +6,8 @@
 #ifndef GRAMMAR_INFOS_HPP
 #define GRAMMAR_INFOS_HPP
 
+class GrammarInfos;
+
 class TerminalRuleOptions
 {
 private:
@@ -20,8 +22,8 @@ public:
   TerminalRuleOptions& operator=(const TerminalRuleOptions& other);
 
   bool isVariadic();
-  bool isOptionnal();
-  void setOptionnal();
+  bool isOptional();
+  void setOptional();
   std::string getName();
 };
 
@@ -29,6 +31,8 @@ class GrammarRule
 {
 protected:
   std::string name;
+  bool predicateGenerated;
+  GrammarInfos* parent;
 public:
   void setName(std::string name);
   std::string getName();
@@ -36,6 +40,8 @@ public:
   std::string generateTypes(std::string dialectName);
   virtual std::string generatePredicates(std::string dialectName) = 0;
   virtual std::string generateOps(std::string dialectName) = 0;
+
+  void resetPredicates();
 };
 
 class TerminalGrammarRule : public GrammarRule
@@ -44,7 +50,10 @@ private:
   std::map<std::string, TerminalRuleOptions*> bodyElt;
 
 public:
-  TerminalGrammarRule(){}
+  TerminalGrammarRule(GrammarInfos* parent)
+  {
+    this->parent = parent;
+  }
 
   void addBodyElt(std::string name, TerminalRuleOptions* options);
   void setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt);
@@ -60,7 +69,10 @@ private:
   std::set<std::string> children;
   
 public:
-  NonTerminalGrammarRule(){}
+  NonTerminalGrammarRule(GrammarInfos* parent)
+  {
+    this->parent = parent;
+  }
   
   void addChild(std::string child);
   virtual std::string toDot() override;
@@ -83,6 +95,7 @@ public:
   std::string getGrammarName();
   
   void addRule(GrammarRule* rule);
+  GrammarRule* getRule(std::string name);
   void setName(std::string name);
   std::string toDot();
   std::string generateTypes();
@@ -99,6 +112,9 @@ public:
   std::string generateDialectCpp();
   std::string generateOpsCpp();
 
+  std::string generateIncludeCMakeList();
+  std::string generateLibCMakeList();
+  
   void generateFiles(std::string path);
 };
 
