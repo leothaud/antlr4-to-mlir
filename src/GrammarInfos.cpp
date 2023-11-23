@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 
 TerminalRuleOptions::TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
 {
@@ -163,10 +164,25 @@ void GrammarInfos::setName(std::string name)
 
 std::string GrammarInfos::toDot()
 {
-  std::string res = "digraph G {\n";
+  std::string res = "digraph G {\nrankdir=LR;\n";
   for (auto& elt: rules)
     res += elt.second->toDot();
-  res += "\n}";
+  res += "\nsubgraph cluster {\n\
+node [shape=plaintext, height=0.0001, margin=0];\n\
+label=\"legend\";\n\
+x1[label=\"\"];\n\
+y1[label=\"contains\"];\n\
+x1 -> y1 [color=red];\n\
+x2[label=\"\"];\n\
+y2[label=\"contains variadic\"];\n\
+x2 -> y2 [color=blue];\n\
+x3[label=\"\"];\n\
+y3[label=\"contains optionnal\"];\n\
+x3 -> y3 [color=green];\n\
+x4[label=\"\"];\n\
+y4[label=\"child\"];\n\
+x4 -> y4 [color=black];\n\
+}\n}";
   return res;
 }
 
@@ -355,6 +371,8 @@ std::string GrammarInfos::generateOpsCpp()
 
 void GrammarInfos::generateFiles(std::string path)
 {
+  std::filesystem::create_directories(path);
+  
   std::ofstream dotStream(path + this->grammarName + ".dot");
   dotStream << this->toDot();
   dotStream.close();
