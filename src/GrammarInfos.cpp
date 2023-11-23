@@ -385,6 +385,49 @@ void GrammarInfos::generateFiles(std::string path)
   std::filesystem::create_directories(path + "include/" + this->grammarName + "/");
   std::filesystem::create_directories(path + "lib/" + this->grammarName + "/");
 
+/*
+  std::ifstream optCMakeStreamR(path + "standalone-opt/CMakeLists.txt");
+  std::vector<std::string> optCMakeLines;
+  int nLine = 1;
+  std::string line;
+  while (std::getline(optCMakeStreamR, line))
+  {
+    optCMakeLines.push_back(line);
+    if (nLine == 7)
+    {
+      optCMakeLines.push_back("        MLIR" + this->grammarName);
+    }
+    ++nLine;
+  }
+  std::ofstream optCMakeStream(path + "standalone-opt/CMakeLists.txt");
+  for (auto& line: optCMakeLines)
+    optCMakeStream << line << '\n';
+  optCMakeStream.close();
+*/
+  
+  std::ifstream optStreamR(path + "standalone-opt/standalone-opt.cpp");
+  std::vector<std::string> optLines;
+  int nLine = 1;
+  std::string line;
+  while (std::getline(optStreamR, line))
+  {
+    optLines.push_back(line);
+    if (nLine == 23)
+    {
+      optLines.push_back("#include \"" + this->grammarName + "/" + this->grammarName + "Dialect.h\"\n\
+#include \"" + this->grammarName + "/" + this->grammarName + "Dialect.cpp.inc\"");
+    }
+    
+    if (nLine == 33)
+      optLines.push_back("  registry.insert<" + this->grammarName + "::" + this->grammarName + "Dialect>();");
+    ++nLine;
+  }
+  std::ofstream optStream(path + "standalone-opt/standalone-opt.cpp");
+  for (auto& line: optLines)
+    optStream << line << '\n';
+  optStream.close();
+
+  
   std::ofstream includeGrammarStream(path + "include/" + this->grammarName + "/CMakeLists.txt");
   includeGrammarStream << this->generateIncludeCMakeList();
   includeGrammarStream.close();
