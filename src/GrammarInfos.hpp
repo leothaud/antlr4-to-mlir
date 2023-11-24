@@ -3,10 +3,12 @@
 #include <set>
 #include <list>
 
+
 #ifndef GRAMMAR_INFOS_HPP
 #define GRAMMAR_INFOS_HPP
 
 class GrammarInfos;
+
 
 class TerminalRuleOptions
 {
@@ -26,6 +28,7 @@ public:
   void setOptional();
   std::string getName();
 };
+
 
 class GrammarRule
 {
@@ -80,7 +83,6 @@ public:
   virtual std::string generateOps(std::string dialectName) override;
 };
 
-
 class GrammarInfos
 {
 private:
@@ -116,6 +118,12 @@ public:
   std::string generateLibCMakeList();
   
   void generateFiles(std::string path);
+
+  void generateAntlr(std::string g4File, std::string path);
+  std::string generateVisitorHpp();
+  std::string generateVisitorCpp();
+  std::string generateMain();
+  std::string generateAntlrCMakeLists();
 };
 
 #endif

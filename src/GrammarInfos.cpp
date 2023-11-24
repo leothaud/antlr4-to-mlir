@@ -6,6 +6,8 @@
 #include <fstream>
 #include <filesystem>
 
+
+
 TerminalRuleOptions::TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
 {
   this->name = name;
@@ -46,6 +48,8 @@ std::string TerminalRuleOptions::getName()
   return this->name;
 }
 
+
+
 void GrammarRule::setName(std::string name)
 {
   this->name = name;
@@ -55,6 +59,21 @@ std::string GrammarRule::getName()
 {
   return this->name;
 }
+
+std::string GrammarRule::generateTypes(std::string dialectName)
+{
+  return "def " + dialectName + "_" +
+    this->name + "NodeType : " + dialectName +
+    "_AstNodeType<\"" + dialectName + "_" + this->name + "Node\",\"" + this->name + "Node\">{}\n\n";
+}
+
+void GrammarRule::resetPredicates()
+{
+  this->predicateGenerated = false;
+}
+
+
+
 
 void TerminalGrammarRule::addBodyElt(std::string name, TerminalRuleOptions* options)
 {
@@ -127,6 +146,9 @@ std::string TerminalGrammarRule::generateOps(std::string dialectName)
 }
 
 
+
+
+
 void NonTerminalGrammarRule::addChild(std::string child)
 {
   this->children.insert(child);
@@ -160,6 +182,9 @@ std::string NonTerminalGrammarRule::generateOps(std::string dialectName)
 {
   return "";
 }
+
+
+
 
 void GrammarInfos::addRule(GrammarRule* rule)
 {
@@ -195,12 +220,6 @@ x4 -> y4 [color=black];\n\
   return res;
 }
 
-std::string GrammarRule::generateTypes(std::string dialectName)
-{
-  return "def " + dialectName + "_" +
-    this->name + "NodeType : " + dialectName +
-    "_AstNodeType<\"" + dialectName + "_" + this->name + "Node\",\"" + this->name + "Node\">{}\n\n";
-}
 
 std::string GrammarInfos::generateTypes()
 {
@@ -384,43 +403,22 @@ void GrammarInfos::generateFiles(std::string path)
 {
   std::filesystem::create_directories(path + "include/" + this->grammarName + "/");
   std::filesystem::create_directories(path + "lib/" + this->grammarName + "/");
+  std::filesystem::create_directories(path + "dot/");
 
-/*
-  std::ifstream optCMakeStreamR(path + "standalone-opt/CMakeLists.txt");
-  std::vector<std::string> optCMakeLines;
-  int nLine = 1;
-  std::string line;
-  while (std::getline(optCMakeStreamR, line))
-  {
-    optCMakeLines.push_back(line);
-    if (nLine == 7)
-    {
-      optCMakeLines.push_back("        MLIR" + this->grammarName);
-    }
-    ++nLine;
-  }
-  std::ofstream optCMakeStream(path + "standalone-opt/CMakeLists.txt");
-  for (auto& line: optCMakeLines)
-    optCMakeStream << line << '\n';
-  optCMakeStream.close();
-*/
   
   std::ifstream optStreamR(path + "standalone-opt/standalone-opt.cpp");
   std::vector<std::string> optLines;
-  int nLine = 1;
   std::string line;
   while (std::getline(optStreamR, line))
   {
     optLines.push_back(line);
-    if (nLine == 23)
+    if (line == "//[antlr4-to-mlir] ADD INCLUDE HERE")
     {
       optLines.push_back("#include \"" + this->grammarName + "/" + this->grammarName + "Dialect.h\"\n\
 #include \"" + this->grammarName + "/" + this->grammarName + "Dialect.cpp.inc\"");
     }
-    
-    if (nLine == 33)
+    else if (line == "//[antlr4-to-mlir] ADD REGISTERY INSERT HERE")
       optLines.push_back("  registry.insert<" + this->grammarName + "::" + this->grammarName + "Dialect>();");
-    ++nLine;
   }
   std::ofstream optStream(path + "standalone-opt/standalone-opt.cpp");
   for (auto& line: optLines)
@@ -444,7 +442,7 @@ void GrammarInfos::generateFiles(std::string path)
   libCMakeStream << "add_subdirectory(" + this->grammarName + ")\n";
   libCMakeStream.close();
   
-  std::ofstream dotStream(path + this->grammarName + ".dot");
+  std::ofstream dotStream(path + "dot/" + this->grammarName + ".dot");
   dotStream << this->toDot();
   dotStream.close();
 
@@ -469,7 +467,7 @@ void GrammarInfos::generateFiles(std::string path)
   typesHStream.close();
 
   std::ofstream dialectHStream(path + "include/" + this->grammarName + "/" + this->grammarName + "Dialect.h");
-  dialectHStream << this->generateDialectH();
+    dialectHStream << this->generateDialectH();
   dialectHStream.close();
 
   std::ofstream opsHStream(path + "include/" + this->grammarName + "/" + this->grammarName + ".h");
@@ -489,10 +487,6 @@ void GrammarInfos::generateFiles(std::string path)
   opsCppStream.close();
 }
 
-void GrammarRule::resetPredicates()
-{
-  this->predicateGenerated = false;
-}
 
 
 
@@ -522,4 +516,74 @@ std::string GrammarInfos::generateLibCMakeList()
 	LINK_LIBS PUBLIC\n\
 	MLIRIR\n\
         MLIRInferTypeOpInterface\n)";
+}
+
+
+std::string GrammarInfos::generateAntlrCMakeLists()
+{
+  std::string dialectName = this->grammarName;
+  return "cmake_minimum_required(VERSION 3.10)\n\
+project(" + dialectName + ")\n\n\
+set(CMAKE_BUILD_TYPE Release)\n\n\
+file(GLOB CPP_SRC \"src/*.cpp\")\n\
+file(GLOB G4_SRC \"*.g4\")\n\n\n\
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)\n\
+set(CMAKE_CXX_STANDARD 17)\n\n\
+add_definitions(-DANTLR4CPP_STATIC)\n\
+set(ANTLR4_WITH_STATIC_CRT OFF)\n\
+include(ExternalAntlr4Cpp)\n\
+include_directories(${ANTLR4_INCLUDE_DIRS})\n\
+set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.13.0-complete.jar)\n\
+find_package(ANTLR REQUIRED)\n\n\
+antlr_target(Antlr4Grammar ${G4_SRC} VISITOR OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/)\n\
+include_directories(${PROJECT_SOURCE_DIR}\n\
+					 ${PROJECT_SOURCE_DIR}/libs/\n\
+  )\n\
+add_executable(" + dialectName + " ${CPP_SRC}             \n\
+               ${ANTLR_Antlr4Grammar_CXX_OUTPUTS})\n\
+target_link_libraries(" + dialectName + " antlr4_static ${SYSTEM_LIBS})";
+}
+
+std::string GrammarInfos::generateVisitorHpp()
+{
+  return "";
+}
+std::string GrammarInfos::generateVisitorCpp()
+{
+  return "";
+}
+std::string GrammarInfos::generateMain()
+{
+  return "#include <iostream>\nint main(){ std::cout << \"TODO\" << std::endl; return 0; }\n";
+}
+
+void GrammarInfos::generateAntlr(std::string g4File, std::string path)
+{
+  std::string cmakeProjDir = CMAKE_PROJ_DIR;
+  if (cmakeProjDir.back() != '/')
+    cmakeProjDir += '/';
+  
+  std::filesystem::create_directories(path + "/" + this->grammarName + "/src/");
+  std::string cmd = "cp " + g4File + " " + path + "/" + this->grammarName + "/";
+  system(cmd.c_str());
+  cmd = "cp " + cmakeProjDir + "tools/antlr-4.13.0-complete.jar " + path + "/" + this->grammarName + "/";
+  system(cmd.c_str());
+  cmd = "cp -R " + cmakeProjDir + "cmake " + path + "/" + this->grammarName + "/";
+  system(cmd.c_str());
+
+  std::ofstream cmakeStream(path + "/" + this->grammarName + "/CMakeLists.txt");
+  cmakeStream << generateAntlrCMakeLists();
+  cmakeStream.close();
+
+  std::ofstream visitorHppStream(path + "/" + this->grammarName + "/src/TransformVisitor.hpp");
+  visitorHppStream << generateVisitorHpp();
+  visitorHppStream.close();
+
+  std::ofstream visitorCppStream(path + "/" + this->grammarName + "/src/TransformVisitor.cpp");
+  visitorCppStream << generateVisitorCpp();
+  visitorCppStream.close();
+
+  std::ofstream mainStream(path + "/" + this->grammarName + "/src/main.cpp");
+  mainStream << generateMain();
+  mainStream.close();
 }

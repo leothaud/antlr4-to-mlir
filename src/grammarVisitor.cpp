@@ -1,5 +1,5 @@
 #include "grammarVisitor.hpp"
-
+#include "GrammarInfos.hpp"
 
 std::string GrammarVisitor::toDot()
 {
@@ -30,6 +30,11 @@ std::string GrammarVisitor::generateOps()
 void GrammarVisitor::generateFiles(std::string path)
 {
   this->infos.generateFiles(path);
+}
+
+void GrammarVisitor::generateAntlr(std::string g4File, std::string path)
+{
+  this->infos.generateAntlr(g4File, path);
 }
 
 std::any GrammarVisitor::visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context)

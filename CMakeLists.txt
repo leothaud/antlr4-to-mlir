@@ -7,8 +7,16 @@ if(NOT MLIR_STANDALONE_PATH)
 	message(FATAL_ERROR "you should define \"MLIR_STANDALONE_PATH\" path.")
 endif()
 
-add_definitions(-DMLIR_STANDALONE_PATH="${MLIR_STANDALONE_PATH}")
+option(ANTLR_GENERATION_PATH "path to antlr generated project" "")
 
+if(NOT ANTLR_GENERATION_PATH)
+       message(FATAL_ERROR "you should define \"ANTLR_GENERATION_PATH\" path.")
+endif()
+
+add_definitions(-DMLIR_STANDALONE_PATH="${MLIR_STANDALONE_PATH}")
+add_definitions(-DANTLR_GENERATION_PATH="${ANTLR_GENERATION_PATH}")
+add_definitions(-DCMAKE_PROJ_DIR="${CMAKE_CURRENT_SOURCE_DIR}/")
+add_definitions(-DAutoAstUtilsFolder="${CMAKE_CURRENT_SOURCE_DIR}/tools/AutoAstUtils/")
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
