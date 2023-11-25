@@ -42,9 +42,9 @@ void GrammarVisitor::generateFiles(std::string path)
   this->infos.generateFiles(path);
 }
 
-void GrammarVisitor::generateAntlr(std::string g4File, std::string path)
+void GrammarVisitor::generateAntlr(std::string g4File, std::string path, std::string startRule)
 {
-  this->infos.generateAntlr(g4File, path);
+  this->infos.generateAntlr(g4File, path, startRule);
 }
 
 std::any GrammarVisitor::visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context)

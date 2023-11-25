@@ -16,6 +16,7 @@
 #include <fstream>
 #include <filesystem>
 
+int lastIndex = 0;
 
 
 TerminalRuleOptions::TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
@@ -156,6 +157,104 @@ std::string TerminalGrammarRule::generateOps(std::string dialectName)
 }
 
 
+// fonction qui renvoie une paire <string string> qui est (variable, code) du mlir
+std::string TerminalGrammarRule::generateVisitorCpp(std::string dialectName)
+{
+  std::string capitalized = this->name;
+  capitalized[0] = toupper(capitalized[0]);
+  std::string res = "std::any " + dialectName + "TransformVisitor::visit" + capitalized +
+    "(" + dialectName + "Parser::" + capitalized + "Context* context)\n{\n";
+  res += "  std::string returnVar = std::to_string(lastIndex++);\n";
+  res += "  std::string res = \"%\" + returnVar + \" = \\\"" + dialectName +
+    "." + this->name + "\\\" (\";\n\
+  std::string types = \"\";\n\
+  std::string args = \"\";\n\
+  bool first = true;\n";
+  bool hasVector = false;
+  for (auto& elt: bodyElt)
+    hasVector |= elt.second->isVariadic();
+  if (hasVector)
+  {
+    res += "  std::string variadicSizes = ";
+    for (auto& elt: bodyElt)
+    {
+      bool first = true;
+      if (elt.second->isVariadic())
+      {
+	if (!first)
+	  res += " + \",\" + ";
+	first = false;
+	res += "std::to_string(context->" + elt.first + ".size())";
+      }
+      res += ";\n";
+	
+    }
+  }
+
+  for (auto& elt: bodyElt)
+  {
+    auto capitalizedType = elt.second->getName();
+    capitalizedType[0] = toupper(capitalizedType[0]);
+    if (elt.second->isVariadic())
+    {
+      res += "  for(auto& elt: context->" + elt.first + ")\n  {\n";
+      res += "    std::string eltVarName, eltCode, eltType;\n";
+      res += "    std::tie(eltVarName, eltCode, eltType) = \
+std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" +
+	capitalizedType + "(elt));\n";
+      res += "    if (!first)\n\
+    {\n\
+      types += \", \";\n\
+      args += \", \";\n\
+    }\n";
+      res += "    first = false;\n";
+      res += "    res = eltCode + res;\n";
+      res += "    types += eltType;\n";
+      res += "    args += eltVarName;\n";
+      res += "  }\n";
+    }
+    else
+    {
+      if (elt.second->isOptional())
+      {
+	res += "  if(context->" + elt.first + " != 0)\n  {\n";
+      }
+	res += "    std::string " + elt.first + "VarName, " + elt.first + "Code, " + elt.first + "Type;\n";
+	res += "    std::tie(" + elt.first + "VarName, " + elt.first + "Code, " + elt.first + "Type) = std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" + capitalizedType + "(context->" + elt.first + "));\n";
+	res += "    if (!first)\n\
+    {\n\
+      types += \", \";\n\
+      args += \", \";\n\
+    }\n";
+      res += "    first = false;\n";
+      res += "    res = " + elt.first + "Code + res;\n";
+      res += "    types += " + elt.first + "Type;\n";
+      res += "    args += " + elt.first + "VarName;\n";
+      if (elt.second->isOptional())
+      {
+	res += "  }\n";
+      }
+
+    }
+  }
+//  std::map<std::string, TerminalRuleOptions*> bodyElt;
+// variadic -> vecteur de ptr ; optionnal -> pointeur; sinon -> pointeur
+
+// générer les arguments + les tailles des vecteurs + les types des arguments  
+
+
+  res += "  res += args + \") ";
+  if (hasVector)
+    res += "{operandSegmentSizes=[\" + variadicSizes + \"]} ";
+  res += ": (\" + types + \") -> !" + dialectName + "." + this->name + "Node\";\n";
+  res += "  return std::tie(returnVar, res ,\"!" + dialectName + "." + this->name + "Node\");\n";
+  
+  res += "}\n\n";
+  
+  
+  return res;
+}
+
 
 
 
@@ -194,6 +293,23 @@ std::string NonTerminalGrammarRule::generateOps(std::string dialectName)
 }
 
 
+std::string NonTerminalGrammarRule::generateVisitorCpp(std::string dialectName)
+{
+  std::string capitalized = this->name;
+  capitalized[0] = toupper(capitalized[0]);
+  std::string res = "std::any " + dialectName + "TransformVisitor::visit" + capitalized +
+    "(" + dialectName + "Parser::" + capitalized + "Context* context)\n{\n";
+  for (auto& child: children)
+  {
+    std::string capitalizedChild = child;
+    capitalizedChild[0] = toupper(capitalizedChild[0]);
+    res += "  if (context->" + child + "() != 0)\n    return visit" +
+      capitalizedChild + "(context->" + child + "());\n";
+  }
+  res += "  return false;\n";
+  res += "}\n\n";
+    return res;
+}
 
 
 void GrammarInfos::addRule(GrammarRule* rule)
@@ -554,20 +670,142 @@ add_executable(" + dialectName + " ${CPP_SRC}             \n\
 target_link_libraries(" + dialectName + " antlr4_static ${SYSTEM_LIBS})";
 }
 
-std::string GrammarInfos::generateVisitorHpp()
+std::string GrammarInfos::generateVisitorCppBase()
 {
-  return "";
-}
-std::string GrammarInfos::generateVisitorCpp()
-{
-  return "";
-}
-std::string GrammarInfos::generateMain()
-{
-  return "#include <iostream>\nint main(){ std::cout << \"TODO\" << std::endl; return 0; }\n";
+  std::string res;
+  std::vector<std::string> items = {"int", "float", "char", "ID", "string"};
+  for (auto& elt: items)
+  {
+    std::string capitalized = elt;
+    capitalized[0] = toupper(capitalized[0]);
+    res += "std::any " + this->grammarName + "TransformVisitor::visit" + capitalized + "(antlr4::Token* context)\n\
+{\n\
+  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnType = \"!AutoAstUtils." + elt + "\";\n	\
+  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils." + elt + "\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils." + elt + "\";\n \
+  return std::tie(returnVar, returnCode, returnType);\n\
+}\n\n";
+  }
+  return res;
+  /*
+  std::string baseInt = "std::any " + this->grammarName + "TransformVisitor::visitInt(antlr4::Token* context)\n\
+{\n\
+  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnType = \"!AutoAstUtils.int\";\n\
+  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils.int\\\" () {value=\" + std::stoi(context->getText()) + \"} : () -> !AutoAstUtils.int;\n\
+  return std::tie(returnVar, returnCode, returnType);\n\
+}\n\n";
+  
+  std::string baseFloat = "std::any " + this->grammarName + "TransformVisitor::visitFloat(antlr4::Token* context)\n\
+{\n\
+  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnType = \"!AutoAstUtils.float\";\n\
+  std::string returnCode = \"%\" + returnVar + \" = \"\\AutoAstUtils.int\\\" () {value=\" + std::stof(token->getText()) + \"} : () -> !AutoAstUtils.float;\n\
+  return std::tie(returnVar, returnCode, returnType);\n\
+}\n\n";
+  
+  std::string baseChar = "std::any " + this->grammarName + "TransformVisitor::visitChar(antlr4::Token* context)\n\
+{\n\
+  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnType = \"!AutoAstUtils.char\";\n\
+  std::string returnCode = \"%\" + returnVar + \" = \"\\AutoAstUtils.int\\\" () {value=\" + std::to_string((unsigned int)context->getText[1]) + \":i8} : () -> !AutoAstUtils.char;\n\
+  return std::tie(returnVar, returnCode, returnType);\n\
+}\n\n";
+  
+  std::string baseId = "std::any " + this->grammarName + "TransformVisitor::visitId(antlr4::Token* context)\n\
+{\n\
+  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnType = \"!AutoAstUtils.id\";\n\
+  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils.int\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils.id;\n\
+  return std::tie(returnVar, returnCode, returnType);\n\
+}\n\n";
+  
+  std::string baseString = "std::any " + this->grammarName + "TransformVisitor::visitString(antlr4::Token* context)\n\
+{\n\
+  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnType = \"!AutoAstUtils.string\";\n\
+  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils.int\\\" () {value=\\\"\" + context->getText() + \"\\\"} : () -> !AutoAstUtils.string;\n\
+  return std::tie(returnVar, returnCode, returnType);\n\
+}\n\n";
+  
+  return baseInt + baseFloat + baseChar + baseId + baseString;
+  */
 }
 
-void GrammarInfos::generateAntlr(std::string g4File, std::string path)
+std::string GrammarInfos::generateVisitorHppBase()
+{
+  std::string res;
+  std::vector<std::string> items = {"Int", "Float", "Char", "ID", "String"};
+  for (auto& elt: items)
+  {
+    res += "std::any visit" + elt + "(antlr4::Token* context);\n\n";
+  }
+  return res;
+}
+
+std::string GrammarInfos::generateVisitorHpp()
+{
+  std::string dialectName = this->grammarName;
+  std::string res = "#include \"" + dialectName + "Visitor.h\"\n\n\
+#ifndef " + dialectName + "_TRANSFORMVISITOR_HPP_\n\
+#define " + dialectName + "_TRANSFORMVISITOR_HPP_\n\n\
+class " + dialectName + "TransformVisitor : public " + dialectName + "Visitor {\n\
+  int lastIndex = 0;\n\
+public:\n\n";
+  for (auto& [child,rule]: this->rules) {
+    std::string capitalized = child;
+    capitalized[0] = toupper(capitalized[0]);
+    res += "virtual std::any visit" + capitalized + "(" + dialectName + "Parser::" + capitalized + "Context *context) override;\n\n";
+  }
+  res += generateVisitorHppBase();
+  res += "};\n\n#endif\n";
+  return res;
+}
+
+std::string GrammarInfos::generateVisitorCpp()
+{
+  lastIndex = 0;
+  std::string dialectName = this->grammarName;
+  std::string res = "#include \"" + dialectName + "TransformVisitor.hpp\"\n\n";
+  for (auto& [name, rule]: this->rules)
+    res += rule->generateVisitorCpp(dialectName);
+  res += generateVisitorCppBase();
+  return res;
+}
+
+std::string GrammarInfos::generateMain(std::string startRule)
+{
+  std::string capitalized = startRule;
+  capitalized[0] = toupper(capitalized[0]);
+  return "#include <iostream>\n#include <fstream>\n\
+#include \"" + this->grammarName + "TransformVisitor.hpp\"\n\
+#include \"" + this->grammarName + "Lexer.h\"\n\n\
+int main(int argc, char** argv) {\n\
+  if (argc != 3) {\n\
+    std::cerr << \"Usage : \" << argv[0] << \" [input filename] [output filename].\";\n\
+    exit(1);\n\
+  }\n\
+  std::ifstream inStream(argv[1]);\n\
+  if (!inStream.is_open()) {\n\
+    std::cerr << \"Can't open file \" << argv[1] << \".\";\n\
+    exit(1);\n\
+  }\n\n\
+  antlr4::ANTLRInputStream input(inStream);\n  " +
+    this->grammarName + "Lexer lexer(&input);\
+  antlr4::CommonTokenStream tokens(&lexer);\n  " +
+    this->grammarName + "Parser parser(&tokens);\n  " +
+    this->grammarName + "Parser::" + capitalized + "Context* tree = parser." + startRule + "();\n  " +
+    this->grammarName + "TransformVisitor visitor;\n\
+  auto transformed = std::any_cast<std::pair<std::string, std::string>>(visitor.visit" + capitalized + "(tree));\n\
+  std::string res = \"module \{\\n\\n\" + transformed.second + \"\\n}\\n\";\n\
+  std::ofstream outStream(argv[2]);\n\
+  outStream << res;\n\
+  inStream.close();\n\
+  outStream.close();\n\
+  return 0;\n}\n";
+}
+
+void GrammarInfos::generateAntlr(std::string g4File, std::string path, std::string startRule)
 {
   std::string cmakeProjDir = CMAKE_PROJ_DIR;
   if (cmakeProjDir.back() != '/')
@@ -585,15 +823,15 @@ void GrammarInfos::generateAntlr(std::string g4File, std::string path)
   cmakeStream << generateAntlrCMakeLists();
   cmakeStream.close();
 
-  std::ofstream visitorHppStream(path + "/" + this->grammarName + "/src/TransformVisitor.hpp");
+  std::ofstream visitorHppStream(path + "/" + this->grammarName + "/src/" + this->grammarName + "TransformVisitor.hpp");
   visitorHppStream << generateVisitorHpp();
   visitorHppStream.close();
 
-  std::ofstream visitorCppStream(path + "/" + this->grammarName + "/src/TransformVisitor.cpp");
+  std::ofstream visitorCppStream(path + "/" + this->grammarName + "/src/" + this->grammarName + "TransformVisitor.cpp");
   visitorCppStream << generateVisitorCpp();
   visitorCppStream.close();
 
   std::ofstream mainStream(path + "/" + this->grammarName + "/src/main.cpp");
-  mainStream << generateMain();
+  mainStream << generateMain(startRule);
   mainStream.close();
 }

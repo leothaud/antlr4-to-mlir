@@ -53,6 +53,7 @@ public:
   std::string generateTypes(std::string dialectName);
   virtual std::string generatePredicates(std::string dialectName) = 0;
   virtual std::string generateOps(std::string dialectName) = 0;
+  virtual std::string generateVisitorCpp(std::string dialectName) = 0;
 
   void resetPredicates();
 };
@@ -74,6 +75,7 @@ public:
   virtual std::string toDot() override;
   virtual std::string generatePredicates(std::string dialectName) override;
   virtual std::string generateOps(std::string dialectName) override;
+  virtual std::string generateVisitorCpp(std::string dialectName) override;
 };
 
 class NonTerminalGrammarRule : public GrammarRule
@@ -91,6 +93,7 @@ public:
   virtual std::string toDot() override;
   virtual std::string generatePredicates(std::string dialectName) override;
   virtual std::string generateOps(std::string dialectName) override;
+  virtual std::string generateVisitorCpp(std::string dialectName) override;
 };
 
 class GrammarInfos
@@ -129,10 +132,12 @@ public:
   
   void generateFiles(std::string path);
 
-  void generateAntlr(std::string g4File, std::string path);
+  void generateAntlr(std::string g4File, std::string path, std::string startRule);
+  std::string generateVisitorHppBase();
+  std::string generateVisitorCppBase();
   std::string generateVisitorHpp();
   std::string generateVisitorCpp();
-  std::string generateMain();
+  std::string generateMain(std::string startRule);
   std::string generateAntlrCMakeLists();
 };
 

@@ -19,9 +19,9 @@
 
 int main(int argc, const char** argv)
 {
-  if (argc != 2)
+  if (!((argc == 3) || ((argc == 2) && (argv[1] == "--init"))))
   {
-    std::cerr << "Usage: " << argv[0] << " [filename] or " << argv[0] << "--init to initialize mlir-standalone project (must be already cloned).";
+    std::cerr << "Usage: " << argv[0] << " [filename] [startRule] or " << argv[0] << "--init to initialize mlir-standalone project (must be already cloned).";
     exit(1);
   }
 
@@ -32,6 +32,7 @@ int main(int argc, const char** argv)
   std::string mlirStandalonePath = MLIR_STANDALONE_PATH;
   if (mlirStandalonePath.back() != '/')
     mlirStandalonePath += '/';
+ 
 
   if ((strcmp(argv[1], "--init") == 0) || (!std::filesystem::exists(mlirStandalonePath + ".initialized")))
   {
@@ -62,7 +63,7 @@ int main(int argc, const char** argv)
   if (antlrGenerationPath.back() != '/')
     antlrGenerationPath += '/';
   
-  visitor.generateAntlr(argv[1], antlrGenerationPath);
+  visitor.generateAntlr(argv[1], antlrGenerationPath, argv[2]);
   
   visitor.generateFiles(mlirStandalonePath);
   
