@@ -164,8 +164,8 @@ std::string TerminalGrammarRule::generateVisitorCpp(std::string dialectName)
   capitalized[0] = toupper(capitalized[0]);
   std::string res = "std::any " + dialectName + "TransformVisitor::visit" + capitalized +
     "(" + dialectName + "Parser::" + capitalized + "Context* context)\n{\n";
-  res += "  std::string returnVar = std::to_string(lastIndex++);\n";
-  res += "  std::string res = \"%\" + returnVar + \" = \\\"" + dialectName +
+  res += "  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n";
+  res += "  std::string res = returnVar + \" = \\\"" + dialectName +
     "." + this->name + "\\\" (\";\n\
   std::string types = \"\";\n\
   std::string args = \"\";\n\
@@ -246,8 +246,8 @@ std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" +
   res += "  res += args + \") ";
   if (hasVector)
     res += "{operandSegmentSizes=[\" + variadicSizes + \"]} ";
-  res += ": (\" + types + \") -> !" + dialectName + "." + this->name + "Node\";\n";
-  res += "  return std::tie(returnVar, res ,\"!" + dialectName + "." + this->name + "Node\");\n";
+  res += ": (\" + types + \") -> !" + dialectName + "." + this->name + "Node\\n\";\n";
+  res += "  return std::make_tuple(returnVar, res , std::string(\"!" + dialectName + "." + this->name + "Node\"));\n";
   
   res += "}\n\n";
   
@@ -652,7 +652,8 @@ std::string GrammarInfos::generateAntlrCMakeLists()
 project(" + dialectName + ")\n\n\
 set(CMAKE_BUILD_TYPE Release)\n\n\
 file(GLOB CPP_SRC \"src/*.cpp\")\n\
-file(GLOB G4_SRC \"*.g4\")\n\n\n\
+file(GLOB G4_SRC \"*.g4\")\n\
+add_definitions(-g)\n\n\n									\
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)\n\
 set(CMAKE_CXX_STANDARD 17)\n\n\
 add_definitions(-DANTLR4CPP_STATIC)\n\
@@ -672,75 +673,60 @@ target_link_libraries(" + dialectName + " antlr4_static ${SYSTEM_LIBS})";
 
 std::string GrammarInfos::generateVisitorCppBase()
 {
-  std::string res;
-  std::vector<std::string> items = {"int", "float", "char", "ID", "string"};
-  for (auto& elt: items)
-  {
-    std::string capitalized = elt;
-    capitalized[0] = toupper(capitalized[0]);
-    res += "std::any " + this->grammarName + "TransformVisitor::visit" + capitalized + "(antlr4::Token* context)\n\
+  return "std::any " + this->grammarName + "TransformVisitor::visitINT(antlr4::Token* context)\n\
 {\n\
-  std::string returnVar = std::to_string(lastIndex++);\n\
-  std::string returnType = \"!AutoAstUtils." + elt + "\";\n	\
-  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils." + elt + "\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils." + elt + "\";\n \
-  return std::tie(returnVar, returnCode, returnType);\n\
-}\n\n";
-  }
-  return res;
-  /*
-  std::string baseInt = "std::any " + this->grammarName + "TransformVisitor::visitInt(antlr4::Token* context)\n\
-{\n\
-  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n\
   std::string returnType = \"!AutoAstUtils.int\";\n\
-  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils.int\\\" () {value=\" + std::stoi(context->getText()) + \"} : () -> !AutoAstUtils.int;\n\
-  return std::tie(returnVar, returnCode, returnType);\n\
-}\n\n";
-  
-  std::string baseFloat = "std::any " + this->grammarName + "TransformVisitor::visitFloat(antlr4::Token* context)\n\
+  std::string returnCode = returnVar + \" = \\\"AutoAstUtils.int\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils.int\\n\";\n\
+		  return std::make_tuple(returnVar, returnCode, returnType);\n\
+}\n\
+\n\
+std::any " + this->grammarName + "TransformVisitor::visitFLOAT(antlr4::Token* context)\n\
 {\n\
-  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n\
   std::string returnType = \"!AutoAstUtils.float\";\n\
-  std::string returnCode = \"%\" + returnVar + \" = \"\\AutoAstUtils.int\\\" () {value=\" + std::stof(token->getText()) + \"} : () -> !AutoAstUtils.float;\n\
-  return std::tie(returnVar, returnCode, returnType);\n\
-}\n\n";
-  
-  std::string baseChar = "std::any " + this->grammarName + "TransformVisitor::visitChar(antlr4::Token* context)\n\
+  std::string returnCode = returnVar + \" = \\\"AutoAstUtils.float\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils.float\\n\";\n\
+		  return std::make_tuple(returnVar, returnCode, returnType);\n\
+}\n\
+\n\
+std::any " + this->grammarName + "TransformVisitor::visitCHAR(antlr4::Token* context)\n\
 {\n\
-  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n\
   std::string returnType = \"!AutoAstUtils.char\";\n\
-  std::string returnCode = \"%\" + returnVar + \" = \"\\AutoAstUtils.int\\\" () {value=\" + std::to_string((unsigned int)context->getText[1]) + \":i8} : () -> !AutoAstUtils.char;\n\
-  return std::tie(returnVar, returnCode, returnType);\n\
-}\n\n";
-  
-  std::string baseId = "std::any " + this->grammarName + "TransformVisitor::visitId(antlr4::Token* context)\n\
+  std::string returnCode = returnVar + \" = \\\"AutoAstUtils.char\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils.char\\n\";\n\
+		  return std::make_tuple(returnVar, returnCode, returnType);\n\
+}\n\
+\n\
+std::any " + this->grammarName + "TransformVisitor::visitID(antlr4::Token* context)\n\
 {\n\
-  std::string returnVar = std::to_string(lastIndex++);\n\
-  std::string returnType = \"!AutoAstUtils.id\";\n\
-  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils.int\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils.id;\n\
-  return std::tie(returnVar, returnCode, returnType);\n\
-}\n\n";
-  
-  std::string baseString = "std::any " + this->grammarName + "TransformVisitor::visitString(antlr4::Token* context)\n\
+  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n\
+  std::string returnType = \"!AutoAstUtils.ID\";\n\
+  std::string returnCode = returnVar + \" = \\\"AutoAstUtils.ID\\\" () {value=\\\"\" + context->getText() + \"\\\"} : () -> !AutoAstUtils.ID\\n\";\n\
+		  return std::make_tuple(returnVar, returnCode, returnType);\n\
+}\n\
+\n\
+std::any " + this->grammarName + "TransformVisitor::visitSTRING(antlr4::Token* context)\n\
 {\n\
-  std::string returnVar = std::to_string(lastIndex++);\n\
+  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n\
   std::string returnType = \"!AutoAstUtils.string\";\n\
-  std::string returnCode = \"%\" + returnVar + \" = \\\"AutoAstUtils.int\\\" () {value=\\\"\" + context->getText() + \"\\\"} : () -> !AutoAstUtils.string;\n\
-  return std::tie(returnVar, returnCode, returnType);\n\
-}\n\n";
-  
-  return baseInt + baseFloat + baseChar + baseId + baseString;
-  */
+  std::string returnCode = returnVar + \" = \\\"AutoAstUtils.string\\\" () {value=\" + context->getText() + \"} : () -> !AutoAstUtils.string\\n\";\n\
+		  return std::make_tuple(returnVar, returnCode, returnType);\n\
+}\n";
 }
 
 std::string GrammarInfos::generateVisitorHppBase()
 {
-  std::string res;
-  std::vector<std::string> items = {"Int", "Float", "Char", "ID", "String"};
-  for (auto& elt: items)
-  {
-    res += "std::any visit" + elt + "(antlr4::Token* context);\n\n";
-  }
-  return res;
+  return "std::any visitINT(antlr4::Token* context);\n\
+\n\
+std::any visitFLOAT(antlr4::Token* context);\n\
+\n\
+std::any visitCHAR(antlr4::Token* context);\n\
+\n\
+std::any visitID(antlr4::Token* context);\n\
+\n\
+std::any visitSTRING(antlr4::Token* context);\n\
+\n\
+";
 }
 
 std::string GrammarInfos::generateVisitorHpp()
@@ -796,8 +782,8 @@ int main(int argc, char** argv) {\n\
     this->grammarName + "Parser parser(&tokens);\n  " +
     this->grammarName + "Parser::" + capitalized + "Context* tree = parser." + startRule + "();\n  " +
     this->grammarName + "TransformVisitor visitor;\n\
-  auto transformed = std::any_cast<std::pair<std::string, std::string>>(visitor.visit" + capitalized + "(tree));\n\
-  std::string res = \"module \{\\n\\n\" + transformed.second + \"\\n}\\n\";\n\
+  auto transformed = std::any_cast<std::tuple<std::string, std::string, std::string>>(visitor.visit" + capitalized + "(tree));\n\
+  std::string res = \"module \{\\n\\n\" + std::get<1>(transformed) + \"\\n}\\n\";\n \
   std::ofstream outStream(argv[2]);\n\
   outStream << res;\n\
   inStream.close();\n\
