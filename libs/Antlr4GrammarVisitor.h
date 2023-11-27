@@ -23,10 +23,6 @@ public:
 
     virtual std::any visitRules(Antlr4GrammarParser::RulesContext *context) = 0;
 
-    virtual std::any visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRuleContext *context) = 0;
-
-    virtual std::any visitTerminalRule(Antlr4GrammarParser::TerminalRuleContext *context) = 0;
-
     virtual std::any visitRuleBody(Antlr4GrammarParser::RuleBodyContext *context) = 0;
 
     virtual std::any visitTerminalRuleBody(Antlr4GrammarParser::TerminalRuleBodyContext *context) = 0;

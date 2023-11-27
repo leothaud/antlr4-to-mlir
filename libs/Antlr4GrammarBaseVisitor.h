@@ -23,14 +23,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRuleContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitTerminalRule(Antlr4GrammarParser::TerminalRuleContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual std::any visitRuleBody(Antlr4GrammarParser::RuleBodyContext *ctx) override {
     return visitChildren(ctx);
   }

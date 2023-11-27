@@ -20,13 +20,12 @@ public:
   };
 
   enum {
-    RuleGrammarFile = 0, RuleRules = 1, RuleNonTerminalRule = 2, RuleTerminalRule = 3, 
-    RuleRuleBody = 4, RuleTerminalRuleBody = 5, RuleStarOperator = 6, RulePlusOperator = 7, 
-    RuleQuestionMarkOperator = 8, RuleOperator = 9, RuleParentRuleBody = 10, 
-    RuleStringRuleBody = 11, RuleAffectRuleBody = 12, RuleROperand = 13, 
-    RuleAffectOp = 14, RuleEqOp = 15, RulePlusEqOp = 16, RuleBaseRules = 17, 
-    RuleIntBaseRule = 18, RuleFloatBaseRule = 19, RuleCharBaseRule = 20, 
-    RuleStringBaseRule = 21, RuleIdBaseRule = 22, RuleWsBaseRule = 23
+    RuleGrammarFile = 0, RuleRules = 1, RuleRuleBody = 2, RuleTerminalRuleBody = 3, 
+    RuleStarOperator = 4, RulePlusOperator = 5, RuleQuestionMarkOperator = 6, 
+    RuleOperator = 7, RuleParentRuleBody = 8, RuleStringRuleBody = 9, RuleAffectRuleBody = 10, 
+    RuleROperand = 11, RuleAffectOp = 12, RuleEqOp = 13, RulePlusEqOp = 14, 
+    RuleBaseRules = 15, RuleIntBaseRule = 16, RuleFloatBaseRule = 17, RuleCharBaseRule = 18, 
+    RuleStringBaseRule = 19, RuleIdBaseRule = 20, RuleWsBaseRule = 21
   };
 
   explicit Antlr4GrammarParser(antlr4::TokenStream *input);
@@ -48,8 +47,6 @@ public:
 
   class GrammarFileContext;
   class RulesContext;
-  class NonTerminalRuleContext;
-  class TerminalRuleContext;
   class RuleBodyContext;
   class TerminalRuleBodyContext;
   class StarOperatorContext;
@@ -94,10 +91,16 @@ public:
 
   class  RulesContext : public antlr4::ParserRuleContext {
   public:
+    antlr4::Token *name = nullptr;
+    Antlr4GrammarParser::RuleBodyContext *body = nullptr;
+    antlr4::Token *idToken = nullptr;
+    std::vector<antlr4::Token *> children;
     RulesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    NonTerminalRuleContext *nonTerminalRule();
-    TerminalRuleContext *terminalRule();
+    std::vector<antlr4::tree::TerminalNode *> ID();
+    antlr4::tree::TerminalNode* ID(size_t i);
+    std::vector<RuleBodyContext *> ruleBody();
+    RuleBodyContext* ruleBody(size_t i);
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -105,39 +108,6 @@ public:
   };
 
   RulesContext* rules();
-
-  class  NonTerminalRuleContext : public antlr4::ParserRuleContext {
-  public:
-    antlr4::Token *name = nullptr;
-    antlr4::Token *idToken = nullptr;
-    std::vector<antlr4::Token *> children;
-    NonTerminalRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    std::vector<antlr4::tree::TerminalNode *> ID();
-    antlr4::tree::TerminalNode* ID(size_t i);
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  NonTerminalRuleContext* nonTerminalRule();
-
-  class  TerminalRuleContext : public antlr4::ParserRuleContext {
-  public:
-    antlr4::Token *name = nullptr;
-    Antlr4GrammarParser::RuleBodyContext *body = nullptr;
-    TerminalRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *ID();
-    RuleBodyContext *ruleBody();
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  TerminalRuleContext* terminalRule();
 
   class  RuleBodyContext : public antlr4::ParserRuleContext {
   public:

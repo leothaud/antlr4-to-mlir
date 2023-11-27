@@ -86,17 +86,17 @@ void GrammarRule::resetPredicates()
 
 
 
-void TerminalGrammarRule::addBodyElt(std::string name, TerminalRuleOptions* options)
+void GrammarRule::addBodyElt(std::string name, TerminalRuleOptions* options)
 {
   this->bodyElt.emplace(name, options);
 }
   
-void TerminalGrammarRule::setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt)
+void GrammarRule::setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt)
 {
   this->bodyElt = bodyElt;
 }
 
-std::string TerminalGrammarRule::toDot()
+std::string GrammarRule::toDot()
 {
   std::string res = "";
   for (auto& [name, options]: bodyElt)
@@ -104,20 +104,43 @@ std::string TerminalGrammarRule::toDot()
     std::string color = options->isVariadic() ? "blue" : (options->isOptional() ? "green" : "red");
     res += this->name + "->" + options->getName() + "[color=" + color + "];\n";
   }
+  for (const auto& child: children)
+    res += this->name + "->" + child + ";\n";
   return res;
 }
 
-std::string TerminalGrammarRule::generatePredicates(std::string dialectName)
+
+
+std::string GrammarRule::generatePredicates(std::string dialectName)
 {
   if (this->predicateGenerated)
     return "";
   this->predicateGenerated = true;
-  return "def " + dialectName + "_" + this->name + "Pred : CPred<\"$_self.isa<" +
-    dialectName + "_" + this->name + "NodeType>()\">;\n\n";
+  if (this->children.empty())
+  {
+    return "def " + dialectName + "_" + this->name + "Pred : CPred<\"$_self.isa<" +
+      dialectName + "_" + this->name + "NodeType>()\">;\n\n";
+  }
+  else
+  {
+    std::string res = "";
+    for (const auto& child: this->children)
+      res += this->parent->getRule(child)->generatePredicates(dialectName);
+    res += "def " + dialectName + "_" + this->name + "Pred : Or<[\n" +
+      "\tCPred<\"$_self.isa<" + dialectName + "_" + this->name + "NodeType>()\">";
+    for (const auto& child: this->children)
+      res += ",\n\t" + dialectName + "_" + child + "Pred";
+    res += "\n\t]>;\n\n";
+    return res;
+  }
 }
 
-std::string TerminalGrammarRule::generateOps(std::string dialectName)
+
+std::string GrammarRule::generateOps(std::string dialectName)
 {
+  if (!this->isTerminal)
+    return "";
+
   std::vector<std::string> baseTypes = {"INT", "FLOAT", "CHAR", "STRING", "ID"};
   std::map<std::string, std::string> baseTypesMap = {
     {"INT", "AutoAstUtils_IntType"},
@@ -170,147 +193,13 @@ std::string TerminalGrammarRule::generateOps(std::string dialectName)
 }
 
 
-// fonction qui renvoie une paire <string string> qui est (variable, code) du mlir
-std::string TerminalGrammarRule::generateVisitorCpp(std::string dialectName)
+std::string GrammarRule::generateVisitorCpp(std::string dialectName)
 {
   std::string capitalized = this->name;
   capitalized[0] = toupper(capitalized[0]);
   std::string res = "std::any " + dialectName + "TransformVisitor::visit" + capitalized +
     "(" + dialectName + "Parser::" + capitalized + "Context* context)\n{\n";
-  res += "  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n";
-  res += "  std::string res = returnVar + \" = \\\"" + dialectName +
-    "." + this->name + "\\\" (\";\n\
-  std::string types = \"\";\n\
-  std::string args = \"\";\n\
-  bool first = true;\n";
-  bool hasVector = false;
-  for (auto& elt: bodyElt)
-    hasVector |= elt.second->isVariadic();
-  if (hasVector)
-  {
-    res += "  std::string variadicSizes = ";
-    bool first = true;
-    for (auto& elt: bodyElt)
-    {
-      if (elt.second->isVariadic())
-      {
-	if (!first)
-	  res += " + \",\" + ";
-	first = false;
-	res += "std::to_string(context->" + elt.first + ".size())";
-      }	
-    }
-    res += ";\n";
-  }
 
-  for (auto& elt: bodyElt)
-  {
-    auto capitalizedType = elt.second->getName();
-    capitalizedType[0] = toupper(capitalizedType[0]);
-    if (elt.second->isVariadic())
-    {
-      res += "  for(auto& elt: context->" + elt.first + ")\n  {\n";
-      res += "    std::string eltVarName, eltCode, eltType;\n";
-      res += "    std::tie(eltVarName, eltCode, eltType) = \
-std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" +
-	capitalizedType + "(elt));\n";
-      res += "    if (!first)\n\
-    {\n\
-      types += \", \";\n\
-      args += \", \";\n\
-    }\n";
-      res += "    first = false;\n";
-      res += "    res = eltCode + res;\n";
-      res += "    types += eltType;\n";
-      res += "    args += eltVarName;\n";
-      res += "  }\n";
-    }
-    else
-    {
-      if (elt.second->isOptional())
-      {
-	res += "  if(context->" + elt.first + " != 0)\n  {\n";
-      }
-	res += "    std::string " + elt.first + "VarName, " + elt.first + "Code, " + elt.first + "Type;\n";
-	res += "    std::tie(" + elt.first + "VarName, " + elt.first + "Code, " + elt.first + "Type) = std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" + capitalizedType + "(context->" + elt.first + "));\n";
-	res += "    if (!first)\n\
-    {\n\
-      types += \", \";\n\
-      args += \", \";\n\
-    }\n";
-      res += "    first = false;\n";
-      res += "    res = " + elt.first + "Code + res;\n";
-      res += "    types += " + elt.first + "Type;\n";
-      res += "    args += " + elt.first + "VarName;\n";
-      if (elt.second->isOptional())
-      {
-	res += "  }\n";
-      }
-
-    }
-  }
-//  std::map<std::string, TerminalRuleOptions*> bodyElt;
-// variadic -> vecteur de ptr ; optionnal -> pointeur; sinon -> pointeur
-
-// générer les arguments + les tailles des vecteurs + les types des arguments  
-
-
-  res += "  res += args + \") ";
-  if (hasVector)
-    res += "{operandSegmentSizes=array<i32:\" + variadicSizes + \">} ";
-  res += ": (\" + types + \") -> !" + dialectName + "." + this->name + "Node\\n\";\n";
-  res += "  return std::make_tuple(returnVar, res , std::string(\"!" + dialectName + "." + this->name + "Node\"));\n";
-  
-  res += "}\n\n";
-  
-  
-  return res;
-}
-
-
-
-
-void NonTerminalGrammarRule::addChild(std::string child)
-{
-  this->children.insert(child);
-}
-
-std::string NonTerminalGrammarRule::toDot()
-{
-  std::string res = "";
-  for (const auto& child: children)
-    res += this->name + "->" + child + ";\n";
-  return res;
-}
-
-std::string NonTerminalGrammarRule::generatePredicates(std::string dialectName)
-{
-  if (this->predicateGenerated)
-    return "";
-  std::string res = "";
-  for (const auto& child: this->children)
-    res += this->parent->getRule(child)->generatePredicates(dialectName);
-  this->predicateGenerated = true;
-  res += "def " + dialectName + "_" + this->name + "Pred : Or<[\n" +
-    "\tCPred<\"$_self.isa<" + dialectName + "_" + this->name + "NodeType>()\">";
-  for (const auto& child: this->children)
-    res += ",\n\t" + dialectName + "_" + child + "Pred";
-  res += "\n\t]>;\n\n";
-  return res;
-}
-
-std::string NonTerminalGrammarRule::generateOps(std::string dialectName)
-{
-  return "";
-}
-
-
-std::string NonTerminalGrammarRule::generateVisitorCpp(std::string dialectName)
-{
-  std::string capitalized = this->name;
-  capitalized[0] = toupper(capitalized[0]);
-  std::string res = "std::any " + dialectName + "TransformVisitor::visit" + capitalized +
-    "(" + dialectName + "Parser::" + capitalized + "Context* context)\n{\n";
   for (auto& child: children)
   {
     std::string capitalizedChild = child;
@@ -318,10 +207,108 @@ std::string NonTerminalGrammarRule::generateVisitorCpp(std::string dialectName)
     res += "  if (context->" + child + "() != 0)\n    return visit" +
       capitalizedChild + "(context->" + child + "());\n";
   }
-  res += "  return false;\n";
+
+  if (this->isTerminal)
+  {
+  
+    res += "  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n";
+    res += "  std::string res = returnVar + \" = \\\"" + dialectName +
+      "." + this->name + "\\\" (\";\n\
+  std::string types = \"\";\n\
+  std::string args = \"\";\n\
+  bool first = true;\n";
+    bool hasVector = false;
+    for (auto& elt: bodyElt)
+      hasVector |= elt.second->isVariadic();
+    if (hasVector)
+    {
+      res += "  std::string variadicSizes = ";
+      bool first = true;
+      for (auto& elt: bodyElt)
+      {
+	if (elt.second->isVariadic())
+	{
+	  if (!first)
+	    res += " + \",\" + ";
+	  first = false;
+	  res += "std::to_string(context->" + elt.first + ".size())";
+	}	
+      }
+      res += ";\n";
+    }
+
+    for (auto& elt: bodyElt)
+    {
+      auto capitalizedType = elt.second->getName();
+      capitalizedType[0] = toupper(capitalizedType[0]);
+      if (elt.second->isVariadic())
+      {
+	res += "  for(auto& elt: context->" + elt.first + ")\n  {\n";
+	res += "    std::string eltVarName, eltCode, eltType;\n";
+	res += "    std::tie(eltVarName, eltCode, eltType) = \
+std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" +
+	  capitalizedType + "(elt));\n";
+	res += "    if (!first)\n\
+    {\n\
+      types += \", \";\n\
+      args += \", \";\n\
+    }\n";
+	res += "    first = false;\n";
+	res += "    res = eltCode + res;\n";
+	res += "    types += eltType;\n";
+	res += "    args += eltVarName;\n";
+	res += "  }\n";
+      }
+      else
+      {
+	if (elt.second->isOptional())
+	{
+	  res += "  if(context->" + elt.first + " != 0)\n  {\n";
+	}
+	res += "    std::string " + elt.first + "VarName, " + elt.first + "Code, " + elt.first + "Type;\n";
+	res += "    std::tie(" + elt.first + "VarName, " + elt.first + "Code, " + elt.first + "Type) = std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" + capitalizedType + "(context->" + elt.first + "));\n";
+	res += "    if (!first)\n\
+    {\n\
+      types += \", \";\n\
+      args += \", \";\n\
+    }\n";
+	res += "    first = false;\n";
+	res += "    res = " + elt.first + "Code + res;\n";
+	res += "    types += " + elt.first + "Type;\n";
+	res += "    args += " + elt.first + "VarName;\n";
+	if (elt.second->isOptional())
+	{
+	  res += "  }\n";
+	}
+    
+      }
+    }
+
+    res += "  res += args + \") ";
+    if (hasVector)
+      res += "{operandSegmentSizes=array<i32:\" + variadicSizes + \">} ";
+    res += ": (\" + types + \") -> !" + dialectName + "." + this->name + "Node\\n\";\n";
+    res += "  return std::make_tuple(returnVar, res , std::string(\"!" + dialectName + "." + this->name + "Node\"));\n";
+    
+  }
+  else
+  {
+    res += "  return false;\n";
+  }
+  
   res += "}\n\n";
-    return res;
+  
+  return res;
 }
+
+
+
+
+void GrammarRule::addChild(std::string child)
+{
+  this->children.insert(child);
+}
+
 
 
 void GrammarInfos::addRule(GrammarRule* rule)
@@ -605,7 +592,7 @@ void GrammarInfos::generateFiles(std::string path)
   typesHStream.close();
 
   std::ofstream dialectHStream(path + "include/" + this->grammarName + "/" + this->grammarName + "Dialect.h");
-    dialectHStream << this->generateDialectH();
+  dialectHStream << this->generateDialectH();
   dialectHStream.close();
 
   std::ofstream opsHStream(path + "include/" + this->grammarName + "/" + this->grammarName + ".h");

@@ -42,23 +42,39 @@ public:
 
 class GrammarRule
 {
-protected:
+private:
   std::string name;
   bool predicateGenerated;
   GrammarInfos* parent;
+  std::map<std::string, TerminalRuleOptions*> bodyElt;
+  std::set<std::string> children;
+protected:
+  bool isTerminal;
+  
 public:
+  GrammarRule(GrammarInfos* parent, bool terminal)
+  {
+    this->parent = parent;
+    this->isTerminal = terminal;
+  }
+
+  void addBodyElt(std::string name, TerminalRuleOptions* options);
+  void setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt);
+  void addChild(std::string child);
+
+
   void setName(std::string name);
   std::string getName();
-  virtual std::string toDot() = 0;
+  std::string toDot();
   std::string generateTypes(std::string dialectName);
-  virtual std::string generatePredicates(std::string dialectName) = 0;
-  virtual std::string generateOps(std::string dialectName) = 0;
-  virtual std::string generateVisitorCpp(std::string dialectName) = 0;
+  std::string generatePredicates(std::string dialectName);
+  std::string generateOps(std::string dialectName);
+  std::string generateVisitorCpp(std::string dialectName);
 
   void resetPredicates();
 };
 
-class TerminalGrammarRule : public GrammarRule
+/*class TerminalGrammarRule : public GrammarRule
 {
 private:
   std::map<std::string, TerminalRuleOptions*> bodyElt;
@@ -95,6 +111,7 @@ public:
   virtual std::string generateOps(std::string dialectName) override;
   virtual std::string generateVisitorCpp(std::string dialectName) override;
 };
+*/
 
 class GrammarInfos
 {

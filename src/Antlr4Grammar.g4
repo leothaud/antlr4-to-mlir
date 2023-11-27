@@ -12,11 +12,7 @@ grammar Antlr4Grammar;
 
 grammarFile: 'grammar' grammarName=ID ';' (grammarRules+=rules)* baseRules* EOF;
 
-rules: nonTerminalRule | terminalRule;
-
-nonTerminalRule: name=ID ':' ( ('(' children+=ID ')') | children+=ID) ('|' (('(' children+=ID ')') | children+=ID))* ';' ;
-
-terminalRule: name=ID ':' body=ruleBody ';' ;
+rules: name=ID ':' ((body=ruleBody) | ('(' children+=ID ')') | (children+=ID)) ('|' ((body=ruleBody) | ('(' children+=ID ')') | (children+=ID)))* ';';
 
 ruleBody: (bodies+=terminalRuleBody)+;
 

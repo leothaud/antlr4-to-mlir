@@ -2,7 +2,7 @@ grammar MaGrammaire;
 
 rule1: rule2 | rule4;
 
-rule2: rule3 | rule5;
+rule2: 'e' | rule3 | rule5;
 
 rule3: 'a';
 

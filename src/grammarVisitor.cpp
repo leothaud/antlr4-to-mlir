@@ -57,13 +57,27 @@ std::any GrammarVisitor::visitGrammarFile(Antlr4GrammarParser::GrammarFileContex
 
 std::any GrammarVisitor::visitRules(Antlr4GrammarParser::RulesContext *context)
 {
-  if (context->nonTerminalRule() != 0)
-    return visitNonTerminalRule(context->nonTerminalRule());
-  else
-    return visitTerminalRule(context->terminalRule());
+  bool terminal = (context->body != 0);
+  GrammarRule* newRule = new GrammarRule(&(this->infos), terminal);
+  newRule->setName(context->name->getText());
+  if (terminal)
+  {
+    newRule->setBodyElt(
+      std::any_cast<std::map<std::string, TerminalRuleOptions*>>(visitRuleBody(context->body))
+      );
+  }
+  for (const auto& child: context->children)
+    newRule->addChild(child->getText());
+  this->infos.addRule(newRule);
+  return true;
+  
+//if (context->nonTerminalRule() != 0)
+//  return visitNonTerminalRule(context->nonTerminalRule());
+//else
+//  return visitTerminalRule(context->terminalRule());
 }
 
-std::any GrammarVisitor::visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRuleContext *context)
+/*d::any GrammarVisitor::visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRuleContext *context)
 {
   NonTerminalGrammarRule* newRule = new NonTerminalGrammarRule(&(this->infos));
   newRule->setName(context->name->getText());
@@ -82,7 +96,7 @@ std::any GrammarVisitor::visitTerminalRule(Antlr4GrammarParser::TerminalRuleCont
     );
   this->infos.addRule(newRule);
   return true;
-}
+  }*/
 
 std::any GrammarVisitor::visitRuleBody(Antlr4GrammarParser::RuleBodyContext *context)
 {

@@ -31,10 +31,6 @@ public:
 
   virtual std::any visitRules(Antlr4GrammarParser::RulesContext *context) override;
 
-  virtual std::any visitNonTerminalRule(Antlr4GrammarParser::NonTerminalRuleContext *context) override;
-
-  virtual std::any visitTerminalRule(Antlr4GrammarParser::TerminalRuleContext *context) override;
-
   virtual std::any visitRuleBody(Antlr4GrammarParser::RuleBodyContext *context) override;
 
   virtual std::any visitTerminalRuleBody(Antlr4GrammarParser::TerminalRuleBodyContext *context) override;
