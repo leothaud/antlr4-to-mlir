@@ -126,18 +126,29 @@ std::string TerminalGrammarRule::generateOps(std::string dialectName)
     {"STRING", "AutoAstUtils_StringType"},
     {"ID", "AutoAstUtils_IdType"}
   };
+
+  int nVariadic = 0;
     
-  std::string res = "def " + dialectName + "_" + this->name + "Op: " +
-    dialectName + "_Op<\"" + this->name + "\">\n{\n" +
-    "  let arguments = (ins";
+  std::string start = "def " + dialectName + "_" + this->name + "Op: " +
+    dialectName + "_Op<\"" + this->name + "\"";
+  std::string res = ">\n{\n  let arguments = (ins";
   bool first = true;
   for (auto& [name, options]: bodyElt) {
     res += first ? " " : ",\n ";
     first = false;
     if (options->isVariadic())
+    {
+      ++nVariadic;
       res += "Variadic<";
-    else if (options->isOptional())
-      res += "Optional<";
+    }
+    else
+    {
+      if (options->isOptional())
+      {
+	++nVariadic;
+	res += "Optional<";
+      }
+    }
     if (std::find(baseTypes.begin(), baseTypes.end(), options->getName()) != baseTypes.end())
     {
       res += baseTypesMap[options->getName()];
@@ -152,8 +163,10 @@ std::string TerminalGrammarRule::generateOps(std::string dialectName)
   }
   res = res + ");\n" +
     "  let results = (outs " + dialectName + "_" + this->name + "NodeType:$res);\n}\n\n";
-
-  return res;
+  if (nVariadic > 1)
+    return start + ", [AttrSizedOperandSegments]" + res;
+  else
+    return start + res;
 }
 
 
@@ -176,19 +189,18 @@ std::string TerminalGrammarRule::generateVisitorCpp(std::string dialectName)
   if (hasVector)
   {
     res += "  std::string variadicSizes = ";
+    bool first = true;
     for (auto& elt: bodyElt)
     {
-      bool first = true;
       if (elt.second->isVariadic())
       {
 	if (!first)
 	  res += " + \",\" + ";
 	first = false;
 	res += "std::to_string(context->" + elt.first + ".size())";
-      }
-      res += ";\n";
-	
+      }	
     }
+    res += ";\n";
   }
 
   for (auto& elt: bodyElt)
@@ -245,7 +257,7 @@ std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" +
 
   res += "  res += args + \") ";
   if (hasVector)
-    res += "{operandSegmentSizes=[\" + variadicSizes + \"]} ";
+    res += "{operandSegmentSizes=array<i32:\" + variadicSizes + \">} ";
   res += ": (\" + types + \") -> !" + dialectName + "." + this->name + "Node\\n\";\n";
   res += "  return std::make_tuple(returnVar, res , std::string(\"!" + dialectName + "." + this->name + "Node\"));\n";
   

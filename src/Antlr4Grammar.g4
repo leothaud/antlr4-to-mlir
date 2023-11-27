@@ -14,7 +14,7 @@ grammarFile: 'grammar' grammarName=ID ';' (grammarRules+=rules)* baseRules* EOF;
 
 rules: nonTerminalRule | terminalRule;
 
-nonTerminalRule: name=ID ':' children+=ID ('|' children+=ID)* ';' ;
+nonTerminalRule: name=ID ':' ( ('(' children+=ID ')') | children+=ID) ('|' (('(' children+=ID ')') | children+=ID))* ';' ;
 
 terminalRule: name=ID ':' body=ruleBody ';' ;
 
