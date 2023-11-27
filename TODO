@@ -1,0 +1,6 @@
+new feature:
+- add possibility to terminal rules to be non-terminal too (ex in C: castExpression: '(' newType=typeName ')' baseExpr=castExpression | unaryExpression ---> https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm)
+
+debug:
+- add "AttrSizedOperandSegments" to ops with several variadics
+- debug "operandSizes" with several variadics : [2,3] -> array<i32:2, 3> + only [2] instead of [2,3]
