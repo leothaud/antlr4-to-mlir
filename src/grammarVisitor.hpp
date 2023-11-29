@@ -27,49 +27,40 @@ public:
   void generateFiles(std::string path);
   void generateAntlr(std::string g4File, std::string path, std::string startRule);
 
-  virtual std::any visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context) override;
+  virtual std::any visitGrammar_file(Antlr4GrammarParser::Grammar_fileContext *context) override;
 
-  virtual std::any visitRules(Antlr4GrammarParser::RulesContext *context) override;
+  virtual std::any visitLexer_rule(Antlr4GrammarParser::Lexer_ruleContext *context) override;
 
-  virtual std::any visitRuleBody(Antlr4GrammarParser::RuleBodyContext *context) override;
+  virtual std::any visitParser_rule(Antlr4GrammarParser::Parser_ruleContext *context) override;
 
-  virtual std::any visitTerminalRuleBody(Antlr4GrammarParser::TerminalRuleBodyContext *context) override;
+  virtual std::any visitRule_body(Antlr4GrammarParser::Rule_bodyContext *context) override;
 
-  virtual std::any visitStarOperator(Antlr4GrammarParser::StarOperatorContext *context) override;
+  virtual std::any visitString_rule_body(Antlr4GrammarParser::String_rule_bodyContext *context) override;
 
-  virtual std::any visitPlusOperator(Antlr4GrammarParser::PlusOperatorContext *context) override;
+  virtual std::any visitSbracket_rule_body(Antlr4GrammarParser::Sbracket_rule_bodyContext *context) override;
 
-  virtual std::any visitQuestionMarkOperator(Antlr4GrammarParser::QuestionMarkOperatorContext *context) override;
+  virtual std::any visitParent_rule_body(Antlr4GrammarParser::Parent_rule_bodyContext *context) override;
 
-  virtual std::any visitOperator(Antlr4GrammarParser::OperatorContext *context) override;
+  virtual std::any visitAffect_rule_body(Antlr4GrammarParser::Affect_rule_bodyContext *context) override;
 
-  virtual std::any visitParentRuleBody(Antlr4GrammarParser::ParentRuleBodyContext *context) override;
+  virtual std::any visitPostfix_rule_body(Antlr4GrammarParser::Postfix_rule_bodyContext *context) override;
 
-  virtual std::any visitStringRuleBody(Antlr4GrammarParser::StringRuleBodyContext *context) override;
+  virtual std::any visitId_rule_body(Antlr4GrammarParser::Id_rule_bodyContext *context) override;
 
-  virtual std::any visitAffectRuleBody(Antlr4GrammarParser::AffectRuleBodyContext *context) override;
+  virtual std::any visitDot_rule_body(Antlr4GrammarParser::Dot_rule_bodyContext *context) override;
+  
+  virtual std::any visitEof_rule_body(Antlr4GrammarParser::Eof_rule_bodyContext *context) override;
+  
+  virtual std::any visitStar_operator(Antlr4GrammarParser::Star_operatorContext *context) override;
 
-  virtual std::any visitAffectOp(Antlr4GrammarParser::AffectOpContext *context) override;
+  virtual std::any visitPlus_operator(Antlr4GrammarParser::Plus_operatorContext *context) override;
 
-  virtual std::any visitEqOp(Antlr4GrammarParser::EqOpContext *context) override;
+  virtual std::any visitQuestion_mark_operator(Antlr4GrammarParser::Question_mark_operatorContext *context) override;
 
-  virtual std::any visitPlusEqOp(Antlr4GrammarParser::PlusEqOpContext *context) override;
+  virtual std::any visitEq_operator(Antlr4GrammarParser::Eq_operatorContext *context) override;
 
-  virtual std::any visitBaseRules(Antlr4GrammarParser::BaseRulesContext *context) override;
+  virtual std::any visitPlus_eq_operator(Antlr4GrammarParser::Plus_eq_operatorContext *context) override;
 
-  virtual std::any visitIntBaseRule(Antlr4GrammarParser::IntBaseRuleContext *context) override;
-
-  virtual std::any visitFloatBaseRule(Antlr4GrammarParser::FloatBaseRuleContext *context) override;
-
-  virtual std::any visitCharBaseRule(Antlr4GrammarParser::CharBaseRuleContext *context) override;
-
-  virtual std::any visitStringBaseRule(Antlr4GrammarParser::StringBaseRuleContext *context) override;
-
-  virtual std::any visitIdBaseRule(Antlr4GrammarParser::IdBaseRuleContext *context) override;
-
-  virtual std::any visitWsBaseRule(Antlr4GrammarParser::WsBaseRuleContext *context) override;
-
-  virtual std::any visitROperand(Antlr4GrammarParser::ROperandContext *context) override;
 };
 
 #endif

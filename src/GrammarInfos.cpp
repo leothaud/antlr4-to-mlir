@@ -19,24 +19,29 @@
 int lastIndex = 0;
 
 
-TerminalRuleOptions::TerminalRuleOptions(std::string name, bool variadic, bool optionnal)
+TerminalRuleOptions::TerminalRuleOptions(std::string name, bool variadic, bool optional)
 {
   this->name = name;
   this->variadic = variadic;
-  this->optionnal = optionnal;
+  this->optional = optional;
 }
 
 TerminalRuleOptions::TerminalRuleOptions(const TerminalRuleOptions& other)
 {
   this->variadic = other.variadic;
-  this->optionnal = other.optionnal;
+  this->optional = other.optional;
 }
 
 TerminalRuleOptions& TerminalRuleOptions::operator=(const TerminalRuleOptions& other)
 {
   this->variadic = other.variadic;
-  this->optionnal = other.optionnal;
+  this->optional = other.optional;
   return *this;
+}
+
+void TerminalRuleOptions::setVariadic()
+{
+  this->variadic = true;
 }
 
 bool TerminalRuleOptions::isVariadic()
@@ -46,12 +51,12 @@ bool TerminalRuleOptions::isVariadic()
 
 bool TerminalRuleOptions::isOptional()
 {
-  return this->optionnal;
+  return this->optional;
 }
   
 void TerminalRuleOptions::setOptional()
 {
-  this->optionnal = true;
+  this->optional = true;
 }
 
 std::string TerminalRuleOptions::getName()
@@ -84,7 +89,15 @@ void GrammarRule::resetPredicates()
 }
 
 
+void GrammarRule::setTerminal(bool value)
+{
+  this->terminal = value;
+}
 
+bool GrammarRule::getTerminal()
+{
+  return this->terminal;
+}
 
 void GrammarRule::addBodyElt(std::string name, TerminalRuleOptions* options)
 {
@@ -138,7 +151,7 @@ std::string GrammarRule::generatePredicates(std::string dialectName)
 
 std::string GrammarRule::generateOps(std::string dialectName)
 {
-  if (!this->isTerminal)
+  if (!this->getTerminal())
     return "";
 
   std::vector<std::string> baseTypes = {"INT", "FLOAT", "CHAR", "STRING", "ID"};
@@ -147,7 +160,7 @@ std::string GrammarRule::generateOps(std::string dialectName)
     {"FLOAT", "AutoAstUtils_FloatType"},
     {"CHAR", "AutoAstUtils_CharType"},
     {"STRING", "AutoAstUtils_StringType"},
-    {"ID", "AutoAstUtils_IdType"}
+    {"ID", "AutoAstUtils_IDType"}
   };
 
   int nVariadic = 0;
@@ -195,6 +208,10 @@ std::string GrammarRule::generateOps(std::string dialectName)
 
 std::string GrammarRule::generateVisitorCpp(std::string dialectName)
 {
+  if (!this->needVisitor)
+  {
+    return "";
+  }
   std::string capitalized = this->name;
   capitalized[0] = toupper(capitalized[0]);
   std::string res = "std::any " + dialectName + "TransformVisitor::visit" + capitalized +
@@ -208,7 +225,7 @@ std::string GrammarRule::generateVisitorCpp(std::string dialectName)
       capitalizedChild + "(context->" + child + "());\n";
   }
 
-  if (this->isTerminal)
+  if (this->getTerminal())
   {
   
     res += "  std::string returnVar = \"%\" + std::to_string(lastIndex++);\n";
@@ -219,20 +236,31 @@ std::string GrammarRule::generateVisitorCpp(std::string dialectName)
   bool first = true;\n";
     bool hasVector = false;
     for (auto& elt: bodyElt)
-      hasVector |= elt.second->isVariadic();
+      hasVector = hasVector || (elt.second->isVariadic() || elt.second->isOptional());
     if (hasVector)
     {
       res += "  std::string variadicSizes = ";
       bool first = true;
       for (auto& elt: bodyElt)
       {
-	if (elt.second->isVariadic())
-	{
 	  if (!first)
 	    res += " + \",\" + ";
 	  first = false;
+	if (elt.second->isVariadic())
+	{
 	  res += "std::to_string(context->" + elt.first + ".size())";
-	}	
+	}
+	else
+	{
+	  if (elt.second->isOptional())
+	  {
+	    res += "((context->" + elt.first + " != 0) ? \"1\" : \"0\")";
+	  }
+	  else
+	  {
+	    res += "\"1\"";
+	  }
+	}
       }
       res += ";\n";
     }
@@ -293,7 +321,7 @@ std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" +
   }
   else
   {
-    res += "  return false;\n";
+    res += "  return std::make_tuple(\"\",\"\",\"\");\n";
   }
   
   res += "}\n\n";
@@ -310,6 +338,14 @@ void GrammarRule::addChild(std::string child)
 }
 
 
+void GrammarRule::setNoVisitor()
+{
+  this->needVisitor = false;
+}
+bool GrammarRule::getNeedVisitor()
+{
+  return this->needVisitor;
+}
 
 void GrammarInfos::addRule(GrammarRule* rule)
 {
@@ -336,7 +372,7 @@ x2[label=\"\"];\n\
 y2[label=\"contains variadic\"];\n\
 x2 -> y2 [color=blue];\n\
 x3[label=\"\"];\n\
-y3[label=\"contains optionnal\"];\n\
+y3[label=\"contains optional\"];\n\
 x3 -> y3 [color=green];\n\
 x4[label=\"\"];\n\
 y4[label=\"child\"];\n\

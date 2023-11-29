@@ -23,17 +23,20 @@ class GrammarInfos;
 class TerminalRuleOptions
 {
 private:
-  bool variadic, optionnal;
-  std::string name;
+  bool variadic = false;
+  bool optional = false;
+  std::string name = "";
 
 public:
-  TerminalRuleOptions(std::string name, bool variadic, bool optionnal);
+  TerminalRuleOptions(std::string name) { this->name = name;}
+  TerminalRuleOptions(std::string name, bool variadic, bool optional);
 
   TerminalRuleOptions(const TerminalRuleOptions& other);
 
   TerminalRuleOptions& operator=(const TerminalRuleOptions& other);
 
   bool isVariadic();
+  void setVariadic();
   bool isOptional();
   void setOptional();
   std::string getName();
@@ -43,25 +46,29 @@ public:
 class GrammarRule
 {
 private:
-  std::string name;
-  bool predicateGenerated;
-  GrammarInfos* parent;
+  std::string name = "";
+  bool predicateGenerated = false;
+  GrammarInfos* parent = nullptr;
   std::map<std::string, TerminalRuleOptions*> bodyElt;
   std::set<std::string> children;
-protected:
-  bool isTerminal;
+  bool terminal = false;
+  bool needVisitor = true;
   
 public:
-  GrammarRule(GrammarInfos* parent, bool terminal)
+  GrammarRule(GrammarInfos* parent)
   {
     this->parent = parent;
-    this->isTerminal = terminal;
   }
+
+  void setTerminal(bool value);
+  bool getTerminal();
 
   void addBodyElt(std::string name, TerminalRuleOptions* options);
   void setBodyElt(std::map<std::string, TerminalRuleOptions*> bodyElt);
   void addChild(std::string child);
 
+  void setNoVisitor();
+  bool getNeedVisitor();
 
   void setName(std::string name);
   std::string getName();

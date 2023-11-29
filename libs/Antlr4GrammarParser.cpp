@@ -52,84 +52,67 @@ void antlr4grammarParserInitialize() {
 #endif
   auto staticData = std::make_unique<Antlr4GrammarParserStaticData>(
     std::vector<std::string>{
-      "grammarFile", "rules", "ruleBody", "terminalRuleBody", "starOperator", 
-      "plusOperator", "questionMarkOperator", "operator", "parentRuleBody", 
-      "stringRuleBody", "affectRuleBody", "rOperand", "affectOp", "eqOp", 
-      "plusEqOp", "baseRules", "intBaseRule", "floatBaseRule", "charBaseRule", 
-      "stringBaseRule", "idBaseRule", "wsBaseRule"
+      "grammar_file", "rule_", "rule_body", "terminal_rule_body", "operator", 
+      "affect_op"
     },
     std::vector<std::string>{
-      "", "'grammar'", "';'", "':'", "'('", "')'", "'|'", "'*'", "'+'", 
-      "'\\u003F'", "'INT'", "'FLOAT'", "'CHAR'", "'STRING'", "'ID'", "'='", 
-      "'+='", "''-'\\u003F[0-9]+'", "''.''", "'[0-9]*'", "''\\'''", "'('\\\\'|.)'", 
-      "''\"''", "'('\\\\'|.)*\\u003F'", "'[a-zA-Z_]'", "'[a-zA-Z_0-9]*'", 
-      "'WS'", "'[ \\t\\r\\n]'", "'->'", "'skip'"
+      "", "''.''", "''\"''", "''\\'''", "'grammar'", "';'", "':'", "'|'", 
+      "'EOF'", "'*'", "'+'", "'-'", "'\\u003F'", "'('", "')'", "'.'", "'''", 
+      "'\"'", "'\\'", "'skip'", "'['", "']'", "'='", "'+='", "'fragment'", 
+      "'#'"
     },
     std::vector<std::string>{
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
-      "", "", "", "", "", "", "", "", "", "", "", "", "", "ID", "STRING", 
-      "WS"
+      "", "QUOTED_DOT", "QUOTED_DOUBLE_QUOTE", "QUOTED_QUOTE", "GRAMMAR", 
+      "SEMI", "COLON", "PIPE", "EOF_TOKEN", "STAR", "PLUS", "MINUS", "QUESTION_MARK", 
+      "L_PARENT", "R_PARENT", "DOT", "QUOTE", "DOUBLE_QUOTE", "BACKSLASH", 
+      "SKIP_TOKEN", "L_SBRACKET", "R_SBRACKET", "EQ", "PLUS_EQ", "FRAGMENT_TOKEN", 
+      "POUND", "UNDERSCORE", "L_ID", "U_ID", "STRING", "WS", "COMMENT", 
+      "LINE_COMMENT", "ANY"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,32,192,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
-  	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
-  	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
-  	21,1,0,1,0,1,0,1,0,5,0,49,8,0,10,0,12,0,52,9,0,1,0,5,0,55,8,0,10,0,12,
-  	0,58,9,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,69,8,1,1,1,1,1,1,1,1,
-  	1,1,1,1,1,3,1,77,8,1,5,1,79,8,1,10,1,12,1,82,9,1,1,1,1,1,1,2,4,2,87,8,
-  	2,11,2,12,2,88,1,3,1,3,1,3,1,3,3,3,95,8,3,1,3,1,3,5,3,99,8,3,10,3,12,
-  	3,102,9,3,1,4,1,4,1,5,1,5,1,6,1,6,1,7,1,7,1,7,3,7,113,8,7,1,8,1,8,1,8,
-  	1,8,1,9,1,9,1,10,1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,3,11,131,
-  	8,11,1,12,1,12,3,12,135,8,12,1,13,1,13,1,14,1,14,1,15,1,15,1,15,1,15,
-  	1,15,1,15,3,15,147,8,15,1,16,1,16,1,16,1,16,1,16,1,17,1,17,1,17,1,17,
-  	4,17,158,8,17,11,17,12,17,159,1,17,1,17,1,17,1,18,1,18,1,18,1,18,1,18,
-  	1,18,1,18,1,19,1,19,1,19,1,19,1,19,1,19,1,19,1,20,1,20,1,20,1,20,1,20,
-  	1,20,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,0,1,6,22,0,2,4,6,8,10,12,
-  	14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,0,194,0,44,1,0,0,0,2,61,
-  	1,0,0,0,4,86,1,0,0,0,6,94,1,0,0,0,8,103,1,0,0,0,10,105,1,0,0,0,12,107,
-  	1,0,0,0,14,112,1,0,0,0,16,114,1,0,0,0,18,118,1,0,0,0,20,120,1,0,0,0,22,
-  	130,1,0,0,0,24,134,1,0,0,0,26,136,1,0,0,0,28,138,1,0,0,0,30,146,1,0,0,
-  	0,32,148,1,0,0,0,34,153,1,0,0,0,36,164,1,0,0,0,38,171,1,0,0,0,40,178,
-  	1,0,0,0,42,184,1,0,0,0,44,45,5,1,0,0,45,46,5,30,0,0,46,50,5,2,0,0,47,
-  	49,3,2,1,0,48,47,1,0,0,0,49,52,1,0,0,0,50,48,1,0,0,0,50,51,1,0,0,0,51,
-  	56,1,0,0,0,52,50,1,0,0,0,53,55,3,30,15,0,54,53,1,0,0,0,55,58,1,0,0,0,
-  	56,54,1,0,0,0,56,57,1,0,0,0,57,59,1,0,0,0,58,56,1,0,0,0,59,60,5,0,0,1,
-  	60,1,1,0,0,0,61,62,5,30,0,0,62,68,5,3,0,0,63,69,3,4,2,0,64,65,5,4,0,0,
-  	65,66,5,30,0,0,66,69,5,5,0,0,67,69,5,30,0,0,68,63,1,0,0,0,68,64,1,0,0,
-  	0,68,67,1,0,0,0,69,80,1,0,0,0,70,76,5,6,0,0,71,77,3,4,2,0,72,73,5,4,0,
-  	0,73,74,5,30,0,0,74,77,5,5,0,0,75,77,5,30,0,0,76,71,1,0,0,0,76,72,1,0,
-  	0,0,76,75,1,0,0,0,77,79,1,0,0,0,78,70,1,0,0,0,79,82,1,0,0,0,80,78,1,0,
-  	0,0,80,81,1,0,0,0,81,83,1,0,0,0,82,80,1,0,0,0,83,84,5,2,0,0,84,3,1,0,
-  	0,0,85,87,3,6,3,0,86,85,1,0,0,0,87,88,1,0,0,0,88,86,1,0,0,0,88,89,1,0,
-  	0,0,89,5,1,0,0,0,90,91,6,3,-1,0,91,95,3,16,8,0,92,95,3,18,9,0,93,95,3,
-  	20,10,0,94,90,1,0,0,0,94,92,1,0,0,0,94,93,1,0,0,0,95,100,1,0,0,0,96,97,
-  	10,4,0,0,97,99,3,14,7,0,98,96,1,0,0,0,99,102,1,0,0,0,100,98,1,0,0,0,100,
-  	101,1,0,0,0,101,7,1,0,0,0,102,100,1,0,0,0,103,104,5,7,0,0,104,9,1,0,0,
-  	0,105,106,5,8,0,0,106,11,1,0,0,0,107,108,5,9,0,0,108,13,1,0,0,0,109,113,
-  	3,8,4,0,110,113,3,10,5,0,111,113,3,12,6,0,112,109,1,0,0,0,112,110,1,0,
-  	0,0,112,111,1,0,0,0,113,15,1,0,0,0,114,115,5,4,0,0,115,116,3,4,2,0,116,
-  	117,5,5,0,0,117,17,1,0,0,0,118,119,5,31,0,0,119,19,1,0,0,0,120,121,5,
-  	30,0,0,121,122,3,24,12,0,122,123,3,22,11,0,123,21,1,0,0,0,124,131,5,30,
-  	0,0,125,131,5,10,0,0,126,131,5,11,0,0,127,131,5,12,0,0,128,131,5,13,0,
-  	0,129,131,5,14,0,0,130,124,1,0,0,0,130,125,1,0,0,0,130,126,1,0,0,0,130,
-  	127,1,0,0,0,130,128,1,0,0,0,130,129,1,0,0,0,131,23,1,0,0,0,132,135,3,
-  	26,13,0,133,135,3,28,14,0,134,132,1,0,0,0,134,133,1,0,0,0,135,25,1,0,
-  	0,0,136,137,5,15,0,0,137,27,1,0,0,0,138,139,5,16,0,0,139,29,1,0,0,0,140,
-  	147,3,32,16,0,141,147,3,34,17,0,142,147,3,36,18,0,143,147,3,38,19,0,144,
-  	147,3,40,20,0,145,147,3,42,21,0,146,140,1,0,0,0,146,141,1,0,0,0,146,142,
-  	1,0,0,0,146,143,1,0,0,0,146,144,1,0,0,0,146,145,1,0,0,0,147,31,1,0,0,
-  	0,148,149,5,10,0,0,149,150,5,3,0,0,150,151,5,17,0,0,151,152,5,2,0,0,152,
-  	33,1,0,0,0,153,154,5,11,0,0,154,155,5,3,0,0,155,157,5,17,0,0,156,158,
-  	5,18,0,0,157,156,1,0,0,0,158,159,1,0,0,0,159,157,1,0,0,0,159,160,1,0,
-  	0,0,160,161,1,0,0,0,161,162,5,19,0,0,162,163,5,2,0,0,163,35,1,0,0,0,164,
-  	165,5,12,0,0,165,166,5,3,0,0,166,167,5,20,0,0,167,168,5,21,0,0,168,169,
-  	5,20,0,0,169,170,5,2,0,0,170,37,1,0,0,0,171,172,5,13,0,0,172,173,5,3,
-  	0,0,173,174,5,22,0,0,174,175,5,23,0,0,175,176,5,22,0,0,176,177,5,2,0,
-  	0,177,39,1,0,0,0,178,179,5,14,0,0,179,180,5,3,0,0,180,181,5,24,0,0,181,
-  	182,5,25,0,0,182,183,5,2,0,0,183,41,1,0,0,0,184,185,5,26,0,0,185,186,
-  	5,3,0,0,186,187,5,27,0,0,187,188,5,28,0,0,188,189,5,29,0,0,189,190,5,
-  	2,0,0,190,43,1,0,0,0,13,50,56,68,76,80,88,94,100,112,130,134,146,159
+  	4,1,33,125,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,1,0,1,0,1,
+  	0,1,0,4,0,17,8,0,11,0,12,0,18,1,0,1,0,1,1,3,1,24,8,1,1,1,1,1,1,1,1,1,
+  	1,1,1,1,1,1,5,1,33,8,1,10,1,12,1,36,9,1,1,1,1,1,1,1,1,1,5,1,42,8,1,10,
+  	1,12,1,45,9,1,1,1,1,1,5,1,49,8,1,10,1,12,1,52,9,1,1,1,5,1,55,8,1,10,1,
+  	12,1,58,9,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,66,8,1,10,1,12,1,69,9,1,1,1,1,
+  	1,3,1,73,8,1,1,2,4,2,76,8,2,11,2,12,2,77,1,2,1,2,3,2,82,8,2,1,3,1,3,1,
+  	3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,5,3,99,8,3,10,3,12,
+  	3,102,9,3,1,3,1,3,1,3,3,3,107,8,3,1,3,1,3,5,3,111,8,3,10,3,12,3,114,9,
+  	3,1,4,1,4,1,4,3,4,119,8,4,1,5,1,5,3,5,123,8,5,1,5,5,34,43,50,56,100,1,
+  	6,6,0,2,4,6,8,10,0,6,1,0,27,28,3,0,5,5,16,16,20,20,1,0,16,16,1,0,20,20,
+  	2,0,1,3,29,29,1,0,21,21,144,0,12,1,0,0,0,2,72,1,0,0,0,4,75,1,0,0,0,6,
+  	106,1,0,0,0,8,118,1,0,0,0,10,122,1,0,0,0,12,13,5,4,0,0,13,14,7,0,0,0,
+  	14,16,5,5,0,0,15,17,3,2,1,0,16,15,1,0,0,0,17,18,1,0,0,0,18,16,1,0,0,0,
+  	18,19,1,0,0,0,19,20,1,0,0,0,20,21,5,0,0,1,21,1,1,0,0,0,22,24,5,24,0,0,
+  	23,22,1,0,0,0,23,24,1,0,0,0,24,25,1,0,0,0,25,26,5,28,0,0,26,56,5,6,0,
+  	0,27,55,8,1,0,0,28,34,5,16,0,0,29,33,8,2,0,0,30,31,5,18,0,0,31,33,5,16,
+  	0,0,32,29,1,0,0,0,32,30,1,0,0,0,33,36,1,0,0,0,34,35,1,0,0,0,34,32,1,0,
+  	0,0,35,37,1,0,0,0,36,34,1,0,0,0,37,43,5,5,0,0,38,42,8,2,0,0,39,40,5,18,
+  	0,0,40,42,5,16,0,0,41,38,1,0,0,0,41,39,1,0,0,0,42,45,1,0,0,0,43,44,1,
+  	0,0,0,43,41,1,0,0,0,44,55,1,0,0,0,45,43,1,0,0,0,46,50,5,20,0,0,47,49,
+  	8,3,0,0,48,47,1,0,0,0,49,52,1,0,0,0,50,51,1,0,0,0,50,48,1,0,0,0,51,53,
+  	1,0,0,0,52,50,1,0,0,0,53,55,5,21,0,0,54,27,1,0,0,0,54,28,1,0,0,0,54,46,
+  	1,0,0,0,55,58,1,0,0,0,56,57,1,0,0,0,56,54,1,0,0,0,57,59,1,0,0,0,58,56,
+  	1,0,0,0,59,73,5,5,0,0,60,61,5,27,0,0,61,62,5,6,0,0,62,67,3,4,2,0,63,64,
+  	5,7,0,0,64,66,3,4,2,0,65,63,1,0,0,0,66,69,1,0,0,0,67,65,1,0,0,0,67,68,
+  	1,0,0,0,68,70,1,0,0,0,69,67,1,0,0,0,70,71,5,5,0,0,71,73,1,0,0,0,72,23,
+  	1,0,0,0,72,60,1,0,0,0,73,3,1,0,0,0,74,76,3,6,3,0,75,74,1,0,0,0,76,77,
+  	1,0,0,0,77,75,1,0,0,0,77,78,1,0,0,0,78,81,1,0,0,0,79,80,5,25,0,0,80,82,
+  	5,27,0,0,81,79,1,0,0,0,81,82,1,0,0,0,82,5,1,0,0,0,83,84,6,3,-1,0,84,85,
+  	5,13,0,0,85,86,3,4,2,0,86,87,5,14,0,0,87,107,1,0,0,0,88,107,7,4,0,0,89,
+  	90,5,27,0,0,90,91,3,10,5,0,91,92,7,0,0,0,92,107,1,0,0,0,93,107,7,0,0,
+  	0,94,100,5,20,0,0,95,99,8,5,0,0,96,97,5,18,0,0,97,99,5,21,0,0,98,95,1,
+  	0,0,0,98,96,1,0,0,0,99,102,1,0,0,0,100,101,1,0,0,0,100,98,1,0,0,0,101,
+  	103,1,0,0,0,102,100,1,0,0,0,103,107,5,21,0,0,104,107,5,15,0,0,105,107,
+  	5,8,0,0,106,83,1,0,0,0,106,88,1,0,0,0,106,89,1,0,0,0,106,93,1,0,0,0,106,
+  	94,1,0,0,0,106,104,1,0,0,0,106,105,1,0,0,0,107,112,1,0,0,0,108,109,10,
+  	8,0,0,109,111,3,8,4,0,110,108,1,0,0,0,111,114,1,0,0,0,112,110,1,0,0,0,
+  	112,113,1,0,0,0,113,7,1,0,0,0,114,112,1,0,0,0,115,119,5,9,0,0,116,119,
+  	5,10,0,0,117,119,5,12,0,0,118,115,1,0,0,0,118,116,1,0,0,0,118,117,1,0,
+  	0,0,119,9,1,0,0,0,120,123,5,22,0,0,121,123,5,23,0,0,122,120,1,0,0,0,122,
+  	121,1,0,0,0,123,11,1,0,0,0,19,18,23,32,34,41,43,50,54,56,67,72,77,81,
+  	98,100,106,112,118,122
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -178,52 +161,56 @@ antlr4::atn::SerializedATNView Antlr4GrammarParser::getSerializedATN() const {
 }
 
 
-//----------------- GrammarFileContext ------------------------------------------------------------------
+//----------------- Grammar_fileContext ------------------------------------------------------------------
 
-Antlr4GrammarParser::GrammarFileContext::GrammarFileContext(ParserRuleContext *parent, size_t invokingState)
+Antlr4GrammarParser::Grammar_fileContext::Grammar_fileContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* Antlr4GrammarParser::GrammarFileContext::EOF() {
+tree::TerminalNode* Antlr4GrammarParser::Grammar_fileContext::GRAMMAR() {
+  return getToken(Antlr4GrammarParser::GRAMMAR, 0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Grammar_fileContext::SEMI() {
+  return getToken(Antlr4GrammarParser::SEMI, 0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Grammar_fileContext::EOF() {
   return getToken(Antlr4GrammarParser::EOF, 0);
 }
 
-tree::TerminalNode* Antlr4GrammarParser::GrammarFileContext::ID() {
-  return getToken(Antlr4GrammarParser::ID, 0);
+tree::TerminalNode* Antlr4GrammarParser::Grammar_fileContext::L_ID() {
+  return getToken(Antlr4GrammarParser::L_ID, 0);
 }
 
-std::vector<Antlr4GrammarParser::BaseRulesContext *> Antlr4GrammarParser::GrammarFileContext::baseRules() {
-  return getRuleContexts<Antlr4GrammarParser::BaseRulesContext>();
+tree::TerminalNode* Antlr4GrammarParser::Grammar_fileContext::U_ID() {
+  return getToken(Antlr4GrammarParser::U_ID, 0);
 }
 
-Antlr4GrammarParser::BaseRulesContext* Antlr4GrammarParser::GrammarFileContext::baseRules(size_t i) {
-  return getRuleContext<Antlr4GrammarParser::BaseRulesContext>(i);
+std::vector<Antlr4GrammarParser::Rule_Context *> Antlr4GrammarParser::Grammar_fileContext::rule_() {
+  return getRuleContexts<Antlr4GrammarParser::Rule_Context>();
 }
 
-std::vector<Antlr4GrammarParser::RulesContext *> Antlr4GrammarParser::GrammarFileContext::rules() {
-  return getRuleContexts<Antlr4GrammarParser::RulesContext>();
-}
-
-Antlr4GrammarParser::RulesContext* Antlr4GrammarParser::GrammarFileContext::rules(size_t i) {
-  return getRuleContext<Antlr4GrammarParser::RulesContext>(i);
+Antlr4GrammarParser::Rule_Context* Antlr4GrammarParser::Grammar_fileContext::rule_(size_t i) {
+  return getRuleContext<Antlr4GrammarParser::Rule_Context>(i);
 }
 
 
-size_t Antlr4GrammarParser::GrammarFileContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleGrammarFile;
+size_t Antlr4GrammarParser::Grammar_fileContext::getRuleIndex() const {
+  return Antlr4GrammarParser::RuleGrammar_file;
 }
 
 
-std::any Antlr4GrammarParser::GrammarFileContext::accept(tree::ParseTreeVisitor *visitor) {
+std::any Antlr4GrammarParser::Grammar_fileContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitGrammarFile(this);
+    return parserVisitor->visitGrammar_file(this);
   else
     return visitor->visitChildren(this);
 }
 
-Antlr4GrammarParser::GrammarFileContext* Antlr4GrammarParser::grammarFile() {
-  GrammarFileContext *_localctx = _tracker.createInstance<GrammarFileContext>(_ctx, getState());
-  enterRule(_localctx, 0, Antlr4GrammarParser::RuleGrammarFile);
+Antlr4GrammarParser::Grammar_fileContext* Antlr4GrammarParser::grammar_file() {
+  Grammar_fileContext *_localctx = _tracker.createInstance<Grammar_fileContext>(_ctx, getState());
+  enterRule(_localctx, 0, Antlr4GrammarParser::RuleGrammar_file);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -235,35 +222,35 @@ Antlr4GrammarParser::GrammarFileContext* Antlr4GrammarParser::grammarFile() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(44);
-    match(Antlr4GrammarParser::T__0);
-    setState(45);
-    antlrcpp::downCast<GrammarFileContext *>(_localctx)->grammarName = match(Antlr4GrammarParser::ID);
-    setState(46);
-    match(Antlr4GrammarParser::T__1);
-    setState(50);
+    setState(12);
+    match(Antlr4GrammarParser::GRAMMAR);
+    setState(13);
+    antlrcpp::downCast<Grammar_fileContext *>(_localctx)->grammar_name = _input->LT(1);
+    _la = _input->LA(1);
+    if (!(_la == Antlr4GrammarParser::L_ID
+
+    || _la == Antlr4GrammarParser::U_ID)) {
+      antlrcpp::downCast<Grammar_fileContext *>(_localctx)->grammar_name = _errHandler->recoverInline(this);
+    }
+    else {
+      _errHandler->reportMatch(this);
+      consume();
+    }
+    setState(14);
+    match(Antlr4GrammarParser::SEMI);
+    setState(16); 
     _errHandler->sync(this);
     _la = _input->LA(1);
-    while (_la == Antlr4GrammarParser::ID) {
-      setState(47);
-      antlrcpp::downCast<GrammarFileContext *>(_localctx)->rulesContext = rules();
-      antlrcpp::downCast<GrammarFileContext *>(_localctx)->grammarRules.push_back(antlrcpp::downCast<GrammarFileContext *>(_localctx)->rulesContext);
-      setState(52);
+    do {
+      setState(15);
+      antlrcpp::downCast<Grammar_fileContext *>(_localctx)->rule_Context = rule_();
+      antlrcpp::downCast<Grammar_fileContext *>(_localctx)->grammar_rules.push_back(antlrcpp::downCast<Grammar_fileContext *>(_localctx)->rule_Context);
+      setState(18); 
       _errHandler->sync(this);
       _la = _input->LA(1);
-    }
-    setState(56);
-    _errHandler->sync(this);
-    _la = _input->LA(1);
-    while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 67140608) != 0)) {
-      setState(53);
-      baseRules();
-      setState(58);
-      _errHandler->sync(this);
-      _la = _input->LA(1);
-    }
-    setState(59);
+    } while ((((_la & ~ 0x3fULL) == 0) &&
+      ((1ULL << _la) & 419430400) != 0));
+    setState(20);
     match(Antlr4GrammarParser::EOF);
    
   }
@@ -276,44 +263,126 @@ Antlr4GrammarParser::GrammarFileContext* Antlr4GrammarParser::grammarFile() {
   return _localctx;
 }
 
-//----------------- RulesContext ------------------------------------------------------------------
+//----------------- Rule_Context ------------------------------------------------------------------
 
-Antlr4GrammarParser::RulesContext::RulesContext(ParserRuleContext *parent, size_t invokingState)
+Antlr4GrammarParser::Rule_Context::Rule_Context(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<tree::TerminalNode *> Antlr4GrammarParser::RulesContext::ID() {
-  return getTokens(Antlr4GrammarParser::ID);
+
+size_t Antlr4GrammarParser::Rule_Context::getRuleIndex() const {
+  return Antlr4GrammarParser::RuleRule_;
 }
 
-tree::TerminalNode* Antlr4GrammarParser::RulesContext::ID(size_t i) {
-  return getToken(Antlr4GrammarParser::ID, i);
+void Antlr4GrammarParser::Rule_Context::copyFrom(Rule_Context *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-std::vector<Antlr4GrammarParser::RuleBodyContext *> Antlr4GrammarParser::RulesContext::ruleBody() {
-  return getRuleContexts<Antlr4GrammarParser::RuleBodyContext>();
+//----------------- Lexer_ruleContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::COLON() {
+  return getToken(Antlr4GrammarParser::COLON, 0);
 }
 
-Antlr4GrammarParser::RuleBodyContext* Antlr4GrammarParser::RulesContext::ruleBody(size_t i) {
-  return getRuleContext<Antlr4GrammarParser::RuleBodyContext>(i);
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Lexer_ruleContext::SEMI() {
+  return getTokens(Antlr4GrammarParser::SEMI);
 }
 
-
-size_t Antlr4GrammarParser::RulesContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleRules;
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::SEMI(size_t i) {
+  return getToken(Antlr4GrammarParser::SEMI, i);
 }
 
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::U_ID() {
+  return getToken(Antlr4GrammarParser::U_ID, 0);
+}
 
-std::any Antlr4GrammarParser::RulesContext::accept(tree::ParseTreeVisitor *visitor) {
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::FRAGMENT_TOKEN() {
+  return getToken(Antlr4GrammarParser::FRAGMENT_TOKEN, 0);
+}
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Lexer_ruleContext::QUOTE() {
+  return getTokens(Antlr4GrammarParser::QUOTE);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::QUOTE(size_t i) {
+  return getToken(Antlr4GrammarParser::QUOTE, i);
+}
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Lexer_ruleContext::L_SBRACKET() {
+  return getTokens(Antlr4GrammarParser::L_SBRACKET);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::L_SBRACKET(size_t i) {
+  return getToken(Antlr4GrammarParser::L_SBRACKET, i);
+}
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Lexer_ruleContext::R_SBRACKET() {
+  return getTokens(Antlr4GrammarParser::R_SBRACKET);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::R_SBRACKET(size_t i) {
+  return getToken(Antlr4GrammarParser::R_SBRACKET, i);
+}
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Lexer_ruleContext::BACKSLASH() {
+  return getTokens(Antlr4GrammarParser::BACKSLASH);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Lexer_ruleContext::BACKSLASH(size_t i) {
+  return getToken(Antlr4GrammarParser::BACKSLASH, i);
+}
+
+Antlr4GrammarParser::Lexer_ruleContext::Lexer_ruleContext(Rule_Context *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Lexer_ruleContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitRules(this);
+    return parserVisitor->visitLexer_rule(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- Parser_ruleContext ------------------------------------------------------------------
 
-Antlr4GrammarParser::RulesContext* Antlr4GrammarParser::rules() {
-  RulesContext *_localctx = _tracker.createInstance<RulesContext>(_ctx, getState());
-  enterRule(_localctx, 2, Antlr4GrammarParser::RuleRules);
+tree::TerminalNode* Antlr4GrammarParser::Parser_ruleContext::COLON() {
+  return getToken(Antlr4GrammarParser::COLON, 0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Parser_ruleContext::SEMI() {
+  return getToken(Antlr4GrammarParser::SEMI, 0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Parser_ruleContext::L_ID() {
+  return getToken(Antlr4GrammarParser::L_ID, 0);
+}
+
+std::vector<Antlr4GrammarParser::Rule_bodyContext *> Antlr4GrammarParser::Parser_ruleContext::rule_body() {
+  return getRuleContexts<Antlr4GrammarParser::Rule_bodyContext>();
+}
+
+Antlr4GrammarParser::Rule_bodyContext* Antlr4GrammarParser::Parser_ruleContext::rule_body(size_t i) {
+  return getRuleContext<Antlr4GrammarParser::Rule_bodyContext>(i);
+}
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Parser_ruleContext::PIPE() {
+  return getTokens(Antlr4GrammarParser::PIPE);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Parser_ruleContext::PIPE(size_t i) {
+  return getToken(Antlr4GrammarParser::PIPE, i);
+}
+
+Antlr4GrammarParser::Parser_ruleContext::Parser_ruleContext(Rule_Context *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Parser_ruleContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitParser_rule(this);
+  else
+    return visitor->visitChildren(this);
+}
+Antlr4GrammarParser::Rule_Context* Antlr4GrammarParser::rule_() {
+  Rule_Context *_localctx = _tracker.createInstance<Rule_Context>(_ctx, getState());
+  enterRule(_localctx, 2, Antlr4GrammarParser::RuleRule_);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -324,83 +393,230 @@ Antlr4GrammarParser::RulesContext* Antlr4GrammarParser::rules() {
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(61);
-    antlrcpp::downCast<RulesContext *>(_localctx)->name = match(Antlr4GrammarParser::ID);
-    setState(62);
-    match(Antlr4GrammarParser::T__2);
-    setState(68);
+    size_t alt;
+    setState(72);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx)) {
-    case 1: {
-      setState(63);
-      antlrcpp::downCast<RulesContext *>(_localctx)->body = ruleBody();
-      break;
-    }
+    switch (_input->LA(1)) {
+      case Antlr4GrammarParser::FRAGMENT_TOKEN:
+      case Antlr4GrammarParser::U_ID: {
+        _localctx = _tracker.createInstance<Antlr4GrammarParser::Lexer_ruleContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(23);
+        _errHandler->sync(this);
 
-    case 2: {
-      setState(64);
-      match(Antlr4GrammarParser::T__3);
-      setState(65);
-      antlrcpp::downCast<RulesContext *>(_localctx)->idToken = match(Antlr4GrammarParser::ID);
-      antlrcpp::downCast<RulesContext *>(_localctx)->children.push_back(antlrcpp::downCast<RulesContext *>(_localctx)->idToken);
-      setState(66);
-      match(Antlr4GrammarParser::T__4);
-      break;
-    }
+        _la = _input->LA(1);
+        if (_la == Antlr4GrammarParser::FRAGMENT_TOKEN) {
+          setState(22);
+          match(Antlr4GrammarParser::FRAGMENT_TOKEN);
+        }
+        setState(25);
+        antlrcpp::downCast<Lexer_ruleContext *>(_localctx)->name = match(Antlr4GrammarParser::U_ID);
+        setState(26);
+        match(Antlr4GrammarParser::COLON);
+        setState(56);
+        _errHandler->sync(this);
+        alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 8, _ctx);
+        while (alt != 1 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+          if (alt == 1 + 1) {
+            setState(54);
+            _errHandler->sync(this);
+            switch (_input->LA(1)) {
+              case Antlr4GrammarParser::QUOTED_DOT:
+              case Antlr4GrammarParser::QUOTED_DOUBLE_QUOTE:
+              case Antlr4GrammarParser::QUOTED_QUOTE:
+              case Antlr4GrammarParser::GRAMMAR:
+              case Antlr4GrammarParser::COLON:
+              case Antlr4GrammarParser::PIPE:
+              case Antlr4GrammarParser::EOF_TOKEN:
+              case Antlr4GrammarParser::STAR:
+              case Antlr4GrammarParser::PLUS:
+              case Antlr4GrammarParser::MINUS:
+              case Antlr4GrammarParser::QUESTION_MARK:
+              case Antlr4GrammarParser::L_PARENT:
+              case Antlr4GrammarParser::R_PARENT:
+              case Antlr4GrammarParser::DOT:
+              case Antlr4GrammarParser::DOUBLE_QUOTE:
+              case Antlr4GrammarParser::BACKSLASH:
+              case Antlr4GrammarParser::SKIP_TOKEN:
+              case Antlr4GrammarParser::R_SBRACKET:
+              case Antlr4GrammarParser::EQ:
+              case Antlr4GrammarParser::PLUS_EQ:
+              case Antlr4GrammarParser::FRAGMENT_TOKEN:
+              case Antlr4GrammarParser::POUND:
+              case Antlr4GrammarParser::UNDERSCORE:
+              case Antlr4GrammarParser::L_ID:
+              case Antlr4GrammarParser::U_ID:
+              case Antlr4GrammarParser::STRING:
+              case Antlr4GrammarParser::WS:
+              case Antlr4GrammarParser::COMMENT:
+              case Antlr4GrammarParser::LINE_COMMENT:
+              case Antlr4GrammarParser::ANY: {
+                setState(27);
+                _la = _input->LA(1);
+                if (_la == 0 || _la == Token::EOF || ((((_la & ~ 0x3fULL) == 0) &&
+                  ((1ULL << _la) & 1114144) != 0))) {
+                _errHandler->recoverInline(this);
+                }
+                else {
+                  _errHandler->reportMatch(this);
+                  consume();
+                }
+                break;
+              }
 
-    case 3: {
-      setState(67);
-      antlrcpp::downCast<RulesContext *>(_localctx)->idToken = match(Antlr4GrammarParser::ID);
-      antlrcpp::downCast<RulesContext *>(_localctx)->children.push_back(antlrcpp::downCast<RulesContext *>(_localctx)->idToken);
-      break;
-    }
+              case Antlr4GrammarParser::QUOTE: {
+                setState(28);
+                match(Antlr4GrammarParser::QUOTE);
+                setState(34);
+                _errHandler->sync(this);
+                alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx);
+                while (alt != 1 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+                  if (alt == 1 + 1) {
+                    setState(32);
+                    _errHandler->sync(this);
+                    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx)) {
+                    case 1: {
+                      setState(29);
+                      _la = _input->LA(1);
+                      if (_la == 0 || _la == Token::EOF || (_la == Antlr4GrammarParser::QUOTE)) {
+                      _errHandler->recoverInline(this);
+                      }
+                      else {
+                        _errHandler->reportMatch(this);
+                        consume();
+                      }
+                      break;
+                    }
+
+                    case 2: {
+                      setState(30);
+                      match(Antlr4GrammarParser::BACKSLASH);
+                      setState(31);
+                      match(Antlr4GrammarParser::QUOTE);
+                      break;
+                    }
+
+                    default:
+                      break;
+                    } 
+                  }
+                  setState(36);
+                  _errHandler->sync(this);
+                  alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx);
+                }
+                setState(37);
+                match(Antlr4GrammarParser::SEMI);
+                setState(43);
+                _errHandler->sync(this);
+                alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx);
+                while (alt != 1 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+                  if (alt == 1 + 1) {
+                    setState(41);
+                    _errHandler->sync(this);
+                    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
+                    case 1: {
+                      setState(38);
+                      _la = _input->LA(1);
+                      if (_la == 0 || _la == Token::EOF || (_la == Antlr4GrammarParser::QUOTE)) {
+                      _errHandler->recoverInline(this);
+                      }
+                      else {
+                        _errHandler->reportMatch(this);
+                        consume();
+                      }
+                      break;
+                    }
+
+                    case 2: {
+                      setState(39);
+                      match(Antlr4GrammarParser::BACKSLASH);
+                      setState(40);
+                      match(Antlr4GrammarParser::QUOTE);
+                      break;
+                    }
+
+                    default:
+                      break;
+                    } 
+                  }
+                  setState(45);
+                  _errHandler->sync(this);
+                  alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx);
+                }
+                break;
+              }
+
+              case Antlr4GrammarParser::L_SBRACKET: {
+                setState(46);
+                match(Antlr4GrammarParser::L_SBRACKET);
+                setState(50);
+                _errHandler->sync(this);
+                alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
+                while (alt != 1 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+                  if (alt == 1 + 1) {
+                    setState(47);
+                    _la = _input->LA(1);
+                    if (_la == 0 || _la == Token::EOF || (_la == Antlr4GrammarParser::L_SBRACKET)) {
+                    _errHandler->recoverInline(this);
+                    }
+                    else {
+                      _errHandler->reportMatch(this);
+                      consume();
+                    } 
+                  }
+                  setState(52);
+                  _errHandler->sync(this);
+                  alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
+                }
+                setState(53);
+                match(Antlr4GrammarParser::R_SBRACKET);
+                break;
+              }
+
+            default:
+              throw NoViableAltException(this);
+            } 
+          }
+          setState(58);
+          _errHandler->sync(this);
+          alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 8, _ctx);
+        }
+        setState(59);
+        match(Antlr4GrammarParser::SEMI);
+        break;
+      }
+
+      case Antlr4GrammarParser::L_ID: {
+        _localctx = _tracker.createInstance<Antlr4GrammarParser::Parser_ruleContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(60);
+        antlrcpp::downCast<Parser_ruleContext *>(_localctx)->name = match(Antlr4GrammarParser::L_ID);
+        setState(61);
+        match(Antlr4GrammarParser::COLON);
+        setState(62);
+        antlrcpp::downCast<Parser_ruleContext *>(_localctx)->rule_bodyContext = rule_body();
+        antlrcpp::downCast<Parser_ruleContext *>(_localctx)->bodies.push_back(antlrcpp::downCast<Parser_ruleContext *>(_localctx)->rule_bodyContext);
+        setState(67);
+        _errHandler->sync(this);
+        _la = _input->LA(1);
+        while (_la == Antlr4GrammarParser::PIPE) {
+          setState(63);
+          match(Antlr4GrammarParser::PIPE);
+          setState(64);
+          antlrcpp::downCast<Parser_ruleContext *>(_localctx)->rule_bodyContext = rule_body();
+          antlrcpp::downCast<Parser_ruleContext *>(_localctx)->bodies.push_back(antlrcpp::downCast<Parser_ruleContext *>(_localctx)->rule_bodyContext);
+          setState(69);
+          _errHandler->sync(this);
+          _la = _input->LA(1);
+        }
+        setState(70);
+        match(Antlr4GrammarParser::SEMI);
+        break;
+      }
 
     default:
-      break;
+      throw NoViableAltException(this);
     }
-    setState(80);
-    _errHandler->sync(this);
-    _la = _input->LA(1);
-    while (_la == Antlr4GrammarParser::T__5) {
-      setState(70);
-      match(Antlr4GrammarParser::T__5);
-      setState(76);
-      _errHandler->sync(this);
-      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
-      case 1: {
-        setState(71);
-        antlrcpp::downCast<RulesContext *>(_localctx)->body = ruleBody();
-        break;
-      }
-
-      case 2: {
-        setState(72);
-        match(Antlr4GrammarParser::T__3);
-        setState(73);
-        antlrcpp::downCast<RulesContext *>(_localctx)->idToken = match(Antlr4GrammarParser::ID);
-        antlrcpp::downCast<RulesContext *>(_localctx)->children.push_back(antlrcpp::downCast<RulesContext *>(_localctx)->idToken);
-        setState(74);
-        match(Antlr4GrammarParser::T__4);
-        break;
-      }
-
-      case 3: {
-        setState(75);
-        antlrcpp::downCast<RulesContext *>(_localctx)->idToken = match(Antlr4GrammarParser::ID);
-        antlrcpp::downCast<RulesContext *>(_localctx)->children.push_back(antlrcpp::downCast<RulesContext *>(_localctx)->idToken);
-        break;
-      }
-
-      default:
-        break;
-      }
-      setState(82);
-      _errHandler->sync(this);
-      _la = _input->LA(1);
-    }
-    setState(83);
-    match(Antlr4GrammarParser::T__1);
    
   }
   catch (RecognitionException &e) {
@@ -412,36 +628,44 @@ Antlr4GrammarParser::RulesContext* Antlr4GrammarParser::rules() {
   return _localctx;
 }
 
-//----------------- RuleBodyContext ------------------------------------------------------------------
+//----------------- Rule_bodyContext ------------------------------------------------------------------
 
-Antlr4GrammarParser::RuleBodyContext::RuleBodyContext(ParserRuleContext *parent, size_t invokingState)
+Antlr4GrammarParser::Rule_bodyContext::Rule_bodyContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<Antlr4GrammarParser::TerminalRuleBodyContext *> Antlr4GrammarParser::RuleBodyContext::terminalRuleBody() {
-  return getRuleContexts<Antlr4GrammarParser::TerminalRuleBodyContext>();
+tree::TerminalNode* Antlr4GrammarParser::Rule_bodyContext::POUND() {
+  return getToken(Antlr4GrammarParser::POUND, 0);
 }
 
-Antlr4GrammarParser::TerminalRuleBodyContext* Antlr4GrammarParser::RuleBodyContext::terminalRuleBody(size_t i) {
-  return getRuleContext<Antlr4GrammarParser::TerminalRuleBodyContext>(i);
+std::vector<Antlr4GrammarParser::Terminal_rule_bodyContext *> Antlr4GrammarParser::Rule_bodyContext::terminal_rule_body() {
+  return getRuleContexts<Antlr4GrammarParser::Terminal_rule_bodyContext>();
+}
+
+Antlr4GrammarParser::Terminal_rule_bodyContext* Antlr4GrammarParser::Rule_bodyContext::terminal_rule_body(size_t i) {
+  return getRuleContext<Antlr4GrammarParser::Terminal_rule_bodyContext>(i);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Rule_bodyContext::L_ID() {
+  return getToken(Antlr4GrammarParser::L_ID, 0);
 }
 
 
-size_t Antlr4GrammarParser::RuleBodyContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleRuleBody;
+size_t Antlr4GrammarParser::Rule_bodyContext::getRuleIndex() const {
+  return Antlr4GrammarParser::RuleRule_body;
 }
 
 
-std::any Antlr4GrammarParser::RuleBodyContext::accept(tree::ParseTreeVisitor *visitor) {
+std::any Antlr4GrammarParser::Rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitRuleBody(this);
+    return parserVisitor->visitRule_body(this);
   else
     return visitor->visitChildren(this);
 }
 
-Antlr4GrammarParser::RuleBodyContext* Antlr4GrammarParser::ruleBody() {
-  RuleBodyContext *_localctx = _tracker.createInstance<RuleBodyContext>(_ctx, getState());
-  enterRule(_localctx, 4, Antlr4GrammarParser::RuleRuleBody);
+Antlr4GrammarParser::Rule_bodyContext* Antlr4GrammarParser::rule_body() {
+  Rule_bodyContext *_localctx = _tracker.createInstance<Rule_bodyContext>(_ctx, getState());
+  enterRule(_localctx, 4, Antlr4GrammarParser::RuleRule_body);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -453,18 +677,28 @@ Antlr4GrammarParser::RuleBodyContext* Antlr4GrammarParser::ruleBody() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(86); 
+    setState(75); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(85);
-      antlrcpp::downCast<RuleBodyContext *>(_localctx)->terminalRuleBodyContext = terminalRuleBody(0);
-      antlrcpp::downCast<RuleBodyContext *>(_localctx)->bodies.push_back(antlrcpp::downCast<RuleBodyContext *>(_localctx)->terminalRuleBodyContext);
-      setState(88); 
+      setState(74);
+      antlrcpp::downCast<Rule_bodyContext *>(_localctx)->terminal_rule_bodyContext = terminal_rule_body(0);
+      antlrcpp::downCast<Rule_bodyContext *>(_localctx)->rule_fragment.push_back(antlrcpp::downCast<Rule_bodyContext *>(_localctx)->terminal_rule_bodyContext);
+      setState(77); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 3221225488) != 0));
+      ((1ULL << _la) & 940613902) != 0));
+    setState(81);
+    _errHandler->sync(this);
+
+    _la = _input->LA(1);
+    if (_la == Antlr4GrammarParser::POUND) {
+      setState(79);
+      match(Antlr4GrammarParser::POUND);
+      setState(80);
+      antlrcpp::downCast<Rule_bodyContext *>(_localctx)->ruleName = match(Antlr4GrammarParser::L_ID);
+    }
    
   }
   catch (RecognitionException &e) {
@@ -476,60 +710,212 @@ Antlr4GrammarParser::RuleBodyContext* Antlr4GrammarParser::ruleBody() {
   return _localctx;
 }
 
-//----------------- TerminalRuleBodyContext ------------------------------------------------------------------
+//----------------- Terminal_rule_bodyContext ------------------------------------------------------------------
 
-Antlr4GrammarParser::TerminalRuleBodyContext::TerminalRuleBodyContext(ParserRuleContext *parent, size_t invokingState)
+Antlr4GrammarParser::Terminal_rule_bodyContext::Terminal_rule_bodyContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-Antlr4GrammarParser::ParentRuleBodyContext* Antlr4GrammarParser::TerminalRuleBodyContext::parentRuleBody() {
-  return getRuleContext<Antlr4GrammarParser::ParentRuleBodyContext>(0);
+
+size_t Antlr4GrammarParser::Terminal_rule_bodyContext::getRuleIndex() const {
+  return Antlr4GrammarParser::RuleTerminal_rule_body;
 }
 
-Antlr4GrammarParser::StringRuleBodyContext* Antlr4GrammarParser::TerminalRuleBodyContext::stringRuleBody() {
-  return getRuleContext<Antlr4GrammarParser::StringRuleBodyContext>(0);
+void Antlr4GrammarParser::Terminal_rule_bodyContext::copyFrom(Terminal_rule_bodyContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-Antlr4GrammarParser::AffectRuleBodyContext* Antlr4GrammarParser::TerminalRuleBodyContext::affectRuleBody() {
-  return getRuleContext<Antlr4GrammarParser::AffectRuleBodyContext>(0);
+//----------------- Dot_rule_bodyContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Dot_rule_bodyContext::DOT() {
+  return getToken(Antlr4GrammarParser::DOT, 0);
 }
 
-Antlr4GrammarParser::TerminalRuleBodyContext* Antlr4GrammarParser::TerminalRuleBodyContext::terminalRuleBody() {
-  return getRuleContext<Antlr4GrammarParser::TerminalRuleBodyContext>(0);
+Antlr4GrammarParser::Dot_rule_bodyContext::Dot_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Dot_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitDot_rule_body(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- String_rule_bodyContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::String_rule_bodyContext::STRING() {
+  return getToken(Antlr4GrammarParser::STRING, 0);
 }
 
-Antlr4GrammarParser::OperatorContext* Antlr4GrammarParser::TerminalRuleBodyContext::operator_() {
+tree::TerminalNode* Antlr4GrammarParser::String_rule_bodyContext::QUOTED_DOT() {
+  return getToken(Antlr4GrammarParser::QUOTED_DOT, 0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::String_rule_bodyContext::QUOTED_DOUBLE_QUOTE() {
+  return getToken(Antlr4GrammarParser::QUOTED_DOUBLE_QUOTE, 0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::String_rule_bodyContext::QUOTED_QUOTE() {
+  return getToken(Antlr4GrammarParser::QUOTED_QUOTE, 0);
+}
+
+Antlr4GrammarParser::String_rule_bodyContext::String_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::String_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitString_rule_body(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- Sbracket_rule_bodyContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Sbracket_rule_bodyContext::L_SBRACKET() {
+  return getToken(Antlr4GrammarParser::L_SBRACKET, 0);
+}
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Sbracket_rule_bodyContext::R_SBRACKET() {
+  return getTokens(Antlr4GrammarParser::R_SBRACKET);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Sbracket_rule_bodyContext::R_SBRACKET(size_t i) {
+  return getToken(Antlr4GrammarParser::R_SBRACKET, i);
+}
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Sbracket_rule_bodyContext::BACKSLASH() {
+  return getTokens(Antlr4GrammarParser::BACKSLASH);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Sbracket_rule_bodyContext::BACKSLASH(size_t i) {
+  return getToken(Antlr4GrammarParser::BACKSLASH, i);
+}
+
+Antlr4GrammarParser::Sbracket_rule_bodyContext::Sbracket_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Sbracket_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitSbracket_rule_body(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- Parent_rule_bodyContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Parent_rule_bodyContext::L_PARENT() {
+  return getToken(Antlr4GrammarParser::L_PARENT, 0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Parent_rule_bodyContext::R_PARENT() {
+  return getToken(Antlr4GrammarParser::R_PARENT, 0);
+}
+
+Antlr4GrammarParser::Rule_bodyContext* Antlr4GrammarParser::Parent_rule_bodyContext::rule_body() {
+  return getRuleContext<Antlr4GrammarParser::Rule_bodyContext>(0);
+}
+
+Antlr4GrammarParser::Parent_rule_bodyContext::Parent_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Parent_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitParent_rule_body(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- Affect_rule_bodyContext ------------------------------------------------------------------
+
+std::vector<tree::TerminalNode *> Antlr4GrammarParser::Affect_rule_bodyContext::L_ID() {
+  return getTokens(Antlr4GrammarParser::L_ID);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Affect_rule_bodyContext::L_ID(size_t i) {
+  return getToken(Antlr4GrammarParser::L_ID, i);
+}
+
+Antlr4GrammarParser::Affect_opContext* Antlr4GrammarParser::Affect_rule_bodyContext::affect_op() {
+  return getRuleContext<Antlr4GrammarParser::Affect_opContext>(0);
+}
+
+tree::TerminalNode* Antlr4GrammarParser::Affect_rule_bodyContext::U_ID() {
+  return getToken(Antlr4GrammarParser::U_ID, 0);
+}
+
+Antlr4GrammarParser::Affect_rule_bodyContext::Affect_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Affect_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitAffect_rule_body(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- Postfix_rule_bodyContext ------------------------------------------------------------------
+
+Antlr4GrammarParser::Terminal_rule_bodyContext* Antlr4GrammarParser::Postfix_rule_bodyContext::terminal_rule_body() {
+  return getRuleContext<Antlr4GrammarParser::Terminal_rule_bodyContext>(0);
+}
+
+Antlr4GrammarParser::OperatorContext* Antlr4GrammarParser::Postfix_rule_bodyContext::operator_() {
   return getRuleContext<Antlr4GrammarParser::OperatorContext>(0);
 }
 
+Antlr4GrammarParser::Postfix_rule_bodyContext::Postfix_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
 
-size_t Antlr4GrammarParser::TerminalRuleBodyContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleTerminalRuleBody;
+
+std::any Antlr4GrammarParser::Postfix_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitPostfix_rule_body(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- Id_rule_bodyContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Id_rule_bodyContext::L_ID() {
+  return getToken(Antlr4GrammarParser::L_ID, 0);
 }
 
+tree::TerminalNode* Antlr4GrammarParser::Id_rule_bodyContext::U_ID() {
+  return getToken(Antlr4GrammarParser::U_ID, 0);
+}
 
-std::any Antlr4GrammarParser::TerminalRuleBodyContext::accept(tree::ParseTreeVisitor *visitor) {
+Antlr4GrammarParser::Id_rule_bodyContext::Id_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Id_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitTerminalRuleBody(this);
+    return parserVisitor->visitId_rule_body(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- Eof_rule_bodyContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Eof_rule_bodyContext::EOF_TOKEN() {
+  return getToken(Antlr4GrammarParser::EOF_TOKEN, 0);
+}
+
+Antlr4GrammarParser::Eof_rule_bodyContext::Eof_rule_bodyContext(Terminal_rule_bodyContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Eof_rule_bodyContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitEof_rule_body(this);
   else
     return visitor->visitChildren(this);
 }
 
-
-Antlr4GrammarParser::TerminalRuleBodyContext* Antlr4GrammarParser::terminalRuleBody() {
-   return terminalRuleBody(0);
+Antlr4GrammarParser::Terminal_rule_bodyContext* Antlr4GrammarParser::terminal_rule_body() {
+   return terminal_rule_body(0);
 }
 
-Antlr4GrammarParser::TerminalRuleBodyContext* Antlr4GrammarParser::terminalRuleBody(int precedence) {
+Antlr4GrammarParser::Terminal_rule_bodyContext* Antlr4GrammarParser::terminal_rule_body(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  Antlr4GrammarParser::TerminalRuleBodyContext *_localctx = _tracker.createInstance<TerminalRuleBodyContext>(_ctx, parentState);
-  Antlr4GrammarParser::TerminalRuleBodyContext *previousContext = _localctx;
+  Antlr4GrammarParser::Terminal_rule_bodyContext *_localctx = _tracker.createInstance<Terminal_rule_bodyContext>(_ctx, parentState);
+  Antlr4GrammarParser::Terminal_rule_bodyContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 6;
-  enterRecursionRule(_localctx, 6, Antlr4GrammarParser::RuleTerminalRuleBody, precedence);
+  enterRecursionRule(_localctx, 6, Antlr4GrammarParser::RuleTerminal_rule_body, precedence);
 
-    
+    size_t _la = 0;
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -541,52 +927,174 @@ Antlr4GrammarParser::TerminalRuleBodyContext* Antlr4GrammarParser::terminalRuleB
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(94);
+    setState(106);
     _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case Antlr4GrammarParser::T__3: {
-        setState(91);
-        parentRuleBody();
-        break;
-      }
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 15, _ctx)) {
+    case 1: {
+      _localctx = _tracker.createInstance<Parent_rule_bodyContext>(_localctx);
+      _ctx = _localctx;
+      previousContext = _localctx;
 
-      case Antlr4GrammarParser::STRING: {
-        setState(92);
-        stringRuleBody();
-        break;
-      }
+      setState(84);
+      match(Antlr4GrammarParser::L_PARENT);
+      setState(85);
+      antlrcpp::downCast<Parent_rule_bodyContext *>(_localctx)->body = rule_body();
+      setState(86);
+      match(Antlr4GrammarParser::R_PARENT);
+      break;
+    }
 
-      case Antlr4GrammarParser::ID: {
-        setState(93);
-        affectRuleBody();
-        break;
+    case 2: {
+      _localctx = _tracker.createInstance<String_rule_bodyContext>(_localctx);
+      _ctx = _localctx;
+      previousContext = _localctx;
+      setState(88);
+      antlrcpp::downCast<String_rule_bodyContext *>(_localctx)->body = _input->LT(1);
+      _la = _input->LA(1);
+      if (!((((_la & ~ 0x3fULL) == 0) &&
+        ((1ULL << _la) & 536870926) != 0))) {
+        antlrcpp::downCast<String_rule_bodyContext *>(_localctx)->body = _errHandler->recoverInline(this);
       }
+      else {
+        _errHandler->reportMatch(this);
+        consume();
+      }
+      break;
+    }
+
+    case 3: {
+      _localctx = _tracker.createInstance<Affect_rule_bodyContext>(_localctx);
+      _ctx = _localctx;
+      previousContext = _localctx;
+      setState(89);
+      antlrcpp::downCast<Affect_rule_bodyContext *>(_localctx)->varName = match(Antlr4GrammarParser::L_ID);
+      setState(90);
+      antlrcpp::downCast<Affect_rule_bodyContext *>(_localctx)->op = affect_op();
+      setState(91);
+      antlrcpp::downCast<Affect_rule_bodyContext *>(_localctx)->value = _input->LT(1);
+      _la = _input->LA(1);
+      if (!(_la == Antlr4GrammarParser::L_ID
+
+      || _la == Antlr4GrammarParser::U_ID)) {
+        antlrcpp::downCast<Affect_rule_bodyContext *>(_localctx)->value = _errHandler->recoverInline(this);
+      }
+      else {
+        _errHandler->reportMatch(this);
+        consume();
+      }
+      break;
+    }
+
+    case 4: {
+      _localctx = _tracker.createInstance<Id_rule_bodyContext>(_localctx);
+      _ctx = _localctx;
+      previousContext = _localctx;
+      setState(93);
+      antlrcpp::downCast<Id_rule_bodyContext *>(_localctx)->name = _input->LT(1);
+      _la = _input->LA(1);
+      if (!(_la == Antlr4GrammarParser::L_ID
+
+      || _la == Antlr4GrammarParser::U_ID)) {
+        antlrcpp::downCast<Id_rule_bodyContext *>(_localctx)->name = _errHandler->recoverInline(this);
+      }
+      else {
+        _errHandler->reportMatch(this);
+        consume();
+      }
+      break;
+    }
+
+    case 5: {
+      _localctx = _tracker.createInstance<Sbracket_rule_bodyContext>(_localctx);
+      _ctx = _localctx;
+      previousContext = _localctx;
+      setState(94);
+      match(Antlr4GrammarParser::L_SBRACKET);
+      setState(100);
+      _errHandler->sync(this);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx);
+      while (alt != 1 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+        if (alt == 1 + 1) {
+          setState(98);
+          _errHandler->sync(this);
+          switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 13, _ctx)) {
+          case 1: {
+            setState(95);
+            _la = _input->LA(1);
+            if (_la == 0 || _la == Token::EOF || (_la == Antlr4GrammarParser::R_SBRACKET)) {
+            _errHandler->recoverInline(this);
+            }
+            else {
+              _errHandler->reportMatch(this);
+              consume();
+            }
+            break;
+          }
+
+          case 2: {
+            setState(96);
+            match(Antlr4GrammarParser::BACKSLASH);
+            setState(97);
+            match(Antlr4GrammarParser::R_SBRACKET);
+            break;
+          }
+
+          default:
+            break;
+          } 
+        }
+        setState(102);
+        _errHandler->sync(this);
+        alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx);
+      }
+      setState(103);
+      match(Antlr4GrammarParser::R_SBRACKET);
+      break;
+    }
+
+    case 6: {
+      _localctx = _tracker.createInstance<Dot_rule_bodyContext>(_localctx);
+      _ctx = _localctx;
+      previousContext = _localctx;
+      setState(104);
+      match(Antlr4GrammarParser::DOT);
+      break;
+    }
+
+    case 7: {
+      _localctx = _tracker.createInstance<Eof_rule_bodyContext>(_localctx);
+      _ctx = _localctx;
+      previousContext = _localctx;
+      setState(105);
+      match(Antlr4GrammarParser::EOF_TOKEN);
+      break;
+    }
 
     default:
-      throw NoViableAltException(this);
+      break;
     }
     _ctx->stop = _input->LT(-1);
-    setState(100);
+    setState(112);
     _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 16, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        _localctx = _tracker.createInstance<TerminalRuleBodyContext>(parentContext, parentState);
-        _localctx->body = previousContext;
-        pushNewRecursionContext(_localctx, startState, RuleTerminalRuleBody);
-        setState(96);
+        auto newContext = _tracker.createInstance<Postfix_rule_bodyContext>(_tracker.createInstance<Terminal_rule_bodyContext>(parentContext, parentState));
+        _localctx = newContext;
+        newContext->body = previousContext;
+        pushNewRecursionContext(newContext, startState, RuleTerminal_rule_body);
+        setState(108);
 
-        if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
-
-        setState(97);
-        antlrcpp::downCast<TerminalRuleBodyContext *>(_localctx)->op = operator_(); 
+        if (!(precpred(_ctx, 8))) throw FailedPredicateException(this, "precpred(_ctx, 8)");
+        setState(109);
+        antlrcpp::downCast<Postfix_rule_bodyContext *>(_localctx)->op = operator_(); 
       }
-      setState(102);
+      setState(114);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 16, _ctx);
     }
   }
   catch (RecognitionException &e) {
@@ -594,141 +1102,6 @@ Antlr4GrammarParser::TerminalRuleBodyContext* Antlr4GrammarParser::terminalRuleB
     _localctx->exception = std::current_exception();
     _errHandler->recover(this, _localctx->exception);
   }
-  return _localctx;
-}
-
-//----------------- StarOperatorContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::StarOperatorContext::StarOperatorContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::StarOperatorContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleStarOperator;
-}
-
-
-std::any Antlr4GrammarParser::StarOperatorContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitStarOperator(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::StarOperatorContext* Antlr4GrammarParser::starOperator() {
-  StarOperatorContext *_localctx = _tracker.createInstance<StarOperatorContext>(_ctx, getState());
-  enterRule(_localctx, 8, Antlr4GrammarParser::RuleStarOperator);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(103);
-    match(Antlr4GrammarParser::T__6);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- PlusOperatorContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::PlusOperatorContext::PlusOperatorContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::PlusOperatorContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RulePlusOperator;
-}
-
-
-std::any Antlr4GrammarParser::PlusOperatorContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitPlusOperator(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::PlusOperatorContext* Antlr4GrammarParser::plusOperator() {
-  PlusOperatorContext *_localctx = _tracker.createInstance<PlusOperatorContext>(_ctx, getState());
-  enterRule(_localctx, 10, Antlr4GrammarParser::RulePlusOperator);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(105);
-    match(Antlr4GrammarParser::T__7);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- QuestionMarkOperatorContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::QuestionMarkOperatorContext::QuestionMarkOperatorContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::QuestionMarkOperatorContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleQuestionMarkOperator;
-}
-
-
-std::any Antlr4GrammarParser::QuestionMarkOperatorContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitQuestionMarkOperator(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::QuestionMarkOperatorContext* Antlr4GrammarParser::questionMarkOperator() {
-  QuestionMarkOperatorContext *_localctx = _tracker.createInstance<QuestionMarkOperatorContext>(_ctx, getState());
-  enterRule(_localctx, 12, Antlr4GrammarParser::RuleQuestionMarkOperator);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(107);
-    match(Antlr4GrammarParser::T__8);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
   return _localctx;
 }
 
@@ -738,34 +1111,63 @@ Antlr4GrammarParser::OperatorContext::OperatorContext(ParserRuleContext *parent,
   : ParserRuleContext(parent, invokingState) {
 }
 
-Antlr4GrammarParser::StarOperatorContext* Antlr4GrammarParser::OperatorContext::starOperator() {
-  return getRuleContext<Antlr4GrammarParser::StarOperatorContext>(0);
-}
-
-Antlr4GrammarParser::PlusOperatorContext* Antlr4GrammarParser::OperatorContext::plusOperator() {
-  return getRuleContext<Antlr4GrammarParser::PlusOperatorContext>(0);
-}
-
-Antlr4GrammarParser::QuestionMarkOperatorContext* Antlr4GrammarParser::OperatorContext::questionMarkOperator() {
-  return getRuleContext<Antlr4GrammarParser::QuestionMarkOperatorContext>(0);
-}
-
 
 size_t Antlr4GrammarParser::OperatorContext::getRuleIndex() const {
   return Antlr4GrammarParser::RuleOperator;
 }
 
+void Antlr4GrammarParser::OperatorContext::copyFrom(OperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
+}
 
-std::any Antlr4GrammarParser::OperatorContext::accept(tree::ParseTreeVisitor *visitor) {
+//----------------- Star_operatorContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Star_operatorContext::STAR() {
+  return getToken(Antlr4GrammarParser::STAR, 0);
+}
+
+Antlr4GrammarParser::Star_operatorContext::Star_operatorContext(OperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Star_operatorContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitOperator(this);
+    return parserVisitor->visitStar_operator(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- Question_mark_operatorContext ------------------------------------------------------------------
 
+tree::TerminalNode* Antlr4GrammarParser::Question_mark_operatorContext::QUESTION_MARK() {
+  return getToken(Antlr4GrammarParser::QUESTION_MARK, 0);
+}
+
+Antlr4GrammarParser::Question_mark_operatorContext::Question_mark_operatorContext(OperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Question_mark_operatorContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitQuestion_mark_operator(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- Plus_operatorContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Plus_operatorContext::PLUS() {
+  return getToken(Antlr4GrammarParser::PLUS, 0);
+}
+
+Antlr4GrammarParser::Plus_operatorContext::Plus_operatorContext(OperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Plus_operatorContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitPlus_operator(this);
+  else
+    return visitor->visitChildren(this);
+}
 Antlr4GrammarParser::OperatorContext* Antlr4GrammarParser::operator_() {
   OperatorContext *_localctx = _tracker.createInstance<OperatorContext>(_ctx, getState());
-  enterRule(_localctx, 14, Antlr4GrammarParser::RuleOperator);
+  enterRule(_localctx, 8, Antlr4GrammarParser::RuleOperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -775,135 +1177,36 @@ Antlr4GrammarParser::OperatorContext* Antlr4GrammarParser::operator_() {
     exitRule();
   });
   try {
-    setState(112);
-    _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case Antlr4GrammarParser::T__6: {
-        enterOuterAlt(_localctx, 1);
-        setState(109);
-        starOperator();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__7: {
-        enterOuterAlt(_localctx, 2);
-        setState(110);
-        plusOperator();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__8: {
-        enterOuterAlt(_localctx, 3);
-        setState(111);
-        questionMarkOperator();
-        break;
-      }
-
-    default:
-      throw NoViableAltException(this);
-    }
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- ParentRuleBodyContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::ParentRuleBodyContext::ParentRuleBodyContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-Antlr4GrammarParser::RuleBodyContext* Antlr4GrammarParser::ParentRuleBodyContext::ruleBody() {
-  return getRuleContext<Antlr4GrammarParser::RuleBodyContext>(0);
-}
-
-
-size_t Antlr4GrammarParser::ParentRuleBodyContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleParentRuleBody;
-}
-
-
-std::any Antlr4GrammarParser::ParentRuleBodyContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitParentRuleBody(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::ParentRuleBodyContext* Antlr4GrammarParser::parentRuleBody() {
-  ParentRuleBodyContext *_localctx = _tracker.createInstance<ParentRuleBodyContext>(_ctx, getState());
-  enterRule(_localctx, 16, Antlr4GrammarParser::RuleParentRuleBody);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(114);
-    match(Antlr4GrammarParser::T__3);
-    setState(115);
-    antlrcpp::downCast<ParentRuleBodyContext *>(_localctx)->body = ruleBody();
-    setState(116);
-    match(Antlr4GrammarParser::T__4);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- StringRuleBodyContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::StringRuleBodyContext::StringRuleBodyContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-tree::TerminalNode* Antlr4GrammarParser::StringRuleBodyContext::STRING() {
-  return getToken(Antlr4GrammarParser::STRING, 0);
-}
-
-
-size_t Antlr4GrammarParser::StringRuleBodyContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleStringRuleBody;
-}
-
-
-std::any Antlr4GrammarParser::StringRuleBodyContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitStringRuleBody(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::StringRuleBodyContext* Antlr4GrammarParser::stringRuleBody() {
-  StringRuleBodyContext *_localctx = _tracker.createInstance<StringRuleBodyContext>(_ctx, getState());
-  enterRule(_localctx, 18, Antlr4GrammarParser::RuleStringRuleBody);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
     setState(118);
-    antlrcpp::downCast<StringRuleBodyContext *>(_localctx)->body = match(Antlr4GrammarParser::STRING);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case Antlr4GrammarParser::STAR: {
+        _localctx = _tracker.createInstance<Antlr4GrammarParser::Star_operatorContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(115);
+        match(Antlr4GrammarParser::STAR);
+        break;
+      }
+
+      case Antlr4GrammarParser::PLUS: {
+        _localctx = _tracker.createInstance<Antlr4GrammarParser::Plus_operatorContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(116);
+        match(Antlr4GrammarParser::PLUS);
+        break;
+      }
+
+      case Antlr4GrammarParser::QUESTION_MARK: {
+        _localctx = _tracker.createInstance<Antlr4GrammarParser::Question_mark_operatorContext>(_localctx);
+        enterOuterAlt(_localctx, 3);
+        setState(117);
+        match(Antlr4GrammarParser::QUESTION_MARK);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
+    }
    
   }
   catch (RecognitionException &e) {
@@ -915,40 +1218,54 @@ Antlr4GrammarParser::StringRuleBodyContext* Antlr4GrammarParser::stringRuleBody(
   return _localctx;
 }
 
-//----------------- AffectRuleBodyContext ------------------------------------------------------------------
+//----------------- Affect_opContext ------------------------------------------------------------------
 
-Antlr4GrammarParser::AffectRuleBodyContext::AffectRuleBodyContext(ParserRuleContext *parent, size_t invokingState)
+Antlr4GrammarParser::Affect_opContext::Affect_opContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* Antlr4GrammarParser::AffectRuleBodyContext::ID() {
-  return getToken(Antlr4GrammarParser::ID, 0);
+
+size_t Antlr4GrammarParser::Affect_opContext::getRuleIndex() const {
+  return Antlr4GrammarParser::RuleAffect_op;
 }
 
-Antlr4GrammarParser::AffectOpContext* Antlr4GrammarParser::AffectRuleBodyContext::affectOp() {
-  return getRuleContext<Antlr4GrammarParser::AffectOpContext>(0);
+void Antlr4GrammarParser::Affect_opContext::copyFrom(Affect_opContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-Antlr4GrammarParser::ROperandContext* Antlr4GrammarParser::AffectRuleBodyContext::rOperand() {
-  return getRuleContext<Antlr4GrammarParser::ROperandContext>(0);
+//----------------- Eq_operatorContext ------------------------------------------------------------------
+
+tree::TerminalNode* Antlr4GrammarParser::Eq_operatorContext::EQ() {
+  return getToken(Antlr4GrammarParser::EQ, 0);
 }
 
-
-size_t Antlr4GrammarParser::AffectRuleBodyContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleAffectRuleBody;
-}
+Antlr4GrammarParser::Eq_operatorContext::Eq_operatorContext(Affect_opContext *ctx) { copyFrom(ctx); }
 
 
-std::any Antlr4GrammarParser::AffectRuleBodyContext::accept(tree::ParseTreeVisitor *visitor) {
+std::any Antlr4GrammarParser::Eq_operatorContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitAffectRuleBody(this);
+    return parserVisitor->visitEq_operator(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- Plus_eq_operatorContext ------------------------------------------------------------------
 
-Antlr4GrammarParser::AffectRuleBodyContext* Antlr4GrammarParser::affectRuleBody() {
-  AffectRuleBodyContext *_localctx = _tracker.createInstance<AffectRuleBodyContext>(_ctx, getState());
-  enterRule(_localctx, 20, Antlr4GrammarParser::RuleAffectRuleBody);
+tree::TerminalNode* Antlr4GrammarParser::Plus_eq_operatorContext::PLUS_EQ() {
+  return getToken(Antlr4GrammarParser::PLUS_EQ, 0);
+}
+
+Antlr4GrammarParser::Plus_eq_operatorContext::Plus_eq_operatorContext(Affect_opContext *ctx) { copyFrom(ctx); }
+
+
+std::any Antlr4GrammarParser::Plus_eq_operatorContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
+    return parserVisitor->visitPlus_eq_operator(this);
+  else
+    return visitor->visitChildren(this);
+}
+Antlr4GrammarParser::Affect_opContext* Antlr4GrammarParser::affect_op() {
+  Affect_opContext *_localctx = _tracker.createInstance<Affect_opContext>(_ctx, getState());
+  enterRule(_localctx, 10, Antlr4GrammarParser::RuleAffect_op);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -958,714 +1275,28 @@ Antlr4GrammarParser::AffectRuleBodyContext* Antlr4GrammarParser::affectRuleBody(
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(120);
-    antlrcpp::downCast<AffectRuleBodyContext *>(_localctx)->name = match(Antlr4GrammarParser::ID);
-    setState(121);
-    antlrcpp::downCast<AffectRuleBodyContext *>(_localctx)->op = affectOp();
     setState(122);
-    antlrcpp::downCast<AffectRuleBodyContext *>(_localctx)->value = rOperand();
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- ROperandContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::ROperandContext::ROperandContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-tree::TerminalNode* Antlr4GrammarParser::ROperandContext::ID() {
-  return getToken(Antlr4GrammarParser::ID, 0);
-}
-
-
-size_t Antlr4GrammarParser::ROperandContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleROperand;
-}
-
-
-std::any Antlr4GrammarParser::ROperandContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitROperand(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::ROperandContext* Antlr4GrammarParser::rOperand() {
-  ROperandContext *_localctx = _tracker.createInstance<ROperandContext>(_ctx, getState());
-  enterRule(_localctx, 22, Antlr4GrammarParser::RuleROperand);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    setState(130);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case Antlr4GrammarParser::ID: {
+      case Antlr4GrammarParser::EQ: {
+        _localctx = _tracker.createInstance<Antlr4GrammarParser::Eq_operatorContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(124);
-        antlrcpp::downCast<ROperandContext *>(_localctx)->val = match(Antlr4GrammarParser::ID);
+        setState(120);
+        match(Antlr4GrammarParser::EQ);
         break;
       }
 
-      case Antlr4GrammarParser::T__9: {
+      case Antlr4GrammarParser::PLUS_EQ: {
+        _localctx = _tracker.createInstance<Antlr4GrammarParser::Plus_eq_operatorContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(125);
-        antlrcpp::downCast<ROperandContext *>(_localctx)->val = match(Antlr4GrammarParser::T__9);
-        break;
-      }
-
-      case Antlr4GrammarParser::T__10: {
-        enterOuterAlt(_localctx, 3);
-        setState(126);
-        antlrcpp::downCast<ROperandContext *>(_localctx)->val = match(Antlr4GrammarParser::T__10);
-        break;
-      }
-
-      case Antlr4GrammarParser::T__11: {
-        enterOuterAlt(_localctx, 4);
-        setState(127);
-        antlrcpp::downCast<ROperandContext *>(_localctx)->val = match(Antlr4GrammarParser::T__11);
-        break;
-      }
-
-      case Antlr4GrammarParser::T__12: {
-        enterOuterAlt(_localctx, 5);
-        setState(128);
-        antlrcpp::downCast<ROperandContext *>(_localctx)->val = match(Antlr4GrammarParser::T__12);
-        break;
-      }
-
-      case Antlr4GrammarParser::T__13: {
-        enterOuterAlt(_localctx, 6);
-        setState(129);
-        antlrcpp::downCast<ROperandContext *>(_localctx)->val = match(Antlr4GrammarParser::T__13);
+        setState(121);
+        match(Antlr4GrammarParser::PLUS_EQ);
         break;
       }
 
     default:
       throw NoViableAltException(this);
     }
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- AffectOpContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::AffectOpContext::AffectOpContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-Antlr4GrammarParser::EqOpContext* Antlr4GrammarParser::AffectOpContext::eqOp() {
-  return getRuleContext<Antlr4GrammarParser::EqOpContext>(0);
-}
-
-Antlr4GrammarParser::PlusEqOpContext* Antlr4GrammarParser::AffectOpContext::plusEqOp() {
-  return getRuleContext<Antlr4GrammarParser::PlusEqOpContext>(0);
-}
-
-
-size_t Antlr4GrammarParser::AffectOpContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleAffectOp;
-}
-
-
-std::any Antlr4GrammarParser::AffectOpContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitAffectOp(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::AffectOpContext* Antlr4GrammarParser::affectOp() {
-  AffectOpContext *_localctx = _tracker.createInstance<AffectOpContext>(_ctx, getState());
-  enterRule(_localctx, 24, Antlr4GrammarParser::RuleAffectOp);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    setState(134);
-    _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case Antlr4GrammarParser::T__14: {
-        enterOuterAlt(_localctx, 1);
-        setState(132);
-        eqOp();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__15: {
-        enterOuterAlt(_localctx, 2);
-        setState(133);
-        plusEqOp();
-        break;
-      }
-
-    default:
-      throw NoViableAltException(this);
-    }
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- EqOpContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::EqOpContext::EqOpContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::EqOpContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleEqOp;
-}
-
-
-std::any Antlr4GrammarParser::EqOpContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitEqOp(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::EqOpContext* Antlr4GrammarParser::eqOp() {
-  EqOpContext *_localctx = _tracker.createInstance<EqOpContext>(_ctx, getState());
-  enterRule(_localctx, 26, Antlr4GrammarParser::RuleEqOp);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(136);
-    match(Antlr4GrammarParser::T__14);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- PlusEqOpContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::PlusEqOpContext::PlusEqOpContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::PlusEqOpContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RulePlusEqOp;
-}
-
-
-std::any Antlr4GrammarParser::PlusEqOpContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitPlusEqOp(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::PlusEqOpContext* Antlr4GrammarParser::plusEqOp() {
-  PlusEqOpContext *_localctx = _tracker.createInstance<PlusEqOpContext>(_ctx, getState());
-  enterRule(_localctx, 28, Antlr4GrammarParser::RulePlusEqOp);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(138);
-    match(Antlr4GrammarParser::T__15);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- BaseRulesContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::BaseRulesContext::BaseRulesContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-Antlr4GrammarParser::IntBaseRuleContext* Antlr4GrammarParser::BaseRulesContext::intBaseRule() {
-  return getRuleContext<Antlr4GrammarParser::IntBaseRuleContext>(0);
-}
-
-Antlr4GrammarParser::FloatBaseRuleContext* Antlr4GrammarParser::BaseRulesContext::floatBaseRule() {
-  return getRuleContext<Antlr4GrammarParser::FloatBaseRuleContext>(0);
-}
-
-Antlr4GrammarParser::CharBaseRuleContext* Antlr4GrammarParser::BaseRulesContext::charBaseRule() {
-  return getRuleContext<Antlr4GrammarParser::CharBaseRuleContext>(0);
-}
-
-Antlr4GrammarParser::StringBaseRuleContext* Antlr4GrammarParser::BaseRulesContext::stringBaseRule() {
-  return getRuleContext<Antlr4GrammarParser::StringBaseRuleContext>(0);
-}
-
-Antlr4GrammarParser::IdBaseRuleContext* Antlr4GrammarParser::BaseRulesContext::idBaseRule() {
-  return getRuleContext<Antlr4GrammarParser::IdBaseRuleContext>(0);
-}
-
-Antlr4GrammarParser::WsBaseRuleContext* Antlr4GrammarParser::BaseRulesContext::wsBaseRule() {
-  return getRuleContext<Antlr4GrammarParser::WsBaseRuleContext>(0);
-}
-
-
-size_t Antlr4GrammarParser::BaseRulesContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleBaseRules;
-}
-
-
-std::any Antlr4GrammarParser::BaseRulesContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitBaseRules(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::BaseRulesContext* Antlr4GrammarParser::baseRules() {
-  BaseRulesContext *_localctx = _tracker.createInstance<BaseRulesContext>(_ctx, getState());
-  enterRule(_localctx, 30, Antlr4GrammarParser::RuleBaseRules);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    setState(146);
-    _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case Antlr4GrammarParser::T__9: {
-        enterOuterAlt(_localctx, 1);
-        setState(140);
-        intBaseRule();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__10: {
-        enterOuterAlt(_localctx, 2);
-        setState(141);
-        floatBaseRule();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__11: {
-        enterOuterAlt(_localctx, 3);
-        setState(142);
-        charBaseRule();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__12: {
-        enterOuterAlt(_localctx, 4);
-        setState(143);
-        stringBaseRule();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__13: {
-        enterOuterAlt(_localctx, 5);
-        setState(144);
-        idBaseRule();
-        break;
-      }
-
-      case Antlr4GrammarParser::T__25: {
-        enterOuterAlt(_localctx, 6);
-        setState(145);
-        wsBaseRule();
-        break;
-      }
-
-    default:
-      throw NoViableAltException(this);
-    }
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- IntBaseRuleContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::IntBaseRuleContext::IntBaseRuleContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::IntBaseRuleContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleIntBaseRule;
-}
-
-
-std::any Antlr4GrammarParser::IntBaseRuleContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitIntBaseRule(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::IntBaseRuleContext* Antlr4GrammarParser::intBaseRule() {
-  IntBaseRuleContext *_localctx = _tracker.createInstance<IntBaseRuleContext>(_ctx, getState());
-  enterRule(_localctx, 32, Antlr4GrammarParser::RuleIntBaseRule);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(148);
-    match(Antlr4GrammarParser::T__9);
-    setState(149);
-    match(Antlr4GrammarParser::T__2);
-    setState(150);
-    match(Antlr4GrammarParser::T__16);
-    setState(151);
-    match(Antlr4GrammarParser::T__1);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- FloatBaseRuleContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::FloatBaseRuleContext::FloatBaseRuleContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::FloatBaseRuleContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleFloatBaseRule;
-}
-
-
-std::any Antlr4GrammarParser::FloatBaseRuleContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitFloatBaseRule(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::FloatBaseRuleContext* Antlr4GrammarParser::floatBaseRule() {
-  FloatBaseRuleContext *_localctx = _tracker.createInstance<FloatBaseRuleContext>(_ctx, getState());
-  enterRule(_localctx, 34, Antlr4GrammarParser::RuleFloatBaseRule);
-  size_t _la = 0;
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(153);
-    match(Antlr4GrammarParser::T__10);
-    setState(154);
-    match(Antlr4GrammarParser::T__2);
-    setState(155);
-    match(Antlr4GrammarParser::T__16);
-    setState(157); 
-    _errHandler->sync(this);
-    _la = _input->LA(1);
-    do {
-      setState(156);
-      match(Antlr4GrammarParser::T__17);
-      setState(159); 
-      _errHandler->sync(this);
-      _la = _input->LA(1);
-    } while (_la == Antlr4GrammarParser::T__17);
-    setState(161);
-    match(Antlr4GrammarParser::T__18);
-    setState(162);
-    match(Antlr4GrammarParser::T__1);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- CharBaseRuleContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::CharBaseRuleContext::CharBaseRuleContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::CharBaseRuleContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleCharBaseRule;
-}
-
-
-std::any Antlr4GrammarParser::CharBaseRuleContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitCharBaseRule(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::CharBaseRuleContext* Antlr4GrammarParser::charBaseRule() {
-  CharBaseRuleContext *_localctx = _tracker.createInstance<CharBaseRuleContext>(_ctx, getState());
-  enterRule(_localctx, 36, Antlr4GrammarParser::RuleCharBaseRule);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(164);
-    match(Antlr4GrammarParser::T__11);
-    setState(165);
-    match(Antlr4GrammarParser::T__2);
-    setState(166);
-    match(Antlr4GrammarParser::T__19);
-    setState(167);
-    match(Antlr4GrammarParser::T__20);
-    setState(168);
-    match(Antlr4GrammarParser::T__19);
-    setState(169);
-    match(Antlr4GrammarParser::T__1);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- StringBaseRuleContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::StringBaseRuleContext::StringBaseRuleContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::StringBaseRuleContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleStringBaseRule;
-}
-
-
-std::any Antlr4GrammarParser::StringBaseRuleContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitStringBaseRule(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::StringBaseRuleContext* Antlr4GrammarParser::stringBaseRule() {
-  StringBaseRuleContext *_localctx = _tracker.createInstance<StringBaseRuleContext>(_ctx, getState());
-  enterRule(_localctx, 38, Antlr4GrammarParser::RuleStringBaseRule);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(171);
-    match(Antlr4GrammarParser::T__12);
-    setState(172);
-    match(Antlr4GrammarParser::T__2);
-    setState(173);
-    match(Antlr4GrammarParser::T__21);
-    setState(174);
-    match(Antlr4GrammarParser::T__22);
-    setState(175);
-    match(Antlr4GrammarParser::T__21);
-    setState(176);
-    match(Antlr4GrammarParser::T__1);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- IdBaseRuleContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::IdBaseRuleContext::IdBaseRuleContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::IdBaseRuleContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleIdBaseRule;
-}
-
-
-std::any Antlr4GrammarParser::IdBaseRuleContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitIdBaseRule(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::IdBaseRuleContext* Antlr4GrammarParser::idBaseRule() {
-  IdBaseRuleContext *_localctx = _tracker.createInstance<IdBaseRuleContext>(_ctx, getState());
-  enterRule(_localctx, 40, Antlr4GrammarParser::RuleIdBaseRule);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(178);
-    match(Antlr4GrammarParser::T__13);
-    setState(179);
-    match(Antlr4GrammarParser::T__2);
-    setState(180);
-    match(Antlr4GrammarParser::T__23);
-    setState(181);
-    match(Antlr4GrammarParser::T__24);
-    setState(182);
-    match(Antlr4GrammarParser::T__1);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- WsBaseRuleContext ------------------------------------------------------------------
-
-Antlr4GrammarParser::WsBaseRuleContext::WsBaseRuleContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t Antlr4GrammarParser::WsBaseRuleContext::getRuleIndex() const {
-  return Antlr4GrammarParser::RuleWsBaseRule;
-}
-
-
-std::any Antlr4GrammarParser::WsBaseRuleContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<Antlr4GrammarVisitor*>(visitor))
-    return parserVisitor->visitWsBaseRule(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-Antlr4GrammarParser::WsBaseRuleContext* Antlr4GrammarParser::wsBaseRule() {
-  WsBaseRuleContext *_localctx = _tracker.createInstance<WsBaseRuleContext>(_ctx, getState());
-  enterRule(_localctx, 42, Antlr4GrammarParser::RuleWsBaseRule);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(184);
-    match(Antlr4GrammarParser::T__25);
-    setState(185);
-    match(Antlr4GrammarParser::T__2);
-    setState(186);
-    match(Antlr4GrammarParser::T__26);
-    setState(187);
-    match(Antlr4GrammarParser::T__27);
-    setState(188);
-    match(Antlr4GrammarParser::T__28);
-    setState(189);
-    match(Antlr4GrammarParser::T__1);
    
   }
   catch (RecognitionException &e) {
@@ -1679,7 +1310,7 @@ Antlr4GrammarParser::WsBaseRuleContext* Antlr4GrammarParser::wsBaseRule() {
 
 bool Antlr4GrammarParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
-    case 3: return terminalRuleBodySempred(antlrcpp::downCast<TerminalRuleBodyContext *>(context), predicateIndex);
+    case 3: return terminal_rule_bodySempred(antlrcpp::downCast<Terminal_rule_bodyContext *>(context), predicateIndex);
 
   default:
     break;
@@ -1687,9 +1318,9 @@ bool Antlr4GrammarParser::sempred(RuleContext *context, size_t ruleIndex, size_t
   return true;
 }
 
-bool Antlr4GrammarParser::terminalRuleBodySempred(TerminalRuleBodyContext *_localctx, size_t predicateIndex) {
+bool Antlr4GrammarParser::terminal_rule_bodySempred(Terminal_rule_bodyContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return precpred(_ctx, 4);
+    case 0: return precpred(_ctx, 8);
 
   default:
     break;

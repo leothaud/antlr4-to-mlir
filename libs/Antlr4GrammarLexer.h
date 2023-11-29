@@ -12,11 +12,13 @@
 class  Antlr4GrammarLexer : public antlr4::Lexer {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
-    T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
-    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
-    T__26 = 27, T__27 = 28, T__28 = 29, ID = 30, STRING = 31, WS = 32
+    QUOTED_DOT = 1, QUOTED_DOUBLE_QUOTE = 2, QUOTED_QUOTE = 3, GRAMMAR = 4, 
+    SEMI = 5, COLON = 6, PIPE = 7, EOF_TOKEN = 8, STAR = 9, PLUS = 10, MINUS = 11, 
+    QUESTION_MARK = 12, L_PARENT = 13, R_PARENT = 14, DOT = 15, QUOTE = 16, 
+    DOUBLE_QUOTE = 17, BACKSLASH = 18, SKIP_TOKEN = 19, L_SBRACKET = 20, 
+    R_SBRACKET = 21, EQ = 22, PLUS_EQ = 23, FRAGMENT_TOKEN = 24, POUND = 25, 
+    UNDERSCORE = 26, L_ID = 27, U_ID = 28, STRING = 29, WS = 30, COMMENT = 31, 
+    LINE_COMMENT = 32, ANY = 33
   };
 
   explicit Antlr4GrammarLexer(antlr4::CharStream *input);

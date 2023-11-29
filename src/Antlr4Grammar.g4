@@ -10,61 +10,80 @@
 
 grammar Antlr4Grammar;
 
-grammarFile: 'grammar' grammarName=ID ';' (grammarRules+=rules)* baseRules* EOF;
+grammar_file: GRAMMAR grammar_name=(L_ID | U_ID) SEMI (grammar_rules+=rule_)+ EOF;
 
-rules: name=ID ':' ((body=ruleBody) | ('(' children+=ID ')') | (children+=ID)) ('|' ((body=ruleBody) | ('(' children+=ID ')') | (children+=ID)))* ';';
+rule_:
+    FRAGMENT_TOKEN? name=U_ID COLON (~(SEMI | QUOTE | L_SBRACKET) | QUOTE (~QUOTE | BACKSLASH QUOTE)*? SEMI (~QUOTE | BACKSLASH QUOTE)*? | L_SBRACKET ~L_SBRACKET*? R_SBRACKET)*? SEMI #lexer_rule
+  | name=L_ID COLON bodies+=rule_body (PIPE bodies+=rule_body)* SEMI #parser_rule;
 
-ruleBody: (bodies+=terminalRuleBody)+;
+rule_body:
+    (rule_fragment+=terminal_rule_body)+ (POUND ruleName=L_ID)?;
 
-terminalRuleBody:
-  body=terminalRuleBody (op=operator)
-  | parentRuleBody
-  | stringRuleBody
-  | affectRuleBody 
+terminal_rule_body:
+    body=terminal_rule_body op=operator #postfix_rule_body
+  | L_PARENT body=rule_body R_PARENT #parent_rule_body
+  | body=(STRING | QUOTED_DOT | QUOTED_DOUBLE_QUOTE | QUOTED_QUOTE) #string_rule_body
+  | varName=L_ID op=affect_op value=(L_ID | U_ID) #affect_rule_body
+  | name=(L_ID | U_ID) #id_rule_body
+  | L_SBRACKET (~R_SBRACKET | BACKSLASH R_SBRACKET)*? R_SBRACKET #sbracket_rule_body
+  | DOT #dot_rule_body
+  | EOF_TOKEN #eof_rule_body
   ;
 
 
-starOperator: '*';
+operator:
+    STAR #star_operator
+  | PLUS #plus_operator
+  | QUESTION_MARK #question_mark_operator
+  ;
 
-plusOperator: '+';
+affect_op:
+    EQ #eq_operator
+  | PLUS_EQ #plus_eq_operator
+  ;
+      
 
-questionMarkOperator: '?';
+QUOTED_DOT:'\'.\'';
+QUOTED_DOUBLE_QUOTE: '\'"\'';
+QUOTED_QUOTE: '\'\\\'\'';
 
-operator: starOperator | plusOperator | questionMarkOperator;
+GRAMMAR: 'grammar';
+SEMI: ';';
+COLON: ':';
+PIPE: '|';
+EOF_TOKEN: 'EOF';
+STAR: '*';
+PLUS: '+';
+MINUS:'-';
+QUESTION_MARK: '?';
+L_PARENT: '(';
+R_PARENT: ')';
+DOT: '.';
+QUOTE: '\'';
+DOUBLE_QUOTE:'"';
+BACKSLASH:'\\';
+SKIP_TOKEN:'skip';
+L_SBRACKET:'[';
+R_SBRACKET:']';
+EQ:'=';
+PLUS_EQ:'+=';
+FRAGMENT_TOKEN:'fragment';
+POUND:'#';
 
-parentRuleBody:
-    '(' body=ruleBody ')';
 
-stringRuleBody:
-    body=STRING ;
+fragment DIGIT:[0-9];
+fragment LOWERCASE_LETTER:[a-z];
+fragment UPPERCASE_LETTER:[A-Z];
+fragment UNDERSCORE_F:'_';
 
-affectRuleBody:
-    name=ID op=affectOp value=rOperand;
+UNDERSCORE: UNDERSCORE_F;
 
-rOperand:
-    val=ID | val='INT' | val='FLOAT' | val='CHAR' | val='STRING' | val='ID' ;
+L_ID: LOWERCASE_LETTER (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | UNDERSCORE_F)*;
+U_ID: UPPERCASE_LETTER (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | UNDERSCORE_F)*;
 
-affectOp: eqOp | plusEqOp;
-
-eqOp: '=';
-
-plusEqOp: '+=';
-
-baseRules:
-	intBaseRule | floatBaseRule | charBaseRule | stringBaseRule | idBaseRule | wsBaseRule;
-
-intBaseRule: 'INT' ':' '\'-\'?[0-9]+' ';';
-
-floatBaseRule: 'FLOAT' ':' '\'-\'?[0-9]+' '\'.\'' + '[0-9]*' ';' ;
-
-charBaseRule: 'CHAR' ':' '\'\\\'\'' '(\'\\\\\'|.)' '\'\\\'\'' ';' ;
-
-stringBaseRule: 'STRING' ':' '\'"\'' '(\'\\\\\'|.)*?' '\'"\'' ';';
-
-idBaseRule: 'ID' ':' '[a-zA-Z_]' '[a-zA-Z_0-9]*' ';' ;
-
-wsBaseRule: 'WS' ':' '[ \\t\\r\\n]' '->' 'skip' ';' ;
-
-ID: [a-zA-Z_] [a-zA-Z_0-9]*;
-STRING: '\'' .*? '\'';
+STRING: '\'' (~'\'' | '\\\'')*? '\'';
 WS: [ \t\r\n]+ -> skip;
+COMMENT: '/*' .*? '*/' -> skip;
+LINE_COMMENT: '//' ~[\r\n]* -> skip;
+
+ANY: .;

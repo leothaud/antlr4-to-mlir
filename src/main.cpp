@@ -32,7 +32,8 @@ int main(int argc, const char** argv)
   std::string mlirStandalonePath = MLIR_STANDALONE_PATH;
   if (mlirStandalonePath.back() != '/')
     mlirStandalonePath += '/';
- 
+
+
 
   if ((strcmp(argv[1], "--init") == 0) || (!std::filesystem::exists(mlirStandalonePath + ".initialized")))
   {
@@ -52,13 +53,15 @@ int main(int argc, const char** argv)
 
   antlr4::ANTLRInputStream input(stream);
   Antlr4GrammarLexer lexer(&input);
+  
   antlr4::CommonTokenStream tokens(&lexer);
   Antlr4GrammarParser parser(&tokens);
-  Antlr4GrammarParser::GrammarFileContext* tree = parser.grammarFile();
-  GrammarVisitor visitor;
-  visitor.visitGrammarFile(tree);
 
-  
+  Antlr4GrammarParser::Grammar_fileContext* tree = parser.grammar_file();
+  GrammarVisitor visitor;
+
+  visitor.visitGrammar_file(tree);
+
   std::string antlrGenerationPath = ANTLR_GENERATION_PATH;
   if (antlrGenerationPath.back() != '/')
     antlrGenerationPath += '/';

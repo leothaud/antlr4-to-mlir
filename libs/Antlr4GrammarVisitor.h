@@ -19,49 +19,39 @@ public:
   /**
    * Visit parse trees produced by Antlr4GrammarParser.
    */
-    virtual std::any visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *context) = 0;
+    virtual std::any visitGrammar_file(Antlr4GrammarParser::Grammar_fileContext *context) = 0;
 
-    virtual std::any visitRules(Antlr4GrammarParser::RulesContext *context) = 0;
+    virtual std::any visitLexer_rule(Antlr4GrammarParser::Lexer_ruleContext *context) = 0;
 
-    virtual std::any visitRuleBody(Antlr4GrammarParser::RuleBodyContext *context) = 0;
+    virtual std::any visitParser_rule(Antlr4GrammarParser::Parser_ruleContext *context) = 0;
 
-    virtual std::any visitTerminalRuleBody(Antlr4GrammarParser::TerminalRuleBodyContext *context) = 0;
+    virtual std::any visitRule_body(Antlr4GrammarParser::Rule_bodyContext *context) = 0;
 
-    virtual std::any visitStarOperator(Antlr4GrammarParser::StarOperatorContext *context) = 0;
+    virtual std::any visitDot_rule_body(Antlr4GrammarParser::Dot_rule_bodyContext *context) = 0;
 
-    virtual std::any visitPlusOperator(Antlr4GrammarParser::PlusOperatorContext *context) = 0;
+    virtual std::any visitString_rule_body(Antlr4GrammarParser::String_rule_bodyContext *context) = 0;
 
-    virtual std::any visitQuestionMarkOperator(Antlr4GrammarParser::QuestionMarkOperatorContext *context) = 0;
+    virtual std::any visitSbracket_rule_body(Antlr4GrammarParser::Sbracket_rule_bodyContext *context) = 0;
 
-    virtual std::any visitOperator(Antlr4GrammarParser::OperatorContext *context) = 0;
+    virtual std::any visitParent_rule_body(Antlr4GrammarParser::Parent_rule_bodyContext *context) = 0;
 
-    virtual std::any visitParentRuleBody(Antlr4GrammarParser::ParentRuleBodyContext *context) = 0;
+    virtual std::any visitAffect_rule_body(Antlr4GrammarParser::Affect_rule_bodyContext *context) = 0;
 
-    virtual std::any visitStringRuleBody(Antlr4GrammarParser::StringRuleBodyContext *context) = 0;
+    virtual std::any visitPostfix_rule_body(Antlr4GrammarParser::Postfix_rule_bodyContext *context) = 0;
 
-    virtual std::any visitAffectRuleBody(Antlr4GrammarParser::AffectRuleBodyContext *context) = 0;
+    virtual std::any visitId_rule_body(Antlr4GrammarParser::Id_rule_bodyContext *context) = 0;
 
-    virtual std::any visitROperand(Antlr4GrammarParser::ROperandContext *context) = 0;
+    virtual std::any visitEof_rule_body(Antlr4GrammarParser::Eof_rule_bodyContext *context) = 0;
 
-    virtual std::any visitAffectOp(Antlr4GrammarParser::AffectOpContext *context) = 0;
+    virtual std::any visitStar_operator(Antlr4GrammarParser::Star_operatorContext *context) = 0;
 
-    virtual std::any visitEqOp(Antlr4GrammarParser::EqOpContext *context) = 0;
+    virtual std::any visitPlus_operator(Antlr4GrammarParser::Plus_operatorContext *context) = 0;
 
-    virtual std::any visitPlusEqOp(Antlr4GrammarParser::PlusEqOpContext *context) = 0;
+    virtual std::any visitQuestion_mark_operator(Antlr4GrammarParser::Question_mark_operatorContext *context) = 0;
 
-    virtual std::any visitBaseRules(Antlr4GrammarParser::BaseRulesContext *context) = 0;
+    virtual std::any visitEq_operator(Antlr4GrammarParser::Eq_operatorContext *context) = 0;
 
-    virtual std::any visitIntBaseRule(Antlr4GrammarParser::IntBaseRuleContext *context) = 0;
-
-    virtual std::any visitFloatBaseRule(Antlr4GrammarParser::FloatBaseRuleContext *context) = 0;
-
-    virtual std::any visitCharBaseRule(Antlr4GrammarParser::CharBaseRuleContext *context) = 0;
-
-    virtual std::any visitStringBaseRule(Antlr4GrammarParser::StringBaseRuleContext *context) = 0;
-
-    virtual std::any visitIdBaseRule(Antlr4GrammarParser::IdBaseRuleContext *context) = 0;
-
-    virtual std::any visitWsBaseRule(Antlr4GrammarParser::WsBaseRuleContext *context) = 0;
+    virtual std::any visitPlus_eq_operator(Antlr4GrammarParser::Plus_eq_operatorContext *context) = 0;
 
 
 };

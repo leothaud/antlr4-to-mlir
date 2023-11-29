@@ -12,20 +12,18 @@
 class  Antlr4GrammarParser : public antlr4::Parser {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
-    T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
-    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
-    T__26 = 27, T__27 = 28, T__28 = 29, ID = 30, STRING = 31, WS = 32
+    QUOTED_DOT = 1, QUOTED_DOUBLE_QUOTE = 2, QUOTED_QUOTE = 3, GRAMMAR = 4, 
+    SEMI = 5, COLON = 6, PIPE = 7, EOF_TOKEN = 8, STAR = 9, PLUS = 10, MINUS = 11, 
+    QUESTION_MARK = 12, L_PARENT = 13, R_PARENT = 14, DOT = 15, QUOTE = 16, 
+    DOUBLE_QUOTE = 17, BACKSLASH = 18, SKIP_TOKEN = 19, L_SBRACKET = 20, 
+    R_SBRACKET = 21, EQ = 22, PLUS_EQ = 23, FRAGMENT_TOKEN = 24, POUND = 25, 
+    UNDERSCORE = 26, L_ID = 27, U_ID = 28, STRING = 29, WS = 30, COMMENT = 31, 
+    LINE_COMMENT = 32, ANY = 33
   };
 
   enum {
-    RuleGrammarFile = 0, RuleRules = 1, RuleRuleBody = 2, RuleTerminalRuleBody = 3, 
-    RuleStarOperator = 4, RulePlusOperator = 5, RuleQuestionMarkOperator = 6, 
-    RuleOperator = 7, RuleParentRuleBody = 8, RuleStringRuleBody = 9, RuleAffectRuleBody = 10, 
-    RuleROperand = 11, RuleAffectOp = 12, RuleEqOp = 13, RulePlusEqOp = 14, 
-    RuleBaseRules = 15, RuleIntBaseRule = 16, RuleFloatBaseRule = 17, RuleCharBaseRule = 18, 
-    RuleStringBaseRule = 19, RuleIdBaseRule = 20, RuleWsBaseRule = 21
+    RuleGrammar_file = 0, RuleRule_ = 1, RuleRule_body = 2, RuleTerminal_rule_body = 3, 
+    RuleOperator = 4, RuleAffect_op = 5
   };
 
   explicit Antlr4GrammarParser(antlr4::TokenStream *input);
@@ -45,348 +43,297 @@ public:
   antlr4::atn::SerializedATNView getSerializedATN() const override;
 
 
-  class GrammarFileContext;
-  class RulesContext;
-  class RuleBodyContext;
-  class TerminalRuleBodyContext;
-  class StarOperatorContext;
-  class PlusOperatorContext;
-  class QuestionMarkOperatorContext;
+  class Grammar_fileContext;
+  class Rule_Context;
+  class Rule_bodyContext;
+  class Terminal_rule_bodyContext;
   class OperatorContext;
-  class ParentRuleBodyContext;
-  class StringRuleBodyContext;
-  class AffectRuleBodyContext;
-  class ROperandContext;
-  class AffectOpContext;
-  class EqOpContext;
-  class PlusEqOpContext;
-  class BaseRulesContext;
-  class IntBaseRuleContext;
-  class FloatBaseRuleContext;
-  class CharBaseRuleContext;
-  class StringBaseRuleContext;
-  class IdBaseRuleContext;
-  class WsBaseRuleContext; 
+  class Affect_opContext; 
 
-  class  GrammarFileContext : public antlr4::ParserRuleContext {
+  class  Grammar_fileContext : public antlr4::ParserRuleContext {
   public:
-    antlr4::Token *grammarName = nullptr;
-    Antlr4GrammarParser::RulesContext *rulesContext = nullptr;
-    std::vector<RulesContext *> grammarRules;
-    GrammarFileContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    antlr4::Token *grammar_name = nullptr;
+    Antlr4GrammarParser::Rule_Context *rule_Context = nullptr;
+    std::vector<Rule_Context *> grammar_rules;
+    Grammar_fileContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *GRAMMAR();
+    antlr4::tree::TerminalNode *SEMI();
     antlr4::tree::TerminalNode *EOF();
-    antlr4::tree::TerminalNode *ID();
-    std::vector<BaseRulesContext *> baseRules();
-    BaseRulesContext* baseRules(size_t i);
-    std::vector<RulesContext *> rules();
-    RulesContext* rules(size_t i);
+    antlr4::tree::TerminalNode *L_ID();
+    antlr4::tree::TerminalNode *U_ID();
+    std::vector<Rule_Context *> rule_();
+    Rule_Context* rule_(size_t i);
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  GrammarFileContext* grammarFile();
+  Grammar_fileContext* grammar_file();
 
-  class  RulesContext : public antlr4::ParserRuleContext {
+  class  Rule_Context : public antlr4::ParserRuleContext {
   public:
+    Rule_Context(antlr4::ParserRuleContext *parent, size_t invokingState);
+   
+    Rule_Context() = default;
+    void copyFrom(Rule_Context *context);
+    using antlr4::ParserRuleContext::copyFrom;
+
+    virtual size_t getRuleIndex() const override;
+
+   
+  };
+
+  class  Lexer_ruleContext : public Rule_Context {
+  public:
+    Lexer_ruleContext(Rule_Context *ctx);
+
     antlr4::Token *name = nullptr;
-    Antlr4GrammarParser::RuleBodyContext *body = nullptr;
-    antlr4::Token *idToken = nullptr;
-    std::vector<antlr4::Token *> children;
-    RulesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    antlr4::tree::TerminalNode *COLON();
+    std::vector<antlr4::tree::TerminalNode *> SEMI();
+    antlr4::tree::TerminalNode* SEMI(size_t i);
+    antlr4::tree::TerminalNode *U_ID();
+    antlr4::tree::TerminalNode *FRAGMENT_TOKEN();
+    std::vector<antlr4::tree::TerminalNode *> QUOTE();
+    antlr4::tree::TerminalNode* QUOTE(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> L_SBRACKET();
+    antlr4::tree::TerminalNode* L_SBRACKET(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> R_SBRACKET();
+    antlr4::tree::TerminalNode* R_SBRACKET(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> BACKSLASH();
+    antlr4::tree::TerminalNode* BACKSLASH(size_t i);
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  Parser_ruleContext : public Rule_Context {
+  public:
+    Parser_ruleContext(Rule_Context *ctx);
+
+    antlr4::Token *name = nullptr;
+    Antlr4GrammarParser::Rule_bodyContext *rule_bodyContext = nullptr;
+    std::vector<Rule_bodyContext *> bodies;
+    antlr4::tree::TerminalNode *COLON();
+    antlr4::tree::TerminalNode *SEMI();
+    antlr4::tree::TerminalNode *L_ID();
+    std::vector<Rule_bodyContext *> rule_body();
+    Rule_bodyContext* rule_body(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> PIPE();
+    antlr4::tree::TerminalNode* PIPE(size_t i);
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  Rule_Context* rule_();
+
+  class  Rule_bodyContext : public antlr4::ParserRuleContext {
+  public:
+    Antlr4GrammarParser::Terminal_rule_bodyContext *terminal_rule_bodyContext = nullptr;
+    std::vector<Terminal_rule_bodyContext *> rule_fragment;
+    antlr4::Token *ruleName = nullptr;
+    Rule_bodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<antlr4::tree::TerminalNode *> ID();
-    antlr4::tree::TerminalNode* ID(size_t i);
-    std::vector<RuleBodyContext *> ruleBody();
-    RuleBodyContext* ruleBody(size_t i);
+    antlr4::tree::TerminalNode *POUND();
+    std::vector<Terminal_rule_bodyContext *> terminal_rule_body();
+    Terminal_rule_bodyContext* terminal_rule_body(size_t i);
+    antlr4::tree::TerminalNode *L_ID();
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  RulesContext* rules();
+  Rule_bodyContext* rule_body();
 
-  class  RuleBodyContext : public antlr4::ParserRuleContext {
+  class  Terminal_rule_bodyContext : public antlr4::ParserRuleContext {
   public:
-    Antlr4GrammarParser::TerminalRuleBodyContext *terminalRuleBodyContext = nullptr;
-    std::vector<TerminalRuleBodyContext *> bodies;
-    RuleBodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    Terminal_rule_bodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+   
+    Terminal_rule_bodyContext() = default;
+    void copyFrom(Terminal_rule_bodyContext *context);
+    using antlr4::ParserRuleContext::copyFrom;
+
     virtual size_t getRuleIndex() const override;
-    std::vector<TerminalRuleBodyContext *> terminalRuleBody();
-    TerminalRuleBodyContext* terminalRuleBody(size_t i);
 
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  RuleBodyContext* ruleBody();
-
-  class  TerminalRuleBodyContext : public antlr4::ParserRuleContext {
+  class  Dot_rule_bodyContext : public Terminal_rule_bodyContext {
   public:
-    Antlr4GrammarParser::TerminalRuleBodyContext *body = nullptr;
+    Dot_rule_bodyContext(Terminal_rule_bodyContext *ctx);
+
+    antlr4::tree::TerminalNode *DOT();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  String_rule_bodyContext : public Terminal_rule_bodyContext {
+  public:
+    String_rule_bodyContext(Terminal_rule_bodyContext *ctx);
+
+    antlr4::Token *body = nullptr;
+    antlr4::tree::TerminalNode *STRING();
+    antlr4::tree::TerminalNode *QUOTED_DOT();
+    antlr4::tree::TerminalNode *QUOTED_DOUBLE_QUOTE();
+    antlr4::tree::TerminalNode *QUOTED_QUOTE();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  Sbracket_rule_bodyContext : public Terminal_rule_bodyContext {
+  public:
+    Sbracket_rule_bodyContext(Terminal_rule_bodyContext *ctx);
+
+    antlr4::tree::TerminalNode *L_SBRACKET();
+    std::vector<antlr4::tree::TerminalNode *> R_SBRACKET();
+    antlr4::tree::TerminalNode* R_SBRACKET(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> BACKSLASH();
+    antlr4::tree::TerminalNode* BACKSLASH(size_t i);
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  Parent_rule_bodyContext : public Terminal_rule_bodyContext {
+  public:
+    Parent_rule_bodyContext(Terminal_rule_bodyContext *ctx);
+
+    Antlr4GrammarParser::Rule_bodyContext *body = nullptr;
+    antlr4::tree::TerminalNode *L_PARENT();
+    antlr4::tree::TerminalNode *R_PARENT();
+    Rule_bodyContext *rule_body();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  Affect_rule_bodyContext : public Terminal_rule_bodyContext {
+  public:
+    Affect_rule_bodyContext(Terminal_rule_bodyContext *ctx);
+
+    antlr4::Token *varName = nullptr;
+    Antlr4GrammarParser::Affect_opContext *op = nullptr;
+    antlr4::Token *value = nullptr;
+    std::vector<antlr4::tree::TerminalNode *> L_ID();
+    antlr4::tree::TerminalNode* L_ID(size_t i);
+    Affect_opContext *affect_op();
+    antlr4::tree::TerminalNode *U_ID();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  Postfix_rule_bodyContext : public Terminal_rule_bodyContext {
+  public:
+    Postfix_rule_bodyContext(Terminal_rule_bodyContext *ctx);
+
+    Antlr4GrammarParser::Terminal_rule_bodyContext *body = nullptr;
     Antlr4GrammarParser::OperatorContext *op = nullptr;
-    TerminalRuleBodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    ParentRuleBodyContext *parentRuleBody();
-    StringRuleBodyContext *stringRuleBody();
-    AffectRuleBodyContext *affectRuleBody();
-    TerminalRuleBodyContext *terminalRuleBody();
+    Terminal_rule_bodyContext *terminal_rule_body();
     OperatorContext *operator_();
 
-
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
   };
 
-  TerminalRuleBodyContext* terminalRuleBody();
-  TerminalRuleBodyContext* terminalRuleBody(int precedence);
-  class  StarOperatorContext : public antlr4::ParserRuleContext {
+  class  Id_rule_bodyContext : public Terminal_rule_bodyContext {
   public:
-    StarOperatorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
+    Id_rule_bodyContext(Terminal_rule_bodyContext *ctx);
 
+    antlr4::Token *name = nullptr;
+    antlr4::tree::TerminalNode *L_ID();
+    antlr4::tree::TerminalNode *U_ID();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
   };
 
-  StarOperatorContext* starOperator();
-
-  class  PlusOperatorContext : public antlr4::ParserRuleContext {
+  class  Eof_rule_bodyContext : public Terminal_rule_bodyContext {
   public:
-    PlusOperatorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
+    Eof_rule_bodyContext(Terminal_rule_bodyContext *ctx);
 
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  PlusOperatorContext* plusOperator();
-
-  class  QuestionMarkOperatorContext : public antlr4::ParserRuleContext {
-  public:
-    QuestionMarkOperatorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
+    antlr4::tree::TerminalNode *EOF_TOKEN();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
   };
 
-  QuestionMarkOperatorContext* questionMarkOperator();
-
+  Terminal_rule_bodyContext* terminal_rule_body();
+  Terminal_rule_bodyContext* terminal_rule_body(int precedence);
   class  OperatorContext : public antlr4::ParserRuleContext {
   public:
     OperatorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    StarOperatorContext *starOperator();
-    PlusOperatorContext *plusOperator();
-    QuestionMarkOperatorContext *questionMarkOperator();
+   
+    OperatorContext() = default;
+    void copyFrom(OperatorContext *context);
+    using antlr4::ParserRuleContext::copyFrom;
 
+    virtual size_t getRuleIndex() const override;
+
+   
+  };
+
+  class  Star_operatorContext : public OperatorContext {
+  public:
+    Star_operatorContext(OperatorContext *ctx);
+
+    antlr4::tree::TerminalNode *STAR();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
+  };
+
+  class  Question_mark_operatorContext : public OperatorContext {
+  public:
+    Question_mark_operatorContext(OperatorContext *ctx);
+
+    antlr4::tree::TerminalNode *QUESTION_MARK();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  Plus_operatorContext : public OperatorContext {
+  public:
+    Plus_operatorContext(OperatorContext *ctx);
+
+    antlr4::tree::TerminalNode *PLUS();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
   OperatorContext* operator_();
 
-  class  ParentRuleBodyContext : public antlr4::ParserRuleContext {
+  class  Affect_opContext : public antlr4::ParserRuleContext {
   public:
-    Antlr4GrammarParser::RuleBodyContext *body = nullptr;
-    ParentRuleBodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    Affect_opContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+   
+    Affect_opContext() = default;
+    void copyFrom(Affect_opContext *context);
+    using antlr4::ParserRuleContext::copyFrom;
+
     virtual size_t getRuleIndex() const override;
-    RuleBodyContext *ruleBody();
 
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  ParentRuleBodyContext* parentRuleBody();
-
-  class  StringRuleBodyContext : public antlr4::ParserRuleContext {
+  class  Eq_operatorContext : public Affect_opContext {
   public:
-    antlr4::Token *body = nullptr;
-    StringRuleBodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *STRING();
+    Eq_operatorContext(Affect_opContext *ctx);
 
+    antlr4::tree::TerminalNode *EQ();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
   };
 
-  StringRuleBodyContext* stringRuleBody();
-
-  class  AffectRuleBodyContext : public antlr4::ParserRuleContext {
+  class  Plus_eq_operatorContext : public Affect_opContext {
   public:
-    antlr4::Token *name = nullptr;
-    Antlr4GrammarParser::AffectOpContext *op = nullptr;
-    Antlr4GrammarParser::ROperandContext *value = nullptr;
-    AffectRuleBodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *ID();
-    AffectOpContext *affectOp();
-    ROperandContext *rOperand();
+    Plus_eq_operatorContext(Affect_opContext *ctx);
 
+    antlr4::tree::TerminalNode *PLUS_EQ();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
   };
 
-  AffectRuleBodyContext* affectRuleBody();
-
-  class  ROperandContext : public antlr4::ParserRuleContext {
-  public:
-    antlr4::Token *val = nullptr;
-    ROperandContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *ID();
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  ROperandContext* rOperand();
-
-  class  AffectOpContext : public antlr4::ParserRuleContext {
-  public:
-    AffectOpContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    EqOpContext *eqOp();
-    PlusEqOpContext *plusEqOp();
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  AffectOpContext* affectOp();
-
-  class  EqOpContext : public antlr4::ParserRuleContext {
-  public:
-    EqOpContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  EqOpContext* eqOp();
-
-  class  PlusEqOpContext : public antlr4::ParserRuleContext {
-  public:
-    PlusEqOpContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  PlusEqOpContext* plusEqOp();
-
-  class  BaseRulesContext : public antlr4::ParserRuleContext {
-  public:
-    BaseRulesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    IntBaseRuleContext *intBaseRule();
-    FloatBaseRuleContext *floatBaseRule();
-    CharBaseRuleContext *charBaseRule();
-    StringBaseRuleContext *stringBaseRule();
-    IdBaseRuleContext *idBaseRule();
-    WsBaseRuleContext *wsBaseRule();
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BaseRulesContext* baseRules();
-
-  class  IntBaseRuleContext : public antlr4::ParserRuleContext {
-  public:
-    IntBaseRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  IntBaseRuleContext* intBaseRule();
-
-  class  FloatBaseRuleContext : public antlr4::ParserRuleContext {
-  public:
-    FloatBaseRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  FloatBaseRuleContext* floatBaseRule();
-
-  class  CharBaseRuleContext : public antlr4::ParserRuleContext {
-  public:
-    CharBaseRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  CharBaseRuleContext* charBaseRule();
-
-  class  StringBaseRuleContext : public antlr4::ParserRuleContext {
-  public:
-    StringBaseRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  StringBaseRuleContext* stringBaseRule();
-
-  class  IdBaseRuleContext : public antlr4::ParserRuleContext {
-  public:
-    IdBaseRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  IdBaseRuleContext* idBaseRule();
-
-  class  WsBaseRuleContext : public antlr4::ParserRuleContext {
-  public:
-    WsBaseRuleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  WsBaseRuleContext* wsBaseRule();
+  Affect_opContext* affect_op();
 
 
   bool sempred(antlr4::RuleContext *_localctx, size_t ruleIndex, size_t predicateIndex) override;
 
-  bool terminalRuleBodySempred(TerminalRuleBodyContext *_localctx, size_t predicateIndex);
+  bool terminal_rule_bodySempred(Terminal_rule_bodyContext *_localctx, size_t predicateIndex);
 
   // By default the static state used to implement the parser is lazily initialized during the first
   // call to the constructor. You can call this function if you wish to initialize the static state

@@ -15,91 +15,71 @@
 class  Antlr4GrammarBaseVisitor : public Antlr4GrammarVisitor {
 public:
 
-  virtual std::any visitGrammarFile(Antlr4GrammarParser::GrammarFileContext *ctx) override {
+  virtual std::any visitGrammar_file(Antlr4GrammarParser::Grammar_fileContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitRules(Antlr4GrammarParser::RulesContext *ctx) override {
+  virtual std::any visitLexer_rule(Antlr4GrammarParser::Lexer_ruleContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitRuleBody(Antlr4GrammarParser::RuleBodyContext *ctx) override {
+  virtual std::any visitParser_rule(Antlr4GrammarParser::Parser_ruleContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitTerminalRuleBody(Antlr4GrammarParser::TerminalRuleBodyContext *ctx) override {
+  virtual std::any visitRule_body(Antlr4GrammarParser::Rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitStarOperator(Antlr4GrammarParser::StarOperatorContext *ctx) override {
+  virtual std::any visitDot_rule_body(Antlr4GrammarParser::Dot_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitPlusOperator(Antlr4GrammarParser::PlusOperatorContext *ctx) override {
+  virtual std::any visitString_rule_body(Antlr4GrammarParser::String_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitQuestionMarkOperator(Antlr4GrammarParser::QuestionMarkOperatorContext *ctx) override {
+  virtual std::any visitSbracket_rule_body(Antlr4GrammarParser::Sbracket_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitOperator(Antlr4GrammarParser::OperatorContext *ctx) override {
+  virtual std::any visitParent_rule_body(Antlr4GrammarParser::Parent_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitParentRuleBody(Antlr4GrammarParser::ParentRuleBodyContext *ctx) override {
+  virtual std::any visitAffect_rule_body(Antlr4GrammarParser::Affect_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitStringRuleBody(Antlr4GrammarParser::StringRuleBodyContext *ctx) override {
+  virtual std::any visitPostfix_rule_body(Antlr4GrammarParser::Postfix_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitAffectRuleBody(Antlr4GrammarParser::AffectRuleBodyContext *ctx) override {
+  virtual std::any visitId_rule_body(Antlr4GrammarParser::Id_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitROperand(Antlr4GrammarParser::ROperandContext *ctx) override {
+  virtual std::any visitEof_rule_body(Antlr4GrammarParser::Eof_rule_bodyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitAffectOp(Antlr4GrammarParser::AffectOpContext *ctx) override {
+  virtual std::any visitStar_operator(Antlr4GrammarParser::Star_operatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitEqOp(Antlr4GrammarParser::EqOpContext *ctx) override {
+  virtual std::any visitPlus_operator(Antlr4GrammarParser::Plus_operatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitPlusEqOp(Antlr4GrammarParser::PlusEqOpContext *ctx) override {
+  virtual std::any visitQuestion_mark_operator(Antlr4GrammarParser::Question_mark_operatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitBaseRules(Antlr4GrammarParser::BaseRulesContext *ctx) override {
+  virtual std::any visitEq_operator(Antlr4GrammarParser::Eq_operatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitIntBaseRule(Antlr4GrammarParser::IntBaseRuleContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitFloatBaseRule(Antlr4GrammarParser::FloatBaseRuleContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitCharBaseRule(Antlr4GrammarParser::CharBaseRuleContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitStringBaseRule(Antlr4GrammarParser::StringBaseRuleContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitIdBaseRule(Antlr4GrammarParser::IdBaseRuleContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual std::any visitWsBaseRule(Antlr4GrammarParser::WsBaseRuleContext *ctx) override {
+  virtual std::any visitPlus_eq_operator(Antlr4GrammarParser::Plus_eq_operatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
