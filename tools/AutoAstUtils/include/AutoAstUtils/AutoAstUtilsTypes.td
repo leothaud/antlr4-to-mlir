@@ -20,7 +20,7 @@ class AutoAstUtils_Type<string name, string TypeMnemonic, list<Trait> traits = [
   let mnemonic = TypeMnemonic;
 }
 
-def AutoAstUtils_IdType : AutoAstUtils_Type<"AutoAstUtils_Id", "id">;
+def AutoAstUtils_IDType : AutoAstUtils_Type<"AutoAstUtils_ID", "ID">;
 
 def AutoAstUtils_IntType : AutoAstUtils_Type<"AutoAstUtils_Int", "int">;
 

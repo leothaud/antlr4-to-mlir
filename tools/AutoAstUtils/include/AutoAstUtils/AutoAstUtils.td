@@ -15,10 +15,10 @@ include "AutoAstUtils/AutoAstUtilsDialect.td"
 include "AutoAstUtils/AutoAstUtilsTypes.td"
 include "mlir/IR/BuiltinAttributes.td"
 
-def AutoAstUtils_IdOp: AutoAstUtils_Op<"id">
+def AutoAstUtils_IdOp: AutoAstUtils_Op<"ID">
 {
   let arguments = (ins Builtin_StringAttr:$value);
-  let results = (outs AutoAstUtils_IdType:$res);
+  let results = (outs AutoAstUtils_IDType:$res);
 }
 
 def AutoAstUtils_IntOp: AutoAstUtils_Op<"int">
