@@ -38,6 +38,6 @@ antlr_target(Antlr4Grammar ${G4_SRC} VISITOR OUTPUT_DIRECTORY ${PROJECT_SOURCE_D
 include_directories(${PROJECT_SOURCE_DIR}
 					 ${PROJECT_SOURCE_DIR}/libs/
   )
-add_executable(AntlrToMlir ${CPP_SRC}             
+add_executable(Antlr4ToMlir ${CPP_SRC}             
                ${ANTLR_Antlr4Grammar_CXX_OUTPUTS})
-target_link_libraries(AntlrToMlir antlr4_static ${SYSTEM_LIBS})
+target_link_libraries(Antlr4ToMlir antlr4_static ${SYSTEM_LIBS})
