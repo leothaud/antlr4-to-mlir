@@ -34,7 +34,7 @@ include_directories(${ANTLR4_INCLUDE_DIRS})
 set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/tools/antlr-4.13.0-complete.jar)
 find_package(ANTLR REQUIRED)
 
-antlr_target(Antlr4Grammar ${G4_SRC} VISITOR OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/)
+antlr_target(Antlr4Grammar ${G4_SRC} VISITOR NOLISTENER OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/)
 include_directories(${PROJECT_SOURCE_DIR}
 					 ${PROJECT_SOURCE_DIR}/libs/
   )

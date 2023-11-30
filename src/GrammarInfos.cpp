@@ -697,7 +697,7 @@ include(ExternalAntlr4Cpp)\n\
 include_directories(${ANTLR4_INCLUDE_DIRS})\n\
 set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.13.0-complete.jar)\n\
 find_package(ANTLR REQUIRED)\n\n\
-antlr_target(Antlr4Grammar ${G4_SRC} VISITOR OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/)\n\
+antlr_target(Antlr4Grammar ${G4_SRC} VISITOR NOLISTENER OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/)\n\
 include_directories(${PROJECT_SOURCE_DIR}\n\
 					 ${PROJECT_SOURCE_DIR}/libs/\n\
   )\n\
