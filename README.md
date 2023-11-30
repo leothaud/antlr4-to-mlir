@@ -11,9 +11,17 @@ Antlr4 build system is inspired by [antlr-cpp](https://github.com/gabriele-tomas
 
 The Antlr4 Antlr4 grmmar is inspired from [grammars-v4](https://github.com/antlr/grammars-v4) but is customized..
 
-## How to build and use
+### Why does this project need the mlir-standalone-template?
 
-### How to build and use antlr4-to-mlir
+Instead of generating mlir files and letting the user putting it together to build mlir using it, antlr4-to-mlir use an instanc of the mlir-standalone-template to generate dialects and modifying the `standalone-opt` automatically to accept mlir program using generated dialects.
+
+### Generated file example
+
+A MiniJava antlr gramamr can be found in `example/MiniJava.g4`. The generated mlir files for this example can be found in `example/MiniJava/`. There is no example of antlr generated project because it mainly constist of wrapping the antlr grammar into the build system and adding a visitor that syntaxically transform you program into the mlir generated dialect.
+
+## How to build and use?
+
+### How to build and use antlr4-to-mlir?
 
 To build and use this tool, you need to have a non-modified version of [mlir-standalone-template](https://github.com/jmgorius/mlir-standalone-template/) in `$STANDALONE_DIR`. `$ANTLR_GENERATION_FOLDER` represent a folder in which you want to generate antlr-generated project. To build, run
 ```bash
@@ -33,7 +41,7 @@ Once the mlir-standalone-project is initialized it can be manually modified with
 To generate the AST dialect and the ANTLR project for an antlr-grammar `MyGrammar` with a starting rule `startingRule`, run `./Antlr4ToMlir /path/to/MyGrammar.g4 startingRule`. This will create an ANTLR project in folder `$ANTLR_GENERATION_FOLDER/MyGrammar` and a `MyGrammar` dialect in the mlir-standalone-project.
 
 
-### How to build and use the generated ANTLR project
+### How to build and use the generated ANTLR project?
 
 To build the generated ANTLR project for a grammar `MyGrammar` run
 ```bash
@@ -45,7 +53,7 @@ This will create an executable called `MyGrammar` usable to compile a MyGrammar 
 To use it, run `./MyGrammar [input file] [output file]`.
 
 
-### How to build and use mlir-standalone-project
+### How to build and use mlir-standalone-project?
 
 To build and use the mlir-standalone-project, refers to the original git project, [here](https://github.com/jmgorius/mlir-standalone-template/).
 
