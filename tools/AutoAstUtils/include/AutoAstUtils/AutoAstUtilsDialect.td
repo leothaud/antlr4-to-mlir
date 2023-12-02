@@ -19,6 +19,7 @@ def AutoAstUtils_Dialect : Dialect {
     let name = "AutoAstUtils";
     let cppNamespace = "::AutoAstUtils";
     let useDefaultTypePrinterParser = 1;
+    let useDefaultAttributePrinterParser = 1;
 }
 
 class AutoAstUtils_Op<string mnemonic, list<Trait> traits = []> : Op<AutoAstUtils_Dialect, mnemonic, traits>;

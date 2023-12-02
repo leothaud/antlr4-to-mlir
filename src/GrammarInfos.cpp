@@ -167,7 +167,7 @@ std::string GrammarRule::generateOps(std::string dialectName)
     
   std::string start = "def " + dialectName + "_" + this->name + "Op: " +
     dialectName + "_Op<\"" + this->name + "\"";
-  std::string res = ">\n{\n  let arguments = (ins";
+  std::string res = ">\n{\n  let arguments = (ins ";
   bool first = true;
   for (auto& [name, options]: bodyElt) {
     res += first ? " " : ",\n ";
@@ -197,7 +197,9 @@ std::string GrammarRule::generateOps(std::string dialectName)
       res += ">";
     res += ":$" + name;
   }
-  res = res + ");\n" +
+  if (!bodyElt.empty())
+    res += ", ";
+  res = res + "OptionalAttr<AutoAstUtils_PositionAttr>:$debug_position);\n" +
     "  let results = (outs " + dialectName + "_" + this->name + "NodeType:$res);\n}\n\n";
   if (nVariadic > 1)
     return start + ", [AttrSizedOperandSegments]" + res;
@@ -313,8 +315,10 @@ std::any_cast<std::tuple<std::string, std::string, std::string>>(this->visit" +
     }
 
     res += "  res += args + \") ";
+    res += "{debug_position=#AutoAstUtils.position<\" + std::to_string(context->start->getLine()) + \",\" + std::to_string(context->start->getCharPositionInLine()) + \",\" + std::to_string(context->stop->getLine()) + \",\" + std::to_string(context->stop->getCharPositionInLine()) + \">";
     if (hasVector)
-      res += "{operandSegmentSizes=array<i32:\" + variadicSizes + \">} ";
+      res += ", operandSegmentSizes=array<i32:\" + variadicSizes + \"> ";
+    res += "}";
     res += ": (\" + types + \") -> !" + dialectName + "." + this->name + "Node\\n\";\n";
     res += "  return std::make_tuple(returnVar, res , std::string(\"!" + dialectName + "." + this->name + "Node\"));\n";
     
@@ -450,7 +454,8 @@ std::string GrammarInfos::generateOps()
     "include \"mlir/IR/BuiltinTypes.td\"\n" +
     "include \"mlir/Interfaces/InferTypeOpInterface.td\"\n" +
     "include \"mlir/Interfaces/SideEffectInterfaces.td\"\n" +
-    "include \"AutoAstUtils/AutoAstUtilsTypes.td\"\n\n"
+    "include \"AutoAstUtils/AutoAstUtilsTypes.td\"\n" +
+    "include \"AutoAstUtils/AutoAstUtilsAttrDefs.td\"\n\n"
     ;
 
   for (auto& elt: this->rules)
@@ -502,7 +507,8 @@ std::string GrammarInfos::generateOpsH()
     "#include \"mlir/Bytecode/BytecodeOpInterface.h\"\n\n" +
     "#include \"" + dialectName + "Types.h\"\n" +
     "#include \"" + dialectName + "Dialect.h\"\n\n" +
-    "#include \"AutoAstUtils/AutoAstUtilsTypes.h\"\n\n" +
+    "#include \"AutoAstUtils/AutoAstUtilsTypes.h\"\n" +
+    "#include \"AutoAstUtils/AutoAstUtilsAttrDefs.h\"\n\n" +
     "#define GET_OP_CLASSES\n" +
     "#include \"" + dialectName + "/" + dialectName + ".h.inc\"\n\n" +
     "#endif\n";

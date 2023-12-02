@@ -7,10 +7,8 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
-
 #ifndef AUTOASTUTILS_H__
 #define AUTOASTUTILS_H__
-
 
 #include "mlir/IR/Types.h"
 #include "mlir/IR/BuiltinTypes.h"
@@ -23,7 +21,10 @@
 #include "mlir/Bytecode/BytecodeOpInterface.h"
 
 #include "AutoAstUtils/AutoAstUtilsTypes.h"
+#include "AutoAstUtils/AutoAstUtilsAttrDefs.h"
 #include "AutoAstUtils/AutoAstUtilsDialect.h"
+
+
 
 
 #define GET_OP_CLASSES

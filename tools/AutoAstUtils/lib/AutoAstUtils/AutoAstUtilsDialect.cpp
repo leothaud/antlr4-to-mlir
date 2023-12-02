@@ -13,7 +13,9 @@
 #include "AutoAstUtils/AutoAstUtilsDialect.h"
 #include "AutoAstUtils/AutoAstUtils.h"
 
-
+#define GET_ATTRDEF_CLASSES
+#include "AutoAstUtils/AutoAstUtilsAttrDefs.cpp.inc"
+#undef GET_ATTRDEF_CLASSES
 
 namespace AutoAstUtils {
 
@@ -21,6 +23,10 @@ namespace AutoAstUtils {
   AutoAstUtilsDialect::addTypes<
 #define GET_TYPEDEF_LIST
 #include "AutoAstUtils/AutoAstUtilsTypes.cpp.inc"
+      >();
+  AutoAstUtilsDialect::addAttributes<
+#define GET_ATTRDEF_LIST
+#include "AutoAstUtils/AutoAstUtilsAttrDefs.cpp.inc"
       >();
   AutoAstUtilsDialect::addOperations<
 #define GET_OP_LIST

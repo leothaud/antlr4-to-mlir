@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
-
 #ifndef AUTOASTUTILS_TYPES
 #define AUTOASTUTILS_TYPES
 
 include "AutoAstUtils/AutoAstUtilsDialect.td"
 include "mlir/IR/AttrTypeBase.td"
+
 
 class AutoAstUtils_Type<string name, string TypeMnemonic, list<Trait> traits = []>
 : TypeDef<AutoAstUtils_Dialect, name, traits>

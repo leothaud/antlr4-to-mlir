@@ -14,6 +14,7 @@
 #include "mlir/Parser/Parser.h"
 #include "AutoAstUtils/AutoAstUtilsDialect.h"
 #include "AutoAstUtils/AutoAstUtilsTypes.h"
+#include "AutoAstUtils/AutoAstUtilsAttrDefs.h"
 #include "llvm/ADT/TypeSwitch.h"
 #include "mlir/Support/TypeID.h"
 #include "mlir/IR/DialectImplementation.h"

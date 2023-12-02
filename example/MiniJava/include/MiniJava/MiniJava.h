@@ -15,6 +15,7 @@
 #include "MiniJavaDialect.h"
 
 #include "AutoAstUtils/AutoAstUtilsTypes.h"
+#include "AutoAstUtils/AutoAstUtilsAttrDefs.h"
 
 #define GET_OP_CLASSES
 #include "MiniJava/MiniJava.h.inc"
