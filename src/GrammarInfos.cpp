@@ -197,9 +197,7 @@ std::string GrammarRule::generateOps(std::string dialectName)
       res += ">";
     res += ":$" + name;
   }
-  if (!bodyElt.empty())
-    res += ", ";
-  res = res + "OptionalAttr<AutoAstUtils_PositionAttr>:$debug_position);\n" +
+  res = res + ");\n" +
     "  let results = (outs " + dialectName + "_" + this->name + "NodeType:$res);\n}\n\n";
   if (nVariadic > 1)
     return start + ", [AttrSizedOperandSegments]" + res;
