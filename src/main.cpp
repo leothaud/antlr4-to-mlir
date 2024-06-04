@@ -11,6 +11,7 @@
 #include <iostream>
 #include <errno.h>
 #include <filesystem>
+#include <string.h>
 
 #include "grammarVisitor.hpp"
 #include "Antlr4GrammarParser.h"
@@ -19,9 +20,9 @@
 
 int main(int argc, const char** argv)
 {
-  if (!((argc == 3) || ((argc == 2) && (argv[1] == "--init"))))
+  if (!((argc == 3) || ((argc == 2) && (strcmp(argv[1],"--init") == 0))))
   {
-    std::cerr << "Usage: " << argv[0] << " [filename] [startRule] or " << argv[0] << "--init to initialize mlir-standalone project (must be already cloned).";
+    std::cerr << "Usage: " << argv[0] << " [filename] [startRule] or " << argv[0] << " --init to initialize mlir-standalone project (must be already cloned).";
     exit(1);
   }
 
